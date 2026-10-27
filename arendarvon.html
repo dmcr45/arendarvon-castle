@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Secret of Arendarvon Castle</title>
+<!--
+  Browser front end for arendarvon-engine.js (keep both files in the same folder).
+  Open this file in any modern browser. The game's text is shown in ordinary
+  capitals; A- and A+ change the text size. Saved games are kept in this
+  browser's local storage; "Saves" lets you download them as JSON files or
+  import one.
+-->
+<style>
+  :root {
+    --bg: #101418; --fg: #d8dee4; --dim: #7d8791; --accent: #e3b341; --panel: #1a2027; --line: #2b333c;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #fbfaf7; --fg: #1f2328; --dim: #6e7781; --accent: #9a6700; --panel: #ffffff; --line: #d0d7de; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); }
+  body { font: 16px/1.5 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 15px; font-weight: 600; margin: 0; color: var(--accent); letter-spacing: 0.04em; flex: 1; }
+  button { font: inherit; font-size: 13px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  #screen { flex: 1; overflow-y: auto; padding: 16px; font-size: var(--text-size, 17px); }
+  #log { white-space: pre-wrap; overflow-wrap: break-word; margin: 0; }
+  #entry { display: flex; align-items: baseline; gap: 0.6ch; white-space: pre-wrap; margin: 0; }
+  #prompt { white-space: pre-wrap; overflow-wrap: break-word; }
+  #cmd { flex: 1; min-width: 8ch; font: inherit; color: var(--fg); background: transparent; border: none; outline: none; padding: 0; caret-color: var(--accent); }
+  .typed { color: var(--accent); }
+  #saves { display: none; position: absolute; right: 16px; top: 44px; width: min(360px, calc(100vw - 32px)); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; font-size: 13px; z-index: 5; }
+  #saves.open { display: block; }
+  #saves ul { list-style: none; margin: 8px 0; padding: 0; max-height: 40vh; overflow-y: auto; }
+  #saves li { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+  #saves li span { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+  #saves .hint { color: var(--dim); }
+</style>
+</head>
+<body>
+<header>
+  <h1>THE SECRET OF ARENDARVON CASTLE</h1>
+  <button id="smallerText" type="button" aria-label="Smaller text" title="Smaller text">A&minus;</button>
+  <button id="largerText" type="button" aria-label="Larger text" title="Larger text">A+</button>
+  <button id="savesButton" type="button">Saves</button>
+  <button id="restartButton" type="button">New game</button>
+</header>
+<div id="saves">
+  <div class="hint">Games you SAVE are kept in this browser. Download one to keep it as a file, or import a file to LOAD it.</div>
+  <ul id="saveList"></ul>
+  <button id="importButton" type="button">Import a save file&hellip;</button>
+  <input id="importFile" type="file" accept=".json,application/json" hidden>
+</div>
+<main id="screen">
+  <div id="log"></div>
+  <form id="entry"><span id="prompt"></span><input id="cmd" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="send" aria-label="Command"></form>
+</main>
+<script src="arendarvon-engine.js"></script>
+<script>
+"use strict";
+(function () {
+    // A save's name, as the terminal version names its files: lower case, with
+    // anything but letters, digits, _ and - turned into _ ("My Game" -> my_game).
+    const fileName = (name) => name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+    const PREFIX = "arendarvon.save.";
+    const store = {
+        keys() { try { return Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).map(k => k.slice(PREFIX.length)).sort(); } catch (e) { return []; } },
+        get(name) { try { return localStorage.getItem(PREFIX + fileName(name)); } catch (e) { return null; } },
+        set(name, text) { try { localStorage.setItem(PREFIX + fileName(name), text); return true; } catch (e) { return false; } },
+    };
+    // Saves made by earlier versions of this page were stored under the name in
+    // capitals ("MY GAME"): rename them once to the new form ("my_game").
+    try {
+        for (const key of Object.keys(localStorage)) {
+            if (!key.startsWith(PREFIX)) continue;
+            const renamed = PREFIX + fileName(key.slice(PREFIX.length));
+            if (renamed === key || renamed === PREFIX) continue;
+            const text = localStorage.getItem(key), existing = localStorage.getItem(renamed);
+            if (existing === null) localStorage.setItem(renamed, text);
+            if (existing === null || existing === text) localStorage.removeItem(key);
+        }
+    } catch (e) { /* no local storage: nothing to rename */ }
+    const game = createArendarvonGame({
+        storage: { save: (name, text) => fileName(name) !== "" && store.set(name, text), load: (name) => store.get(name) },
+    });
+
+    const screen = document.getElementById("screen"), log = document.getElementById("log");
+    const promptEl = document.getElementById("prompt"), cmd = document.getElementById("cmd");
+    const history = []; let historyPos = 0;
+
+    // The game prints in capitals, as the BBC did. readableCase() shows a reply in
+    // ordinary English capitals instead: lower case, with a capital at the start of
+    // each sentence, line and quotation, "I", and the title.
+    // (The same function is in arendarvon.js.)
+    function readableCase(text) {
+        return text.toLowerCase()
+            .replace(/\bi\b/g, "I")
+            .replace("** the secret of arendarvon castle **", "** The Secret of Arendarvon Castle **")
+            .replace(/<return>/g, "<Return>")
+            .replace(/(^\s*|\n\s*|[.!?]'?\s+|:\s*')([a-z])/g, (m, before, c) => before + c.toUpperCase());
+    }
+
+    // Text size: A- and A+, remembered in this browser
+    const SIZES = [13, 14, 15, 16, 17, 18, 20, 22, 24, 27];
+    let sizeIndex = SIZES.indexOf(17);
+    try { const saved = SIZES.indexOf(Number(localStorage.getItem("arendarvon.textSize"))); if (saved >= 0) sizeIndex = saved; } catch (e) { /* no storage: use the default */ }
+    function applySize() {
+        screen.style.setProperty("--text-size", SIZES[sizeIndex] + "px");
+        try { localStorage.setItem("arendarvon.textSize", String(SIZES[sizeIndex])); } catch (e) { /* not remembered */ }
+    }
+    document.getElementById("smallerText").addEventListener("click", () => { if (sizeIndex > 0) { sizeIndex--; applySize(); } cmd.focus(); });
+    document.getElementById("largerText").addEventListener("click", () => { if (sizeIndex < SIZES.length - 1) { sizeIndex++; applySize(); } cmd.focus(); });
+    applySize();
+
+    function show(reply) {
+        if (reply.newGame) log.textContent = "";
+        const lines = readableCase(reply.text).split("\n");
+        let promptLine = lines.pop();
+        if (lines.length) log.append(lines.join("\n") + "\n");
+        if (reply.waitingFor === "restart") {          // the game is over: Enter starts a new one
+            if (promptLine) log.append(promptLine + "\n");
+            if (!reply.text.includes("PRESS <RETURN>")) log.append("(press Enter to play again)\n");
+            promptLine = "";
+        }
+        promptEl.textContent = promptLine;
+        screen.scrollTop = screen.scrollHeight;
+        cmd.focus();
+    }
+
+    document.getElementById("entry").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const line = cmd.value;
+        const echo = document.createElement("span");
+        echo.className = "typed";
+        echo.textContent = line;
+        log.append(promptEl.textContent + (promptEl.textContent ? " " : ""), echo, "\n");
+        if (line.trim() !== "") history.push(line);
+        historyPos = history.length;
+        cmd.value = "";
+        show(game.submit(line));
+    });
+    cmd.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.isComposing) {
+            e.preventDefault();
+            document.getElementById("entry").requestSubmit();
+        } else if (e.key === "ArrowUp" && historyPos > 0) {
+            cmd.value = history[--historyPos]; e.preventDefault();
+        } else if (e.key === "ArrowDown" && historyPos < history.length) {
+            historyPos++; cmd.value = historyPos < history.length ? history[historyPos] : ""; e.preventDefault();
+        }
+    });
+    screen.addEventListener("click", () => { if (!window.getSelection().toString()) cmd.focus(); });
+    document.getElementById("restartButton").addEventListener("click", () => {
+        if (confirm("Start a new game? The current game is lost unless you have saved it.")) show(game.start());
+    });
+
+    // ---- saved games panel
+    const panel = document.getElementById("saves"), list = document.getElementById("saveList");
+    function refreshSaves() {
+        list.textContent = "";
+        const names = store.keys();
+        if (!names.length) { const li = document.createElement("li"); li.className = "hint"; li.textContent = "No saved games yet."; list.append(li); }
+        for (const name of names) {
+            const li = document.createElement("li");
+            const label = document.createElement("span"); label.textContent = name;
+            const dl = document.createElement("button"); dl.type = "button"; dl.textContent = "Download";
+            dl.addEventListener("click", () => {
+                const blob = new Blob([store.get(name)], { type: "application/json" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob); a.download = name + ".json";
+                a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+            });
+            li.append(label, dl);
+            list.append(li);
+        }
+    }
+    document.getElementById("savesButton").addEventListener("click", () => { refreshSaves(); panel.classList.toggle("open"); });
+    document.getElementById("importButton").addEventListener("click", () => document.getElementById("importFile").click());
+    document.getElementById("importFile").addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const name = fileName(file.name.replace(/\.json$/i, ""));
+        store.set(name, await file.text());
+        e.target.value = "";
+        refreshSaves();
+        alert("Imported as \"" + name + "\". Type LOAD in the game and give that filename.");
+    });
+    document.addEventListener("click", (e) => { if (!panel.contains(e.target) && e.target.id !== "savesButton") panel.classList.remove("open"); });
+
+    show(game.start());
+})();
+</script>
+</body>
+</html>

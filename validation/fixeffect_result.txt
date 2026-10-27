@@ -1,0 +1,78 @@
+﻿Doors with a lock can be faced from 18 places; passages that are not doors from 30.
+
+FIX 'loop': 20000 commands; triggered in 41; outcome differed in 41; differed WITHOUT a trigger: 0
+  what moved the player when the loop jumped: "HE LOCKS YOU UP." x39; "other: YOU GO $8. / YOU ARE IN $12 $4. / THERE IS A $6 HERE. / THE $6 SAYS: 'YOU ARE TRESPASSING.' / HE PUTS YOU OUT OF HIS TERRITORY. / YOU ARE IN $12 $4. / $0 >" x1; "other: YOU GO $8. / YOU BUMP INTO THE $7. / THE $6 SAYS: 'YOU ARE TRESPASSING.' / HE PUTS YOU OUT OF HIS TERRITORY. / YOU ARE IN $12 $4. / $0 >" x1
+  command: STRIKE BUNCH
+  original: R:20=9 | YOU STRIKE THE $2. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    R:20=9 | YOU STRIKE THE $2. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=4| R:3=3| R:5=3| R:5=1| R:4=3 | $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &19E6 &1A64 &1E90 &1E95 &1E9B &1EAD
+  command: GO LEFT
+  original: YOU GO $8. | YOU ARE IN $12 $4. | THERE IS A $6 HERE. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU GO $8. | YOU ARE IN $12 $4. | THERE IS A $6 HERE. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:3=3| R:3=2| R:5=2| R:10=8| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1E90 &1E95 &1EA1 &1EAD &1EB3 &1EB9
+  command: STRIKE CORD
+  original: R:20=15 | YOU STRIKE THE $7 $9. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    R:20=15 | YOU STRIKE THE $7 $9. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:3=2| R:2=1| R:3=3| R:5=4| R:5=4| R:10=3| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1E90 &1E95 &1E9B &1EA1 &1EAD &1EB3
+  command: CLOSE CORD
+  original: YOU SEE NO WAY TO CLOSE THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU SEE NO WAY TO CLOSE THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:2=2| R:2=1| R:3=3| R:5=5| R:10=10 | $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1950 &197A &1E9B &1EA1 &1EAD
+  command: ATTACK WHEEL
+  original: R:20=1 | YOU ATTACK. | THE $6 WARDS OFF YOUR ATTACK. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    R:20=1 | YOU ATTACK. | THE $6 WARDS OFF YOUR ATTACK. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=1| R:4=3| R:4=2| R:50=3| R:10=4| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1A64 &1E95 &1E9B &1EA1 &1EAD &1EB9
+  command: CLOSE DOOR
+  original: YOU CLOSE THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU CLOSE THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=2| R:3=3| R:5=1| R:10=7 | $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1950 &19E6 &1E95 &1E9B &1EAD &1EB3
+  command: TAKE KEYS
+  original: YOU TRY TO TAKE THE $2 FROM THE $6.| YOU MANAGE TO GRAB IT.| THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU TRY TO TAKE THE $2 FROM THE $6.| YOU MANAGE TO GRAB IT.| THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=1| R:3=1| R:4=3| R:50=43| R:10=8| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1A64 &1E90 &1E9B &1EA1 &1EA7 &1EAD
+  command: LOOK COMPASS
+  original: YOU LOOK AROUND. | YOU ARE IN $12 $4. | $9 IS $12 $5. | $9 IS $12 $5. | $9 IS $12 $5. | YOU SEE | NOTHING SPECIAL. | THERE IS A $6 HERE. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU LOOK AROUND. | YOU ARE IN $12 $4. | $9 IS $12 $5. | $9 IS $12 $5. | $9 IS $12 $5. | YOU SEE | NOTHING SPECIAL. | THERE IS A $6 HERE. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=2| R:3=1| R:4=3| R:4=2| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1950 &1E95 &1E9B &1EA1 &1EA7 &1EAD
+  command: TURN RIGHT
+  original: YOU TURN $8. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU TURN $8. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:2=2| R:4=2| R:3=3| R:5=4| R:5=3| R:10=8| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1E9B &1EAD &1EB3 &1EB9
+  command: OPEN CORD
+  original: YOU SEE NO WAY TO OPEN THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU SEE NO WAY TO OPEN THE $7. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=4| R:4=3| R:4=1| R:5=5| R:5=5| R:10=2| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1E90 &1E9B &1EA1 &1EA7 &1EAD &1EB3
+  command: EXAMINE CORD
+  original: YOU EXAMINE THE $7 $9. | YOU SEE NOTHING SPECIAL. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU EXAMINE THE $7 $9. | YOU SEE NOTHING SPECIAL. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:4=1| R:3=1| R:4=4| R:50=13| R:10=6| $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &19E6 &1E95 &1E9B &1EA7 &1EAD &1EB9
+  command: WAIT
+  original: YOU WAIT. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4. | $0 > | I
+  fixed:    YOU WAIT. | THE $6 IS ANGRY. | HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.' | HE LOCKS YOU UP. | YOU ARE IN $12 $4.| R:3=2| R:4=4| R:4=3| R:4=4| R:4=2 | $0 > | I
+  state bytes that differ afterwards: &1906 &1908 &1E90 &1E95 &1E9B &1EA1 &1EAD &1EB3
+
+FIX 'record0': 20000 commands; triggered in 19997; outcome differed in 0; differed WITHOUT a trigger: 0
+
+FIX 'locks': 20000 commands; triggered in 998; outcome differed in 998; differed WITHOUT a trigger: 0
+  command: UNLOCK AHEAD
+  original: YOU UNLOCK THE $7.| R:4=3| R:4=1| R:3=3| R:2=1| R:10=3| $0 > | I
+  fixed:    YOU UNLOCK THE $7.| R:4=3| R:4=1| R:3=3| R:2=1| R:10=3| $0 > | I
+  state bytes that differ afterwards: &1ECC
+  command: UNLOCK AHEAD
+  original: YOU CAN'T LOCK A $7. | $0 > | I
+  fixed:    YOU CAN'T UNLOCK A $7. | $0 > | I
+  command: LOCK AHEAD
+  original: YOU LOCK THE $7.| R:4=3| R:2=2| R:4=2| R:2=2| R:4=2 | $0 > | I
+  fixed:    IT IS NAILED SHUT.| R:4=3| R:2=2| R:4=2| R:2=2| R:4=2 | $0 > | I
+  state bytes that differ afterwards: &1EDC
+  command: LOCK AHEAD
+  original: YOU LOCK THE $7.| R:4=1| R:4=1| R:3=1| R:4=2| R:4=4| R:4=1 | $0 > | I
+  fixed:    IT IS LATCHED AND BOLTED ON THE OTHER SIDE.| R:4=1| R:4=1| R:3=1| R:4=2| R:4=4| R:4=1 | $0 > | I
+  state bytes that differ afterwards: &1EFC
+  command: LOCK DOOR
+  original: YOU LOCK THE $7.| R:4=3| R:4=1| R:4=1| R:4=4| R:2=2| $0 > | I
+  fixed:    THE $7 IS ALREADY LOCKED.| R:4=3| R:4=1| R:4=1| R:4=4| R:2=2| $0 > | I
+  command: LOCK AHEAD
+  original: YOU LOCK THE $7.| R:4=1| R:2=1| R:3=2| R:5=3| R:5=4| R:10=6| $0 > | I
+  fixed:    YOU CAN'T LOCK AN OPEN $7.| R:4=1| R:2=1| R:3=2| R:5=3| R:5=4| R:10=6| $0 > | I
+  state bytes that differ afterwards: &1EFC

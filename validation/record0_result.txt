@@ -1,0 +1,24 @@
+﻿Program: the original (with the @012b and @09c8 corrections) and the fixes loop, record0, locks
+Commands: 40000 (ordinary play only); games ended: 10
+Instructions that used record 0:
+  none
+Program: the original (with the @012b and @09c8 corrections) and the fixes loop, record0, locks
+Commands: 60000 (with state mutations); games ended: 8
+Instructions that used record 0:
+  none
+Program: the original (with the @012b and @09c8 corrections) and no other fix
+Commands: 40000 (ordinary play only); games ended: 7
+Instructions that used record 0:
+  @18a1 objects read   92023 times
+  @189c objects read   89823 times
+  @18b5 passages read   72833 times
+  @18b0 characters read   65958 times
+  @18ab rooms read   43816 times
+  @1897 verbs read   34091 times
+  @007c characters read   9081 times
+  @18ec rooms read   909 times
+  @18fb rooms read   909 times
+  @18a6 rooms read   606 times
+  @1928 rooms read   606 times
+  @192d rooms read   606 times
+  @1709 characters WRITE   70 times

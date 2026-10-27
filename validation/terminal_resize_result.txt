@@ -1,0 +1,27 @@
+﻿PASS  resize to 40 columns redraws
+PASS  every line fits in 40 columns  longest 38
+PASS  the typed commands are still there
+PASS  the prompt and the half-typed command come back  "> take to"
+PASS  same words as before the resize
+PASS  resize to 120 columns re-wraps wider  longest 114
+PASS  fewer lines at 120 than at 40  15 < 21
+PASS  same words at 120 columns
+PASS  one redraw per resize (events are combined)  2 redraws
+PASS  the game goes on after a redraw
+
+---- the screen after the last redraw (120 columns) ----
+SUPPLEMENTARY BOOK AVAILABLE.
+
+
+** THE SECRET OF ARENDARVON CASTLE **
+
+
+YOU LOOK AROUND. YOU ARE IN A GATEWAY. AHEAD IS A PORTCULLIS. IT IS OPEN. BEYOND IS THE COURTYARD. BEHIND YOU IS A
+DRAWBRIDGE. YOU SEE NOTHING SPECIAL.
+> look
+YOU LOOK AROUND. YOU ARE IN A GATEWAY. AHEAD IS A PORTCULLIS. IT IS OPEN. BEYOND IS THE COURTYARD. BEHIND YOU IS A
+DRAWBRIDGE. YOU SEE NOTHING SPECIAL.
+> go ahead
+YOU GO AHEAD. YOU GO PAST THE PORTCULLIS. YOU ARE IN THE COURTYARD. THERE IS A GIRL HERE. THE GIRL GOES TO THE
+COURTYARD TO YOUR RIGHT.
+> take to

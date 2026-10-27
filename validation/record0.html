@@ -1,0 +1,78 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="bytecode.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script src="campaign.js"></script>
+<script>
+// Which bytecode instructions ever use record 0 of a table, and how often?
+// By default the program checked is the original WITH the approved fixes (patches.js);
+// "?patches=none" checks the original as it is on the disc.
+// Every bytecode instruction is inspected as it runs: it is decoded from memory (so the
+// fixes' own instructions are seen too), and the record number each operand addresses is
+// worked out (following indirection through the globals), exactly as the VM does.
+const out = [];
+try {
+    const q = new URLSearchParams(location.search);
+    const commands = Number(q.get("commands") || 30000);
+    const mutateRate = Number(q.get("fuzz") || 0);
+    const patches = q.get("patches") === "none" ? [] : Patches.ALL;
+    const ARRAY = ["globals", "objects", "rooms", "characters", "passages", "verbs", "?6", "?7"];
+    const hits = new Map();         // "offset array write?" -> count
+    const rng = V.mulberry32(Number(q.get("seed") || 20260917));
+    const note = (off, array, written) => {
+        const key = off.toString(16).padStart(4, "0") + " " + ARRAY[array] + (written ? " WRITE" : " read");
+        hits.set(key, (hits.get(key) || 0) + 1);
+    };
+    const watch = (off, mem) => {
+        const at = 0x21C7 + off, opcode = mem[at];
+        let a = -1, b = -1, assign = false;
+        if (opcode === 0xC4 || (opcode & 0xF0) === 0x80) return;              // GOTO, PRINT
+        if ((opcode & 0xC0) === 0x40) { a = at + 1; b = at + 3; assign = true; }
+        else if ((opcode & 0xC0) === 0x00) { a = at + 1; b = at + 3; }
+        else { a = at + 2; b = at + 4; }                                        // service / SYS
+        [[a, 0x20, assign], [b, 0x10, false]].forEach(([p, bit, written]) => {
+            const desc = mem[p];
+            if (desc === 0) return;                                  // a literal
+            let index = mem[p + 1];
+            if ((opcode & bit) !== 0) index = mem[0x1900 + index];   // indirect: the index is in a global
+            if (index === 0) note(off, desc >> 5, written);
+        });
+    };
+    let m = null, line = null, halts = 0;
+    const gen = Campaign.commandGenerator(rng);
+    const fresh = () => {
+        const rg = V.mulberry32(rng() * 1e9 | 0);
+        m = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(rg() * n), patch012b: true, patch09c8: true, patches: patches, onInstruction: watch });
+        line = null;
+    };
+    fresh();
+    for (let c = 0; c < commands; c++) {
+        let ev;
+        try { ev = line === null ? m.run() : m.submit(line.toUpperCase()); } catch (e) { halts++; fresh(); continue; }
+        const last = ev.length ? ev[ev.length - 1].type : "";
+        if (last === "halt") { halts++; fresh(); continue; }
+        if (last === "quit") { line = ""; continue; }
+        if (last === "saveAsk" || last === "loadAsk") { line = "N"; continue; }
+        if (last !== "input") { line = "WAIT"; continue; }
+        if (mutateRate && rng() < mutateRate) {
+            const bytes = m.state();
+            if (rng() < 0.4) Campaign.scenario(bytes, rng); else Campaign.mutate(bytes, rng);
+            m.mem.set(bytes, 0x1900);
+        }
+        line = rng() < 0.75 ? Campaign.smartCommand(m.state(), rng) : gen();
+    }
+    out.push("Program: the original (with the @012b and @09c8 corrections)" + (patches.length ? " and the fixes " + patches.join(", ") : " and no other fix"));
+    out.push("Commands: " + commands + (mutateRate ? " (with state mutations)" : " (ordinary play only)") + "; games ended: " + halts);
+    out.push("Instructions that used record 0:");
+    const rows = Array.from(hits.entries()).sort((x, y) => y[1] - x[1]);
+    if (!rows.length) out.push("  none");
+    rows.forEach(([k, n]) => out.push("  @" + k + "   " + n + " times"));
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

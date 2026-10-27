@@ -1,0 +1,195 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="textconv.js"></script>
+<script>
+// Generates src/engine-data.js (the DATA part of the engine) from the SSD.
+const out = [];
+const L = (s) => out.push(s === undefined ? "" : s);
+try {
+    const files = Ref.readDfs(Ref.b64ToBytes(SSD_BASE64));
+    const A = Ref.readArrays(files["$.Arrays"]);
+    const S = files["$.!Start"];
+    const byte = (addr) => addr - 0x1900 < S.length ? S[addr - 0x1900] : files["$.ALADIN"][addr - 0x1900];
+    const rec = (base, size, i) => Array.from({ length: size }, (_, k) => byte(base + size * i + k));
+    const DESC = [""]; for (let i = 1; i < A.d.length; i++) DESC.push(TextConv.readable(A, A.d[i]));
+    const count = {}; DESC.forEach(t => count[t] = (count[t] || 0) + 1);
+    const dname = (i) => { if (i === 0) return "0"; const t = DESC[i]; if (count[t] !== 1) return String(i) + " /*" + t + "*/"; return JSON.stringify(t); };
+    const col = (s, n) => { s = String(s); return s + " ".repeat(Math.max(1, n - s.length)); };
+    const bits = (v, names) => { const parts = []; for (const [bit, nm] of names) if (v & bit) { parts.push(nm); v &= ~bit; } return { text: parts.length ? parts.join("|") : "0", rest: v }; };
+    const ACT = ["NOBODY", "PLAYER", "CUSTODIAN", "GIRL", "GATEKEEPER", "PRIEST", "EAGLE", "SECOND_WIZARD", "WIZARD", "RAT"];
+    const roomName = (r) => (r >= 1 && r <= 117) ? DESC[rec(0x1A61, 9, r)[0]] : "?";
+
+    L("// ============================================================================");
+    L("// PART 5  GAME DATA");
+    L("// ----------------------------------------------------------------------------");
+    L("// Everything below was extracted mechanically from the disc image");
+    L("// (files $.Arrays and $.!Start) and is checked byte-for-byte against it by the");
+    L("// validation suite. Record numbers are the numbers the game logic uses.");
+    L("// ============================================================================");
+    L();
+    // ---------------------------------------------------------------- vocabulary
+    L("// ---------------------------------------------------------------------------");
+    L("// VOCABULARY - the words the parser understands                ($.Arrays R%())");
+    L("//   kind  VERB      value = verb number (VERB_...)");
+    L("//         OBJECT    value = object number (the FIRST object of that name)");
+    L("//         DIRECTION value = 0 AHEAD, 1 RIGHT, 2 BACK, 3 LEFT (relative to facing)");
+    L("//         PASSAGE   value = passage kind (its description number, 48-60)");
+    L("// The list MUST stay in this order: lookupWord() is a binary search over it,");
+    L("// and with abbreviations the order decides which word wins.");
+    L("// ---------------------------------------------------------------------------");
+    L("const VOCABULARY = [");
+    L("    null,                                    // (entry 0 is unused)");
+    const KIND = [null, "VERB", "OBJECT", "DIRECTION", "PASSAGE"];
+    for (let i = 1; i <= A.N; i++) {
+        const [w, v, k] = A.R[i];
+        L("    [" + col(JSON.stringify(A.w[w]) + ",", 17) + col(KIND[k] + ",", 11) + col(v + "],", 5) + "        // " + i);
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- descriptions
+    L("// ---------------------------------------------------------------------------");
+    L("// DESCRIPTIONS - names printed by the $1..$13 substitutions    ($.Arrays d$())");
+    L("// Record fields such as rooms[r].name hold an index into this table.");
+    L("// ---------------------------------------------------------------------------");
+    L("const DESCRIPTIONS = [");
+    L("    " + col("\"\",", 30) + "//   0  (prints nothing)");
+    for (let i = 1; i < DESC.length; i++) L("    " + col(JSON.stringify(DESC[i]) + (i < DESC.length - 1 ? "," : ""), 30) + "// " + String(i).padStart(3));
+    L("];");
+    L();
+    // ---------------------------------------------------------------- rooms
+    const exitStr = (e) => e === 0 ? "0" : (e & 128 ? "via(" + (e & 127) + ")" : String(e));
+    L("// ---------------------------------------------------------------------------");
+    L("// ROOMS 1-117                                  original array 2, 9-byte records");
+    L("//   exits   a room number, 0 = wall, or via(n) = through passage n");
+    L("//   flags   SCORES  visiting it counts towards the score (once VISITED)");
+    L("//           VISITED set when the player leaves it while able to see");
+    L("//           STAIRS  it is a staircase     DARK  needs a light");
+    L("//   ns/ew   the room's size, shown by MEASURE ($15/$16)");
+    L("//   owner   the character that lives here: only that character enters");
+    L("//   art     article for $12 (SAY_A, SAY_AN, SAY_THE); at: SAY_IN or SAY_ON");
+    L("//   level   height; decides \"UP\" or \"DOWN\" for stairs and climbing");
+    L("// ---------------------------------------------------------------------------");
+    L("const ROOM_DATA = [");
+    L("//           name                       north    east     south    west     flags               ns  owner          art      at      ew  level");
+    for (let r = 1; r <= 117; r++) {
+        const x = rec(0x1A61, 9, r);
+        const f = bits(x[5], [[128, "SCORES"], [64, "VISITED"], [32, "STAIRS"], [16, "DARK"]]);
+        const g = x[7];
+        const art = (g & 32) ? "SAY_AN" : (g & 64) ? "SAY_THE" : "SAY_A";
+        if ((g & 32) && (g & 64)) throw new Error("room " + r + " has both articles");
+        const at = (g & 16) ? "SAY_ON" : "SAY_IN";
+        if (g & 128) throw new Error("room flag2 bit 128 used");
+        L("    roomRow(" + col(dname(x[0]) + ",", 27) + col(exitStr(x[1]) + ",", 9) + col(exitStr(x[2]) + ",", 9) + col(exitStr(x[3]) + ",", 9) + col(exitStr(x[4]) + ",", 9) +
+            col(f.text + ",", 20) + col(f.rest + ",", 4) + col(ACT[x[6]] + ",", 15) + col(art + ",", 9) + col(at + ",", 8) + col((g & 15) + ",", 4) + col(x[8] + "),", 5) + "// " + r);
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- objects
+    const locStr = (v) => {
+        if (v === 0) return ["NOWHERE", ""];
+        if (v === 193) return ["CARRIED", ""];
+        if (v & 128) {
+            if (v & 64) return ["heldBy(" + ACT[v & 63] + ")", ""];
+            return ["inside(" + (v & 127) + ")", "in " + DESC[rec(0x1938, 6, v & 127)[1]]];
+        }
+        return [String(v), roomName(v)];
+    };
+    L("// ---------------------------------------------------------------------------");
+    L("// OBJECTS 1-50                                 original array 1, 6-byte records");
+    L("//   location  a room number, CARRIED, heldBy(character), inside(object), NOWHERE");
+    L("//   flags     VISIBLE (listed when you LOOK), CONTAINER, TAKEABLE, CLIMBABLE,");
+    L("//             USABLE, PAPER_PIECE, LEADS_ELSEWHERE (climbing takes you to 'alt'),");
+    L("//             TREASURE (scores when carried; the wizard collects them)");
+    L("//   alt       name it gets when used up or broken, or the room climbing leads to");
+    L("//   weight    also a container's capacity; 255 = cannot be moved");
+    L("//   flags2    BREAKABLE, SPELL (cast with USE), OPEN_CONTAINER (can TAKE out of it)");
+    L("// ---------------------------------------------------------------------------");
+    L("const OBJECT_DATA = [");
+    L("//               name                       location              flags                                    alt                        weight flags2");
+    for (let o = 1; o <= 50; o++) {
+        const x = rec(0x1938, 6, o);
+        const [ls, lc] = locStr(x[0]);
+        const f = bits(x[2], [[1, "VISIBLE"], [2, "CONTAINER"], [4, "TAKEABLE"], [8, "CLIMBABLE"], [16, "USABLE"], [32, "PAPER_PIECE"], [64, "LEADS_ELSEWHERE"], [128, "TREASURE"]]);
+        const f2 = bits(x[5], [[1, "BREAKABLE"], [4, "SPELL"], [16, "OPEN_CONTAINER"]]);
+        if (f.rest || f2.rest) throw new Error("unknown object flag bits " + o);
+        let alt;
+        if (x[2] & 64) alt = "toRoom(" + x[3] + ")";
+        else alt = x[3] === 0 ? "0" : dname(x[3]);
+        L("    objectRow(" + col(dname(x[1]) + ",", 26) + col(ls + ",", 22) + col(f.text + ",", 41) + col(alt + ",", 27) + col(x[4] + ",", 7) + col(f2.text + "),", 18) + "// " + String(o).padStart(2) + (lc ? "  " + lc : ""));
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- actors
+    L("// ---------------------------------------------------------------------------");
+    L("// CHARACTERS 1-9 (1 is the player)             original array 3, 6-byte records");
+    L("//   mood    HOSTILE, FRIENDLY, DISTURBED (noise; turns hostile), OFFERED (a gift)");
+    L("//   magic   the player's magic power, spent on spells");
+    L("//   dead    name used once the character is dead (name == dead means dead)");
+    L("// ---------------------------------------------------------------------------");
+    L("const CHARACTER_DATA = [");
+    L("//               name           strength location mood magic dead");
+    for (let a = 1; a <= 9; a++) {
+        const x = rec(0x1E81, 6, a);
+        L("    characterRow(" + col(dname(x[0]) + ",", 15) + col(x[1] + ",", 9) + col(x[2] + ",", 9) + col(x[3] + ",", 5) + col(x[4] + ",", 6) + col(dname(x[5]) + "),", 27) + "// " + a + " " + ACT[a] + "  (starts in " + roomName(x[2]) + ")");
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- passages
+    L("// ---------------------------------------------------------------------------");
+    L("// PASSAGES 1-40 (doors, curtains, holes...)    original array 4, 4-byte records");
+    L("//   between  the two rooms it joins (stored as their sum: the far side of a");
+    L("//            passage is always sum - current room)");
+    L("//   flags    HIDDEN (invisible unless open), OPENABLE, IS_DOOR (can have a lock),");
+    L("//            HAS_LOCK, FORCEABLE (STRIKE can open it), AUTOMATIC (opens and");
+    L("//            closes by itself, see updateAutomaticPassages)");
+    L("//   state    GAP (nothing to open), OPEN, CLOSED, LOCKED, NAILED, BOLTED");
+    L("// ---------------------------------------------------------------------------");
+    L("const PASSAGE_DATA = [");
+    L("//             name                  between     flags                                  state");
+    const STATE = ["GAP", "OPEN", "CLOSED", "LOCKED", "NAILED", "BOLTED"];
+    for (let p = 1; p <= 40; p++) {
+        const x = rec(0x1EB9, 4, p);
+        const users = [];
+        for (let r = 1; r <= 117; r++) { const y = rec(0x1A61, 9, r); for (let k = 1; k <= 4; k++) if (y[k] === (128 | p)) users.push(r); }
+        if (users.length !== 2 || users[0] + users[1] !== x[1]) throw new Error("passage " + p + " sum mismatch " + users);
+        const f = bits(x[2], [[1, "HIDDEN"], [2, "OPENABLE"], [4, "IS_DOOR"], [8, "HAS_LOCK"], [16, "FORCEABLE"], [32, "AUTOMATIC"]]);
+        if (f.rest) throw new Error("passage flag bits " + p);
+        L("    passageRow(" + col(dname(x[0]) + ",", 22) + col("between(" + users[0] + ", " + users[1] + "),", 16) + col(f.text + ",", 39) + col(STATE[x[3]] + "),", 9) + "// " + String(p).padStart(2) + "  " + roomName(users[0]) + " / " + roomName(users[1]));
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- verbs
+    L("// ---------------------------------------------------------------------------");
+    L("// VERBS 1-22 and what each needs before it can run          original array 5");
+    L("//   (checked by checkVerbRequirements, in this bit order)");
+    L("// ---------------------------------------------------------------------------");
+    L("const VERB_DATA = [");
+    const NEEDS = [[1, "NEEDS_LIGHT"], [2, "NEEDS_STRENGTH"], [4, "NEEDS_DIRECTION"], [8, "NEEDS_PASSAGE"], [16, "NEEDS_OBJECT"], [32, "NEEDS_TARGET"], [64, "NEEDS_CHARACTER"], [128, "NEEDS_SECOND_OBJECT"]];
+    for (let v = 1; v <= 22; v++) {
+        const x = rec(0x1F5B, 2, v);
+        const f = bits(x[1], NEEDS);
+        L("    verbRow(" + col(dname(x[0]) + ",", 13) + col(f.text + "),", 60) + "// " + v + (v === 22 ? "  (this last byte lies just past the saved area; it is 0)" : ""));
+    }
+    L("];");
+    L();
+    // ---------------------------------------------------------------- leftovers
+    const g2 = rec(0x18E1, 31, 2);
+    const g1 = rec(0x18E1, 31, 1);
+    L("// ---------------------------------------------------------------------------");
+    L("// START-UP BYTES OF THE TWO GLOBAL AREAS                       ($.!Start &1900)");
+    L("// &1900-&191E  game variables: all 0 except facing = 1 (NORTH), gameFlags = LIT,");
+    L("//              tiredTriesLeft = 5. Set by resetWorld() through the variables.");
+    L("// &191F-&193D  the original's $1..$16 text slots: leftovers from the author's");
+    L("//              session (this engine computes substitutions when printing).");
+    L("//              (In the original the last six bytes were also \"object record 0\";");
+    L("//              here record 0 is an empty record - FIX 8.)");
+    L("// ---------------------------------------------------------------------------");
+    L("const TEXT_SLOT_LEFTOVERS = [" + g2.join(", ") + "];");
+    L("// (check) global bytes at start: " + g1.join(" "));
+} catch (e) { out.length = 0; out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

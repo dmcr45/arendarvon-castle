@@ -1,0 +1,56 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="textconv.js"></script>
+<script>
+const out = [];
+try {
+    const files = Ref.readDfs(Ref.b64ToBytes(SSD_BASE64));
+    const A = Ref.readArrays(files["$.Arrays"]);
+    const msgs = [""];
+    for (let i = 1; i < A.s.length; i++) msgs.push(TextConv.readable(A, A.s[i]));
+    const descs = [""];
+    for (let i = 1; i < A.d.length; i++) descs.push(TextConv.readable(A, A.d[i]));
+    // Round-trip proof: the engine-style renderer on the readable text must give exactly the
+    // same output as the original word list, for many substitution choices.
+    function renderReadable(text, subst) {
+        let o = "";
+        const toks = text.split(" ");
+        for (let k = 0; k < toks.length; k++) {
+            let tok = toks[k];
+            if (tok === "") continue;
+            const m = /^\$(\d+)(.*)$/.exec(tok);
+            if (m) {
+                const n = parseInt(m[1], 10);
+                if (n === 0) o += "\n";
+                else {
+                    const s = subst(n);
+                    if (s.number !== undefined) o = TextConv.putWord(o, String(s.number));
+                    else { for (const dt of descs[s.desc].split(" ")) if (dt !== "") o = dt.charCodeAt(0) === 8 ? TextConv.putWord(o, dt) : TextConv.putWord(o, dt); }
+                }
+                if (m[2] !== "") o = TextConv.putWord(o, "\b" + m[2]);
+                continue;
+            }
+            o = TextConv.putWord(o, tok);
+        }
+        return o;
+    }
+    let checks = 0, fails = 0;
+    for (let trial = 0; trial < 200; trial++) {
+        const subst = (n) => (n >= 14 ? { number: (n * 7 + trial) % 256 } : { desc: 1 + ((n * 13 + trial * 5) % 173) });
+        for (let i = 1; i < A.s.length; i++) {
+            checks++;
+            const a = TextConv.renderOriginal(A, A.s[i], subst);
+            const b = renderReadable(msgs[i], subst);
+            if (a !== b) { fails++; if (fails < 10) out.push("MISMATCH msg" + i + ": " + JSON.stringify(a) + " vs " + JSON.stringify(b)); }
+        }
+    }
+    out.push("// round-trip checks: " + checks + ", mismatches: " + fails);
+    out.push("const MESSAGES_READABLE = " + JSON.stringify(msgs, null, 0).replace(/","/g, "\",\n\"") + ";");
+    out.push("if (typeof module !== 'undefined') module.exports = MESSAGES_READABLE;");
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

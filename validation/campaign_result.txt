@@ -1,0 +1,7 @@
+﻿DATA CHECK: engine's new world vs $.!Start: all 1672 bytes identical
+CAMPAIGN: {"steps":238680,"problems":0,"games":1080,"quits":3726,"halts":0,"mutations":27330,"ms":175949}
+COVERAGE: instructions executed 1470, branches taken 497, not taken 498
+REACHABLE (original + fixes): 1476 instructions, 499 conditionals
+NOT EXECUTED (6): 06ef,084f,09b7,0e5a,0e63,0f2f
+BRANCH NEVER TAKEN (2): 1869,1b8e
+BRANCH NEVER FALLEN THROUGH (1): 0f28

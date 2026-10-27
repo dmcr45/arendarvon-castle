@@ -1,0 +1,328 @@
+VALIDATION REPORT - arendarvon-engine.js against the original program
+=====================================================================
+Ground truth: Disc999-SecretOfArendarvonCastle.ssd
+Engine file validated: arendarvon-engine.js (4249 lines,
+  SHA-256 EFB53C25CBD0E8171B29BF82FEFCDA58F61640BC394669D81E7A11E0ADA4BDC8)
+Date: 2026-09-17 (first issued 2026-09-16; updated for the @09c8 bug fix, then
+  for fixes 7-11 and the terminal's re-wrapping on resize, then for QUIT/EXIT)
+
+
+1. THE REFERENCE: THE ORIGINAL PROGRAM, RUNNING
+-----------------------------------------------
+The refactor is not compared with anybody's reading of the bytecode. It is
+compared with the original program itself, executing:
+
+ - cpu6502.js   a 6502 CPU emulator (all 151 documented opcodes). It runs the
+                real ALADIN virtual machine machine code from $.ALADIN
+                (entry &1FA6), which in turn runs the real bytecode (&21C7-).
+ - bbcref.js    the BBC BASIC host program $.AREND re-implemented line by line
+                (each function cites its BASIC line numbers): the CALL loop and
+                ON R% GOSUB dispatch, PROCt/FNn/FNr (parser and binary-search
+                vocabulary), PROCp/PROCr (message printer on a 40-column MODE 7
+                screen with backspace handling), P%=RND(P%) (including RND(1)
+                giving 0), SAVE/LOAD as memory dumps of &1900-&1F87, restart
+                when a game ends (service 8), and the "ON range" error.
+ - Memory is built exactly as BASIC builds it: *LOAD Aladin 1900, *LOAD !Start
+   1900, !&70=&21C7, ?&1F93=10. All data comes from the SSD itself (ssd-data.js
+   is the disc image).
+
+The engine deliberately changes the original's behaviour in a few places
+(DIFFERENCES 1 and 6-11 in the engine's header). So that the comparison stays
+exact, each of those changes was ALSO written into the original program, as
+bytecode, the way the 1985 author could have written it:
+     @012b  06 -> 02   (typo; the author's intended test)
+     @09c8  02 -> 03   (bug fix; the author's intended test)
+     fixes 7-11        patches.js: a few bytes changed in place, small routines
+                       placed in parts of the bytecode that the original never
+                       executes, and three new messages built only from words
+                       of the original vocabulary. The complete list, before
+                       and after, is reference\fixes_bytecode_listing.txt.
+QUIT and EXIT (DIFFERENCES 5) belong to the host rather than the bytecode, so
+the BASIC re-implementation gets the matching change (bbcref.js, option
+quitCommand): its parser takes the whole words QUIT and EXIT as verb 99 and
+ignores XXX, and service 0 - which the bytecode requests for verb 99 and the
+original BASIC had no handler for - asks "Do you really want to quit?".
+The main comparison runs the engine against that program. Sections 3.6-3.8
+compare the program without each change against the program with it, to show
+precisely what each change does - and that it does nothing else.
+
+The only thing the reference shares with the engine is the input: the typed
+line and the random numbers.
+
+
+2. WHAT IS COMPARED
+-------------------
+After every command (campaign.html + validate.js + campaign.js):
+ a. EVENTS  every message printed (as text), every random number requested
+    (bound and result), every input request, the end of a game, a halt, and
+    the SAVE, LOAD and QUIT questions - in order. The engine also reports any use of a table's
+    "record 0" as an event; there were none.
+ b. SCREEN  the text on the screen, ignoring where lines break (the engine
+    deliberately does not wrap at 40 columns).
+ c. STATE   all 1672 bytes the original's SAVE would write (&1900-&1F87),
+    except these scratch bytes, which the refactor keeps in local variables:
+      &1900       literal operand slot of the VM
+      &1903       random / subroutine result
+      &190C       the character loop's counter (in the bytecode form of fix 7)
+      &1915-&1918 temporaries
+      &191C-&191E subroutine arguments and subroutine number
+      &1920-&1929, &192B, &192D-&192F  the $1-$16 text slots (the engine
+                  computes substitutions when printing instead)
+    Every other byte - all rooms, objects, characters, passages, verbs and game
+    variables - must be identical.
+Input to the reference is converted to capitals (a BBC with CAPS LOCK on),
+because the engine deliberately accepts lower case.
+
+
+3. RESULTS
+----------
+3.1 World data                                                (campaign.html)
+    The engine's readable data tables (PART 5), turned back into bytes, equal
+    $.!Start: all 1672 bytes identical.
+
+3.2 Text data                                                  (genmsgs.html)
+    The readable message and description strings print exactly like the
+    original word codes: 42,200 renderings, 0 differences. The three new
+    messages are checked word by word against the vocabulary (patches.js).
+
+3.3 Differential campaign                                     (campaign.html)
+    ?seeds=45&games=24&commands=220&fuzz=0.12&smart=0.6&scenario=0.45
+    1,080 games, 238,680 commands, 0 differences.
+    Commands mixed: random vocabulary (with abbreviations, junk and lower
+    case), state-aware commands (objects present, doors around), SAVE/LOAD
+    round trips, restarts after winning or dying, QUIT and EXIT (answered yes
+    and no, also in answer to a question), XXX and X (now ignored), plus 27,330
+    state mutations and targeted scenarios (rare situations such as a friendly
+    wizard, a hostile rat in the dark, a loaded cannon, the bell-rope, and
+    LOCK/UNLOCK at lockable doors in all their states, including impossible
+    ones).
+    Ordinary play only (no mutations or scenarios):
+    ?seed=101&seeds=10&games=20&commands=220&fuzz=0&smart=0.6&scenario=0
+    200 games, 44,200 commands, 0 differences.
+    Result files: campaign_result.txt, campaign_ordinary_result.txt
+
+3.4 Coverage of the program (measured inside the 6502 emulator)
+    The original with the fixes has 1476 reachable instructions.
+    Instructions executed: 1470 of 1476. Not executed - they cannot run:
+        @06ef and @0e63 (after winning), @084f, @09b7 and @0e5a (after
+        dying): each is a GOTO after a call that ends the game and never
+        returns;
+        @0f2f  the character switch's "no such character" exit, which the
+               loop's own counter (fix 7) can no longer reach.
+    (@016c, after the old XXX, now runs: it is the way back to the game
+    when the player answers no to QUIT.)
+    Conditional branches: 499. Seen falling through: 498 - not @0f28, the
+    last test of the character switch, which the counter always passes with
+    9. Seen branching: 497 - not these, which cannot branch:
+        @1869  tests the LIT flag immediately after @1836 has set it
+        @1b8e  the subroutine dispatcher's "no such subroutine" exit; every
+               call in the bytecode uses a valid number (2, 10-18)
+    Every instruction of the fixes' own routines was executed, both ways
+    for every test.
+    In the engine, the jumps after winning or dying are the "break"
+    statements marked "(never reached)" after winGame() and die(), and the
+    always-true test @1869 is written as a plain "else" with a note.
+
+3.5 Traceability audit of the source                             (audit.html)
+    - 1323 "@offset" tags on code lines; 0 point at a non-instruction.
+    - All 1185 non-GOTO instructions of the original are tagged in the
+      source. 217 of the 235 GOTOs are tagged where a return/break/continue
+      stands for them; 18 became pure program structure.
+    - All 268 PRINT instructions: the say("...") text on the tagged line is
+      exactly the message the program prints (265 directly; 3 passed as a
+      parameter to askPlayer, whose texts are present). One of them is a
+      message changed by fix 9: @0459 msg71 -> msg212.
+    - 26 lines are marked "(FIX n)". The three new messages are all used.
+    - No say() text in the game logic that is not a message of the program.
+    Result file: audit_result.txt
+
+3.6 The @012b typo (no visible effect)                            (typo.html)
+    The unmodified original against the original with only @012b changed
+    (06 -> 02), both on the 6502 emulator with identical inputs:
+    11,780 commands, 11,179 of which passed @012b with no second noun (the
+    case the typo affects): 0 differences in messages, random numbers or
+    screen. The only bytes that ever differed were scratch bytes nothing reads
+    before rewriting them: &1903, &1918, &191C, &191D, &191E and the $14 text
+    slot &192D.
+    Result file: typo_result.txt
+
+3.7 The @09c8 bug fix (a visible change, and only where intended)
+                                                                 (bugfix.html)
+    The unmodified original against the original with only @09c8 changed
+    (02 -> 03). Before every command the patched machine is given the other's
+    exact state and the same random numbers, so each command is judged on its
+    own. Half the commands set up torch situations (torch lit or not, globe
+    of light off or shining, dark and light rooms, STRIKE TORCH and others).
+    20,000 commands; @09c8 executed in 994; the outcome differed in 805; the
+    outcome differed WITHOUT executing @09c8: 0.
+    The differences are exactly the intended ones, in a dark room:
+      globe off:      original  "IT GOES OUT."              room stays lit
+                      fixed     "IT GOES OUT. IT IS DARK."  room goes dark
+      globe shining:  original  "IT GOES OUT. IT IS DARK."  room goes dark
+                      fixed     "IT GOES OUT."              room stays lit
+    Result file: bugfix_result.txt
+
+3.8 Fixes 7-11 (each visible only where intended)              (fixeffect.html)
+    The same method as 3.7, once per fix: the original (with the @012b and
+    @09c8 corrections) against the same program plus that ONE fix, 20,000
+    commands each, same state and random numbers before every command. A
+    "trigger" is the original doing what the fix is about. For LOCK/UNLOCK,
+    a quarter of the commands stand the player at a door (or at a passage
+    that is not a door) with the door in any state.
+      fix 7 (loop)      triggered 41 times (the loop jumped); outcome
+                        differed 41 times; differed without a trigger: 0.
+                        In 39 the custodian had just locked the player up,
+                        in 2 the gatekeeper had put the player out of his
+                        territory; with the fix the characters after them
+                        still take their turn.
+      fix 8 (record 0)  triggered in 19,997 commands (the original read
+                        record 0 at almost every message); outcome differed:
+                        0. Nothing visible changes in normal play.
+      fixes 9-11        triggered 998 times; outcome differed 998 times;
+      (locks)           differed without a trigger: 0. Examples:
+          UNLOCK (not a door)  "YOU CAN'T LOCK A CURTAIN."  ->  "YOU CAN'T
+                               UNLOCK A CURTAIN."
+          UNLOCK a locked door  door left OPEN  ->  door left CLOSED
+          LOCK an open door     "YOU LOCK THE DOOR."  ->  "YOU CAN'T LOCK AN
+                                OPEN DOOR." (door stays open)
+          LOCK a locked door    "YOU LOCK THE DOOR."  ->  "THE DOOR IS ALREADY
+                                LOCKED."
+          LOCK a nailed door    "YOU LOCK THE DOOR." (it became merely locked)
+                                ->  "IT IS NAILED SHUT."
+          LOCK a bolted door    ->  "IT IS LATCHED AND BOLTED ON THE OTHER
+                                SIDE."
+    Result files: fixeffect_result.txt; doors_result.txt (doors_check.js:
+    the engine at particular doors, including the nailed door from the LONG
+    CORRIDOR to the PRIVATE-ROOM, which LOCK then UNLOCK no longer opens)
+
+3.9 Record 0                                                    (record0.html)
+    Every instruction executed is inspected inside the emulator, and each
+    operand's record number worked out as the VM does:
+      the original (40,000 commands of ordinary play): record 0 read or
+        written by 13 instructions - hundreds of thousands of reads by the
+        message routine's slot filling, and 70 writes by the character loop
+        after a jump;
+      the original with the fixes: none in 40,000 commands of ordinary play,
+        and none in 60,000 commands with heavy state mutation.
+    Result file: record0_result.txt
+
+3.10 Pathological case                                       (loopcheck.html)
+    In a state impossible in normal play (a friendly eagle and a friendly
+    girl in the courtyard with the player), the original loops for ever: the
+    eagle carries the player, the loop's counter jumps back to the girl, and
+    so on (50,000 events before the guard stopped it). With fix 7 the turn
+    ends normally, in the fixed bytecode and in the engine, identically.
+    Result file: loopcheck_result.txt
+
+3.11 Front ends
+    Both front ends show the engine's text in ordinary capitals (the same
+    readableCase function in each). The engine's own text, which sections
+    3.1-3.10 compare with the original, is unchanged.
+    arendarvon.html  played in a browser: commands, questions, lower case,
+                     SAVE, LOAD (the loaded game resumed correctly), the Saves
+                     panel, JSON contents; EXIT answered no, XXX (not
+                     understood), QUIT in answer to "WHAT DO YOU WANT TO
+                     TAKE:" answered yes, "(press Enter to play again)",
+                     and Enter starting a new game; the text in Segoe UI in
+                     ordinary capitals, and the A-/A+ text size remembered.
+    arendarvon.js    run under Node.js v24.19.0 with scripted input: word
+                     wrapping to the terminal width, questions as prompts,
+                     SAVE and LOAD to saves\*.json, QUIT/EXIT and restart, clean
+                     exit at end of input. Also run with simulated modules
+                     (terminal_sim.html).
+                     Re-wrapping on resize (terminal_resize_test.js, a real
+                     Node readline on a simulated terminal): after resizing
+                     from 80 to 40 and then 120 columns, the whole game text
+                     was printed again within the new width, with the same
+                     words, the typed commands, the prompt and a half-typed
+                     command restored; a burst of resize events gave one
+                     redraw; the game went on normally afterwards. 10 of 10
+                     checks passed.
+                     Result file: terminal_resize_result.txt
+
+
+4. FINDINGS ABOUT THE ORIGINAL MADE DURING THE REFACTOR
+-------------------------------------------------------
+ FIXED in the engine (see "DIFFERENCES FROM THE 1985 PROGRAM" in the engine;
+ each also written into the bytecode for validation):
+ *  @012b typo (opcode 06 for 02): no visible effect (3.6).
+ *  @09c8 bug (opcode 02 for 03): STRIKE TORCH tested the globe of light the
+    wrong way round (3.7).
+ *  Fix 7: the character loop's counter was the global "character present"
+    byte, which movePlayerTo() also sets. When a character moved the player
+    (2 to 5 turns in 1000 in the tests), the remaining characters lost their
+    turn; in one impossible state the loop never ended (3.10).
+ *  Fix 8: "record 0" of each table is the tail of the table before it. The
+    original read it constantly (harmlessly, in normal play) and in unusual
+    states wrote it - e.g. taking an object from a character who is not
+    present wrote room 117's owner byte.
+ *  Fixes 9-11: UNLOCK used LOCK's message; UNLOCK left the door open; LOCK
+    worked on a door in any state, so LOCK then UNLOCK opened nailed and
+    bolted doors.
+ CHANGED in the engine:
+ *  The original had no way to leave a game. The author's hidden word XXX
+    (verb 99) asked BASIC for service 0, which it did not have, so BASIC
+    stopped with "ON range at line 40". QUIT and EXIT now take that path and
+    ask first; XXX is no longer accepted.
+ KEPT as in the original:
+ *  BLUE FLUID sends the player to any of the 117 rooms, including OPEN AIR
+    (fatal) and the DRAWBRIDGE (the game ends as if the player had walked
+    out of the castle). This looks like a deliberate gamble.
+ *  Five messages are never printed by the bytecode: msg23 "YOU SEE A $7.",
+    msg80 "YOU TAKE THE $2 FROM THE $6.", msg91 (a second "YOU DRINK IT."),
+    and msg121/msg131 ("*" placeholders).
+
+
+5. PROBLEMS FOUND BY THE VALIDATION AND FIXED
+---------------------------------------------
+ 1. Character loop: the first refactor draft continued with the next
+    character after a character moved the player, instead of the counter
+    value left by movePlayerTo (the original's behaviour at that time).
+    Fixed in charactersAct(); later replaced by fix 7.
+ 2. JSON saves did not record bytes changed only through record-0 writes; a
+    LOAD in such a state differed by one byte. Fixed with "otherBytes"
+    (still kept, for edited states, although the game no longer writes
+    record 0).
+ 3. Traceability tags: one range ended on a data byte (@014b, now @013d), and
+    16 dispatcher tests / argument copies were untagged. Fixed.
+ 4. Fix 8 as first written guarded the message slots, TAKE and the room's
+    owner, but not three more places. The comparison found them in mutated
+    states: the girl, the gatekeeper and the priest "accepting" a present
+    when OFFERED was set but no object was named (the engine reported its
+    record-0 use; the original moved "object 0" - really a byte of the text
+    slots - and added a meaningless weight to the player's strength). Now a
+    present that is not there is not accepted, in the engine and in the
+    bytecode alike, and a scan of 60,000 mutated commands finds no record-0
+    use left (3.9).
+ Harness issues (not engine defects): lower-case input to the reference,
+ a duplicated halt event, a missing guard against endless loops, and (in the
+ first draft of patches.js, found by checking it against the listing before
+ any run) fix 7's counter increment patched on the wrong operand byte.
+
+
+6. RE-RUNNING THE VALIDATION
+----------------------------
+The pages load ../arendarvon-engine.js, so keep the validation folder next to
+it. With Node.js, from a terminal in the validation folder:
+
+    node node-run.js "campaign.html?seeds=45&games=24&commands=220&fuzz=0.12&smart=0.6&scenario=0.45"
+    node node-run.js audit.html
+    node node-run.js "typo.html?seeds=8&games=10&commands=150"
+    node node-run.js "bugfix.html?steps=20000"
+    node node-run.js "fixeffect.html?steps=20000"
+    node node-run.js "record0.html?commands=40000"
+    node node-run.js loopcheck.html
+    node doors_check.js
+    node terminal_resize_test.js
+
+(The full campaign takes about 2.5 minutes; seeds=4&games=15&commands=150
+takes a few seconds. The pages also run in Edge or Chrome straight from disk;
+run.ps1 does that with headless Edge.)
+audit.html and terminal_sim.html read engine-source.js and terminal-source.js,
+copies of the two programs as strings. After editing either program, run:
+
+    node make-sources.js
+
+and after changing patches.js, regenerate the fixes listing with:
+
+    node list-fixes.js > ..\reference\fixes_bytecode_listing.txt

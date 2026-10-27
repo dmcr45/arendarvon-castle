@@ -1,0 +1,42 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script>
+// Pathological (not reachable in normal play) state: a friendly EAGLE and a friendly GIRL both in the
+// COURTYARD (49) with the player. In the ORIGINAL the eagle "carries" the player to 49, which makes
+// the character loop restart at the girl (fix 7's jump), and so on for ever.
+// With fix 7 (and the others) the turn ends normally - in the fixed bytecode and in the engine alike.
+const out = [];
+try {
+    const CH = (c, f) => 0x581 + 6 * c + f;
+    const setUp = (b) => { b[CH(1, 2)] = 49; b[CH(6, 2)] = 49; b[CH(6, 3)] = 2; b[CH(3, 2)] = 49; b[CH(3, 3)] = 2; b[7] = 0; b[10] = 8; };
+
+    // 1. the original as on the disc (with only the @012b/@09c8 corrections)
+    const rng = V.mulberry32(7);
+    const original = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(rng() * n), patch012b: true, patch09c8: true });
+    original.run();
+    const b0 = original.state(); setUp(b0); original.mem.set(b0, 0x1900);
+    let looped = false;
+    try { original.submit("WAIT"); } catch (e) { looped = /runaway/.test(e.message); }
+    out.push("original: loops for ever: " + looped + " (" + original.events.length + " events before the guard stopped it; first: " +
+        original.events.slice(0, 6).map(V.refEventText).join(" | ") + ")");
+
+    // 2. the original with the fixes, against the engine
+    const pair = new V.Pair(7, {});
+    pair.step(null);
+    const b = pair.ref.state(); setUp(b);
+    pair.setState(b);
+    const r = pair.step("WAIT");
+    out.push("with the fixes: loops for ever: " + (r.runaway === true) + "; the turn ends normally: " + (r.waiting === "I"));
+    out.push("  fixed bytecode: " + r.refEvents.join(" | "));
+    out.push("  engine:         " + r.engEvents.join(" | "));
+    out.push("  differences between them: " + (r.problems.length ? r.problems.join("; ") : "none"));
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

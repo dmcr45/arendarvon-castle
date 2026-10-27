@@ -1,0 +1,64 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script src="campaign.js"></script>
+<script>
+// The ORIGINAL bytecode (opcode 06 at @012b) against the SAME bytecode with that one byte
+// changed to 02. Both run on the 6502 emulator with identical inputs and random numbers.
+const out = [];
+try {
+    const q = new URLSearchParams(location.search);
+    const seeds = Number(q.get("seeds") || 10), games = Number(q.get("games") || 10), commands = Number(q.get("commands") || 150);
+    // Only these bytes may differ: the scratch bytes the extra lookup writes, and the $14 text slot.
+    const ALLOWED = new Set([3, 24, 28, 29, 30, 31 + 14]);
+    let steps = 0, problems = 0, skippedLookups = 0;
+    const diffBytes = new Set();
+    for (let s = 1; s <= seeds && problems < 5; s++) {
+        const rng = V.mulberry32(s * 31337);
+        for (let g = 0; g < games && problems < 5; g++) {
+            const ra = V.mulberry32(s * 1000 + g), rb = V.mulberry32(s * 1000 + g);
+            const saves = { a: {}, b: {} };
+            const A = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(ra() * n), patch012b: false, saves: saves.a });
+            const B = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(rb() * n), patch012b: true, saves: saves.b });
+            const gen = Campaign.commandGenerator(rng);
+            let line = null;
+            for (let c = 0; c < commands; c++) {
+                let ea, eb;
+                try { ea = line === null ? A.run() : A.submit(line); } catch (e) { ea = [{ type: "halt" }]; }
+                try { eb = line === null ? B.run() : B.submit(line); } catch (e) { eb = [{ type: "halt" }]; }
+                steps++;
+                const ta = ea.map(V.refEventText).join("|"), tb = eb.map(V.refEventText).join("|");
+                if (ta !== tb) { problems++; out.push("EVENTS differ (seed " + s + " game " + g + " step " + c + ")\n  typo:  " + ta + "\n  fixed: " + tb); break; }
+                if (A.screen.text() !== B.screen.text()) { problems++; out.push("SCREEN differs: " + A.screen.text() + " / " + B.screen.text()); break; }
+                const sa = A.state(), sb = B.state();
+                for (let i = 0; i < 1672; i++) if (sa[i] !== sb[i]) { if (!ALLOWED.has(i)) { problems++; out.push("STATE differs at &" + (0x1900 + i).toString(16)); } diffBytes.add(i); }
+                const last = ea.length ? ea[ea.length - 1].type : "";
+                if (last === "halt" || A.status === "halted") break;
+                if (last === "input") {
+                    if (sa[2] === 0) skippedLookups++;        // noun2 is 0 now: the typo's lookup would run at @012b
+                    if (rng() < 0.12) {
+                        const bytes = A.state();
+                        if (rng() < 0.4) Campaign.scenario(bytes, rng); else Campaign.mutate(bytes, rng);
+                        A.mem.set(bytes, 0x1900); B.mem.set(bytes, 0x1900);
+                    }
+                    line = rng() < 0.6 ? Campaign.smartCommand(A.state(), rng) : gen();
+                } else if (last === "quit") line = "";
+                else if (last === "saveAsk" || last === "loadAsk") line = (last === "loadAsk" && !Object.keys(saves.a).length) ? "N" : "Y";
+                else if (last === "saveName") line = rng() < 0.5 ? "ONE" : "TWO";
+                else if (last === "loadName") line = Object.keys(saves.a)[0];
+                else line = "WAIT";
+            }
+        }
+    }
+    out.push("TYPO CHECK: " + steps + " steps; commands that reached @012b with no second noun: " + skippedLookups + "; problems: " + problems);
+    out.push("bytes that ever differed: " + (diffBytes.size ? Array.from(diffBytes).sort((a, b) => a - b).map(i => "&" + (0x1900 + i).toString(16).toUpperCase()).join(", ") : "none"));
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>
+

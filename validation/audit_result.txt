@@ -1,0 +1,12 @@
+﻿Offset tags found: 1323 on 1247 lines
+Invalid tags: 0
+Reachable instructions: 1420  (GOTO: 235)
+Instructions tagged in the source: 1402
+Non-GOTO instructions with no tag: 0
+GOTO instructions that became pure structure (untagged): 18
+PRINT instructions: 268; say() literal verified on the tagged line: 265; passed through a parameter (text verified present): 3
+PRINT instructions whose message an approved fix changed: 1  @0459 msg71 -> msg212 "YOU CAN'T UNLOCK A $7."
+PRINT problems: 0
+Lines marked (FIX n): 26; new messages: msg212 "YOU CAN'T UNLOCK A $7." (used); msg213 "YOU CAN'T LOCK AN OPEN $7." (used); msg214 "THE $7 IS ALREADY LOCKED." (used)
+say() texts in PART 4 that are not original messages: 0
+Messages never printed by the bytecode: msg23 "YOU SEE A $7."; msg80 "YOU TAKE THE $2 FROM THE $6."; msg91 "YOU DRINK IT."; msg121 "*"; msg131 "*"

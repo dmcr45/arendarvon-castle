@@ -1,0 +1,1442 @@
+0000 L0000: 80 D3                PRINT msg211  ; "SUPPLEMENTARY BOOK AVAILABLE."
+0002        80 8F                PRINT msg143  ; "$0 $0 $0 ** THE SECRET OF ARENDARVON CASTLE ** $0 $0 $0"
+0004        46 0E 01 00 0E       $verb := 14
+0009        C4 72 00             GOTO L0072
+000c        --- 8 bytes of data ---
+            01 00 00 46 01 01 00 00
+0014 L0014: 46 0E 01 00 00       $verb := 0
+0019        46 01 01 00 00       $noun1 := 0
+001e        46 02 01 00 00       $noun2 := 0
+0023        46 0B 01 00 00       $dir := 0
+0028        46 04 01 00 00       $adverb := 0
+002d        4A 0A 01 00 8F       $flags := $flags AND 143
+0032        80 01                PRINT msg1  ; "$0 >"
+0034        C4 6C 00             GOTO L006c
+0037 L0037: 80 02                PRINT msg2  ; "I DON'T UNDERSTAND!"
+0039        C4 14 00             GOTO L0014
+003c L003c: 05 0A 01 00 10 37 00 IF $flags &<>0 16 GOTO L0037
+0043        4B 0A 01 00 10       $flags := $flags OR 16
+0048        80 06                PRINT msg6  ; "WHAT DO YOU WANT TO $1:"
+004a        C4 6C 00             GOTO L006c
+004d L004d: 05 0A 01 00 20 37 00 IF $flags &<>0 32 GOTO L0037
+0054        4B 0A 01 00 20       $flags := $flags OR 32
+0059        80 08                PRINT msg8  ; "WHAT DO YOU WANT TO $1 THE $2 IN:"
+005b        C4 6C 00             GOTO L006c
+005e L005e: 05 0A 01 00 40 37 00 IF $flags &<>0 64 GOTO L0037
+0065        4B 0A 01 00 40       $flags := $flags OR 64
+006a        80 05                PRINT msg5  ; "WHERE DO YOU WANT TO $1:"
+006c L006c: C0 01 00 00 00 00    HOST INPUT
+0072 L0072: 46 06 01 62 01       $tmp6 := OBJ[1].2
+0077        56 05 01 46 06       $tmp5 := ROOM[G6].6
+007c        22 62 05 06 01 88 00 IF OBJ[G5].2 = $tmp6 GOTO L0088
+0083        46 05 01 00 00       $tmp5 := 0
+0088 L0088: 00 00 00 0B 01 D6 00 IF 0 < $dir GOTO L00d6
+008f        02 04 01 00 00 C4 00 IF $adverb = 0 GOTO L00c4
+0096        46 03 01 04 01       $g3 := $adverb
+009b        46 0B 01 00 01       $dir := 1
+00a0 L00a0: 24 5F 06 00 80 B8 00 IF ROOM[G6][dir] &=0 128 GOTO L00b8
+00a7        56 04 01 5F 06       $adverb := ROOM[G6][dir]
+00ac        4A 04 01 00 7F       $adverb := $adverb AND 127
+00b1        22 80 04 03 01 D6 00 IF A4[G4] = $g3 GOTO L00d6
+00b8 L00b8: 47 0B 01 00 01       $dir := $dir + 1
+00bd        01 0B 01 00 04 A0 00 IF $dir <= 4 GOTO L00a0
+00c4 L00c4: 46 0B 01 00 00       $dir := 0
+00c9        46 04 01 00 00       $adverb := 0
+00ce        46 08 01 00 00       $g8 := 0
+00d3        C4 19 01             GOTO L0119
+00d6 L00d6: 24 5F 06 00 80 0F 01 IF ROOM[G6][dir] &=0 128 GOTO L010f
+00dd        56 04 01 5F 06       $adverb := ROOM[G6][dir]
+00e2        4A 04 01 00 7F       $adverb := $adverb AND 127
+00e7        22 83 04 00 01 F5 00 IF A4[G4].3 = 1 GOTO L00f5
+00ee        25 82 04 00 01 02 01 IF A4[G4].2 &<>0 1 GOTO L0102
+00f5 L00f5: 56 08 01 81 04       $g8 := A4[G4].1
+00fa        48 08 01 06 01       $g8 := $g8 - $tmp6
+00ff        C4 19 01             GOTO L0119
+0102 L0102: 46 04 01 00 00       $adverb := 0
+0107        46 08 01 00 00       $g8 := 0
+010c        C4 19 01             GOTO L0119
+010f L010f: 46 04 01 00 00       $adverb := 0
+0114        56 08 01 5F 06       $g8 := ROOM[G6][dir]
+0119 L0119: 02 01 01 00 00 2B 01 IF $noun1 = 0 GOTO L012b
+0120        C0 0A 01 01 06 01    SYS10($noun1, $tmp6)
+0126        46 01 01 03 01       $noun1 := $g3
+012b L012b: 06 02 01 00 00 4C 01 IF $noun2 := 0 GOTO L014c
+0132        C0 0A 02 01 06 01    SYS10($noun2, $tmp6)
+0138        46 02 01 03 01       $noun2 := $g3
+013d        C4 4C 01             GOTO L014c
+0140        --- 12 bytes of data ---
+            C0 09 00 00 00 00 C0 09 00 00 00 00
+014c L014c: 00 00 00 0E 01 5F 01 IF 0 < $verb GOTO L015f
+0153        02 0B 01 00 00 37 00 IF $dir = 0 GOTO L0037
+015a        46 0E 01 00 01       $verb := 1
+015f L015f: 03 0E 01 00 63 6F 01 IF $verb <> 99 GOTO L016f
+0166        C0 00 00 00 00 00    HOST svc0
+016c        C4 14 00             GOTO L0014
+016f L016f: 24 A1 0E 00 01 82 01 IF A5[G14].1 &=0 1 GOTO L0182
+0176        05 0A 01 00 08 82 01 IF $flags &<>0 8 GOTO L0182
+017d        80 03                PRINT msg3  ; "IT IS TOO DARK."
+017f        C4 14 00             GOTO L0014
+0182 L0182: 24 A1 0E 00 02 9A 01 IF A5[G14].1 &=0 2 GOTO L019a
+0189        03 61 01 00 00 9A 01 IF OBJ[1].1 <> 0 GOTO L019a
+0190        48 13 01 00 01       $g19 := $g19 - 1
+0195        80 04                PRINT msg4  ; "YOU ARE TOO TIRED TO MOVE."
+0197        C4 14 00             GOTO L0014
+019a L019a: 24 A1 0E 00 04 A8 01 IF A5[G14].1 &=0 4 GOTO L01a8
+01a1        02 0B 01 00 00 5E 00 IF $dir = 0 GOTO L005e
+01a8 L01a8: 24 A1 0E 00 08 B6 01 IF A5[G14].1 &=0 8 GOTO L01b6
+01af        02 04 01 00 00 3C 00 IF $adverb = 0 GOTO L003c
+01b6 L01b6: 24 A1 0E 00 10 C4 01 IF A5[G14].1 &=0 16 GOTO L01c4
+01bd        02 01 01 00 00 3C 00 IF $noun1 = 0 GOTO L003c
+01c4 L01c4: 24 A1 0E 00 20 EC 01 IF A5[G14].1 &=0 32 GOTO L01ec
+01cb        00 00 00 04 01 EC 01 IF 0 < $adverb GOTO L01ec
+01d2        02 0B 01 00 00 E5 01 IF $dir = 0 GOTO L01e5
+01d9        02 08 01 00 00 EC 01 IF $g8 = 0 GOTO L01ec
+01e0        46 0B 01 00 00       $dir := 0
+01e5 L01e5: 02 01 01 00 00 3C 00 IF $noun1 = 0 GOTO L003c
+01ec L01ec: 24 A1 0E 00 40 FF 01 IF A5[G14].1 &=0 64 GOTO L01ff
+01f3        00 00 00 05 01 FF 01 IF 0 < $tmp5 GOTO L01ff
+01fa        80 07                PRINT msg7  ; "THERE IS NO ONE."
+01fc        C4 14 00             GOTO L0014
+01ff L01ff: 24 A1 0E 00 80 0D 02 IF A5[G14].1 &=0 128 GOTO L020d
+0206        02 02 01 00 00 4D 00 IF $noun2 = 0 GOTO L004d
+020d L020d: 03 0E 01 00 01 61 02 IF $verb <> 1 GOTO L0261
+0214        80 0D                PRINT msg13  ; "YOU GO $8."
+0216        46 09 01 0B 01       $facing := $dir
+021b        03 08 01 00 00 2C 02 IF $g8 <> 0 GOTO L022c
+0222        80 0E                PRINT msg14  ; "YOU BUMP INTO THE WALL."
+0224        48 61 01 00 03       OBJ[1].1 := OBJ[1].1 - 3
+0229        C4 61 02             GOTO L0261
+022c L022c: 02 04 01 00 00 46 02 IF $adverb = 0 GOTO L0246
+0233        21 83 04 00 01 44 02 IF A4[G4].3 <= 1 GOTO L0244
+023a        80 0F                PRINT msg15  ; "YOU BUMP INTO THE $7."
+023c        48 61 01 00 03       OBJ[1].1 := OBJ[1].1 - 3
+0241        C4 61 02             GOTO L0261
+0244 L0244: 80 10                PRINT msg16  ; "YOU GO PAST THE $7."
+0246 L0246: 24 45 08 00 20 5B 02 IF ROOM[G8].5 &=0 32 GOTO L025b
+024d        30 48 08 48 06 59 02 IF ROOM[G8].8 < ROOM[G6].8 GOTO L0259
+0254        80 11                PRINT msg17  ; "YOU CLIMB UP THE STAIRS."
+0256        C4 5B 02             GOTO L025b
+0259 L0259: 80 12                PRINT msg18  ; "YOU CLIMB DOWN THE STAIRS."
+025b L025b: C0 0B 08 01 00 00    SYS11($g8, 0)
+0261 L0261: 03 0E 01 00 0E C6 02 IF $verb <> 14 GOTO L02c6
+0268        80 13                PRINT msg19  ; "YOU LOOK AROUND."
+026a        05 0A 01 00 08 76 02 IF $flags &<>0 8 GOTO L0276
+0271        80 09                PRINT msg9  ; "IT IS DARK."
+0273        C4 C6 02             GOTO L02c6
+0276 L0276: 46 1B 01 06 01       $g27 := $tmp6
+027b        25 47 06 00 10 87 02 IF ROOM[G6].7 &<>0 16 GOTO L0287
+0282        80 0A                PRINT msg10  ; "YOU ARE IN $12 $4."
+0284        C4 89 02             GOTO L0289
+0287 L0287: 80 0B                PRINT msg11  ; "YOU ARE ON $12 $4."
+0289 L0289: 24 45 06 00 40 92 02 IF ROOM[G6].5 &=0 64 GOTO L0292
+0290        80 14                PRINT msg20  ; "YOU HAVE BEEN HERE BEFORE."
+0292 L0292: E0 0D 41 06 00 01    SYS13(ROOM[G6].1, 1)
+0298        E0 0D 42 06 00 02    SYS13(ROOM[G6].2, 2)
+029e        E0 0D 43 06 00 03    SYS13(ROOM[G6].3, 3)
+02a4        E0 0D 44 06 00 04    SYS13(ROOM[G6].4, 4)
+02aa        80 CF                PRINT msg207  ; "YOU SEE"
+02ac        C0 0C 06 01 00 00    SYS12($tmp6, 0)
+02b2        02 05 01 00 00 C6 02 IF $tmp5 = 0 GOTO L02c6
+02b9        80 0C                PRINT msg12  ; "THERE IS A $6 HERE."
+02bb        C4 C6 02             GOTO L02c6
+02be        --- 8 bytes of data ---
+            C0 09 00 00 00 C4 00 00
+02c6 L02c6: 03 0E 01 00 02 D4 02 IF $verb <> 2 GOTO L02d4
+02cd        80 35                PRINT msg53  ; "YOU TURN $8."
+02cf        46 09 01 0B 01       $facing := $dir
+02d4 L02d4: 03 0E 01 00 03 A5 03 IF $verb <> 3 GOTO L03a5
+02db        25 22 01 00 08 E7 02 IF A1[G1].2 &<>0 8 GOTO L02e7
+02e2        80 36                PRINT msg54  ; "YOU CAN'T CLIMB A $2."
+02e4        C4 14 00             GOTO L0014
+02e7 L02e7: 56 08 01 23 01       $g8 := A1[G1].3
+02ec        25 22 01 00 40 F8 02 IF A1[G1].2 &<>0 64 GOTO L02f8
+02f3        46 08 01 06 01       $g8 := $tmp6
+02f8 L02f8: 30 48 08 48 06 04 03 IF ROOM[G8].8 < ROOM[G6].8 GOTO L0304
+02ff        80 37                PRINT msg55  ; "YOU CLIMB UP THE $2."
+0301        C4 06 03             GOTO L0306
+0304 L0304: 80 38                PRINT msg56  ; "YOU CLIMB DOWN THE $2."
+0306 L0306: 02 01 01 00 19 17 03 IF $noun1 = 25 GOTO L0317
+030d        02 01 01 00 0A 21 03 IF $noun1 = 10 GOTO L0321
+0314        C4 65 03             GOTO L0365
+0317 L0317: 80 39                PRINT msg57  ; "BELLS START CHIMING."
+0319        4B 63 05 00 04       OBJ[5].3 := OBJ[5].3 OR 4
+031e        C4 65 03             GOTO L0365
+0321 L0321: 32 21 01 23 01 52 03 IF A1[G1].1 = A1[G1].3 GOTO L0352
+0328        02 20 16 00 C1 3C 03 IF A1[22] = 193 GOTO L033c
+032f        C0 05 00 0A 00 00    HOST RANDOM(10)
+0335        00 03 01 00 03 65 03 IF $g3 < 3 GOTO L0365
+033c L033c: 80 3A                PRINT msg58  ; "THE SHOWCASE BREAKS."
+033e        76 21 01 23 01       A1[G1].1 := A1[G1].3
+0343        6B 22 01 00 02       A1[G1].2 := A1[G1].2 OR 2
+0348        6B 25 01 00 10       A1[G1].5 := A1[G1].5 OR 16
+034d        4B 63 02 00 04       OBJ[2].3 := OBJ[2].3 OR 4
+0352 L0352: 02 20 16 00 C1 63 03 IF A1[22] = 193 GOTO L0363
+0359        80 3B                PRINT msg59  ; "YOU ARE BADLY HURT BY THE SPLINTERS."
+035b        48 61 01 00 0A       OBJ[1].1 := OBJ[1].1 - 10
+0360        C4 65 03             GOTO L0365
+0363 L0363: 80 3C                PRINT msg60  ; "YOUR ARMOUR PROTECTS YOU FROM THE SPLINTERS."
+0365 L0365: 03 20 16 00 C1 71 03 IF A1[22] <> 193 GOTO L0371
+036c        80 3D                PRINT msg61  ; "YOUR ARMOUR HINDERS YOU."
+036e        C4 85 03             GOTO L0385
+0371 L0371: 24 22 01 00 40 85 03 IF A1[G1].2 &=0 64 GOTO L0385
+0378        C0 05 00 0A 00 00    HOST RANDOM(10)
+037e        00 03 01 00 0A 9F 03 IF $g3 < 10 GOTO L039f
+0385 L0385: 80 3E                PRINT msg62  ; "YOU FALL OFF."
+0387        48 61 01 00 05       OBJ[1].1 := OBJ[1].1 - 5
+038c        02 01 01 00 31 9A 03 IF $noun1 = 49 GOTO L039a
+0393        03 01 01 00 29 A5 03 IF $noun1 <> 41 GOTO L03a5
+039a L039a: 48 61 01 00 0A       OBJ[1].1 := OBJ[1].1 - 10
+039f L039f: C0 0B 08 01 00 00    SYS11($g8, 0)
+03a5 L03a5: 03 0E 01 00 0A E5 03 IF $verb <> 10 GOTO L03e5
+03ac        22 83 04 00 01 CB 03 IF A4[G4].3 = 1 GOTO L03cb
+03b3        25 82 04 00 02 BF 03 IF A4[G4].2 &<>0 2 GOTO L03bf
+03ba        80 3F                PRINT msg63  ; "YOU SEE NO WAY TO OPEN THE $7."
+03bc        C4 E5 03             GOTO L03e5
+03bf L03bf: 22 83 04 00 02 D0 03 IF A4[G4].3 = 2 GOTO L03d0
+03c6        80 40                PRINT msg64  ; "THE $7 WON'T OPEN."
+03c8        C4 E5 03             GOTO L03e5
+03cb L03cb: 80 41                PRINT msg65  ; "YOU OPEN THE $7 EVEN WIDER."
+03cd        C4 D7 03             GOTO L03d7
+03d0 L03d0: 80 42                PRINT msg66  ; "YOU OPEN THE $7."
+03d2        66 83 04 00 01       A4[G4].3 := 1
+03d7 L03d7: 03 04 01 00 25 E5 03 IF $adverb <> 37 GOTO L03e5
+03de        80 43                PRINT msg67  ; "AT ONCE IT STARTS SCREAMING."
+03e0        4B 63 08 00 04       OBJ[8].3 := OBJ[8].3 OR 4
+03e5 L03e5: 03 0E 01 00 0B 19 04 IF $verb <> 11 GOTO L0419
+03ec        25 82 04 00 02 F8 03 IF A4[G4].2 &<>0 2 GOTO L03f8
+03f3        80 44                PRINT msg68  ; "YOU SEE NO WAY TO CLOSE THE $7."
+03f5        C4 19 04             GOTO L0419
+03f8 L03f8: 22 83 04 00 01 04 04 IF A4[G4].3 = 1 GOTO L0404
+03ff        80 45                PRINT msg69  ; "THE $7 IS ALREADY CLOSED."
+0401        C4 19 04             GOTO L0419
+0404 L0404: 80 46                PRINT msg70  ; "YOU CLOSE THE $7."
+0406        66 83 04 00 02       A4[G4].3 := 2
+040b        03 04 01 00 25 19 04 IF $adverb <> 37 GOTO L0419
+0412        80 43                PRINT msg67  ; "AT ONCE IT STARTS SCREAMING."
+0414        4B 63 08 00 04       OBJ[8].3 := OBJ[8].3 OR 4
+0419 L0419: 03 0E 01 00 0C 4B 04 IF $verb <> 12 GOTO L044b
+0420        25 82 04 00 04 2C 04 IF A4[G4].2 &<>0 4 GOTO L042c
+0427        80 47                PRINT msg71  ; "YOU CAN'T LOCK A $7."
+0429        C4 14 00             GOTO L0014
+042c L042c: 25 82 04 00 08 38 04 IF A4[G4].2 &<>0 8 GOTO L0438
+0433        80 48                PRINT msg72  ; "THE $7 HAS NO LOCK."
+0435        C4 4B 04             GOTO L044b
+0438 L0438: 02 20 2B 00 C1 44 04 IF A1[43] = 193 GOTO L0444
+043f        80 49                PRINT msg73  ; "YOU HAVE NO KEYS."
+0441        C4 4B 04             GOTO L044b
+0444 L0444: 80 4A                PRINT msg74  ; "YOU LOCK THE $7."
+0446        66 83 04 00 03       A4[G4].3 := 3
+044b L044b: 03 0E 01 00 0D 89 04 IF $verb <> 13 GOTO L0489
+0452        25 82 04 00 04 5E 04 IF A4[G4].2 &<>0 4 GOTO L045e
+0459        80 47                PRINT msg71  ; "YOU CAN'T LOCK A $7."
+045b        C4 14 00             GOTO L0014
+045e L045e: 25 82 04 00 08 6A 04 IF A4[G4].2 &<>0 8 GOTO L046a
+0465        80 48                PRINT msg72  ; "THE $7 HAS NO LOCK."
+0467        C4 89 04             GOTO L0489
+046a L046a: 02 20 2B 00 C1 76 04 IF A1[43] = 193 GOTO L0476
+0471        80 49                PRINT msg73  ; "YOU HAVE NO KEYS."
+0473        C4 89 04             GOTO L0489
+0476 L0476: 22 83 04 00 03 82 04 IF A4[G4].3 = 3 GOTO L0482
+047d        80 4B                PRINT msg75  ; "THE $7 IS NOT LOCKED."
+047f        C4 89 04             GOTO L0489
+0482 L0482: 80 4C                PRINT msg76  ; "YOU UNLOCK THE $7."
+0484        66 83 04 00 01       A4[G4].3 := 1
+0489 L0489: 03 0E 01 00 04 67 05 IF $verb <> 4 GOTO L0567
+0490        23 20 01 00 C1 9C 04 IF A1[G1] <> 193 GOTO L049c
+0497        80 4D                PRINT msg77  ; "YOU ARE ALREADY HOLDING THE $2."
+0499        C4 14 00             GOTO L0014
+049c L049c: 25 22 01 00 04 A8 04 IF A1[G1].2 &<>0 4 GOTO L04a8
+04a3        80 4E                PRINT msg78  ; "YOU CAN'T TAKE A $2."
+04a5        C4 14 00             GOTO L0014
+04a8 L04a8: 20 24 01 61 01 B4 04 IF A1[G1].4 < OBJ[1].1 GOTO L04b4
+04af        80 4F                PRINT msg79  ; "THE $2 IS TOO HEAVY FOR YOU."
+04b1        C4 67 05             GOTO L0567
+04b4 L04b4: 24 20 01 00 80 13 05 IF A1[G1] &=0 128 GOTO L0513
+04bb        24 20 01 00 40 EC 04 IF A1[G1] &=0 64 GOTO L04ec
+04c2        80 51                PRINT msg81  ; "YOU TRY TO TAKE THE $2 FROM THE $6."
+04c4        24 63 05 00 02 D0 04 IF OBJ[G5].3 &=0 2 GOTO L04d0
+04cb        80 52                PRINT msg82  ; "THE $6 LETS GO WILLINGLY."
+04cd        C4 E9 04             GOTO L04e9
+04d0 L04d0: 6B 63 05 00 04       OBJ[G5].3 := OBJ[G5].3 OR 4
+04d5        C0 05 00 02 00 00    HOST RANDOM(2)
+04db        02 03 01 00 01 E7 04 IF $g3 = 1 GOTO L04e7
+04e2        80 53                PRINT msg83  ; "THE $6 DOES NOT LET GO."
+04e4        C4 67 05             GOTO L0567
+04e7 L04e7: 80 54                PRINT msg84  ; "YOU MANAGE TO GRAB IT."
+04e9 L04e9: C4 15 05             GOTO L0515
+04ec L04ec: 56 02 01 20 01       $noun2 := A1[G1]
+04f1        4A 02 01 00 7F       $noun2 := $noun2 AND 127
+04f6        25 25 02 00 10 02 05 IF A1[G2].5 &<>0 16 GOTO L0502
+04fd        80 55                PRINT msg85  ; "THERE IS NO WAY TO TAKE ANYTHING FROM THE $3."
+04ff        C4 67 05             GOTO L0567
+0502 L0502: 80 56                PRINT msg86  ; "YOU TAKE THE $2 FROM THE $3."
+0504        22 24 02 00 FF 10 05 IF A1[G2].4 = 255 GOTO L0510
+050b        78 24 02 24 01       A1[G2].4 := A1[G2].4 - A1[G1].4
+0510 L0510: C4 15 05             GOTO L0515
+0513 L0513: 80 57                PRINT msg87  ; "YOU TAKE THE $2."
+0515 L0515: 66 20 01 00 C1       A1[G1] := 193
+051a        6B 22 01 00 01       A1[G1].2 := A1[G1].2 OR 1
+051f        58 61 01 24 01       OBJ[1].1 := OBJ[1].1 - A1[G1].4
+0524        02 01 01 00 16 3C 05 IF $noun1 = 22 GOTO L053c
+052b        02 01 01 00 23 41 05 IF $noun1 = 35 GOTO L0541
+0532        02 01 01 00 2D 59 05 IF $noun1 = 45 GOTO L0559
+0539        C4 67 05             GOTO L0567
+053c L053c: 80 58                PRINT msg88  ; "YOU PUT IT ON."
+053e        C4 67 05             GOTO L0567
+0541 L0541: 80 59                PRINT msg89  ; "YOU DRINK IT."
+0543        66 20 01 00 00       A1[G1] := 0
+0548        80 5A                PRINT msg90  ; "YOU PASS OUT, AND WHEN YOU COME TO YOURSELF AGAIN"
+054a        C0 05 00 75 00 00    HOST RANDOM(117)
+0550        C0 0B 03 01 00 00    SYS11($g3, 0)
+0556        C4 67 05             GOTO L0567
+0559 L0559: 80 59                PRINT msg89  ; "YOU DRINK IT."
+055b        66 20 01 00 00       A1[G1] := 0
+0560        80 5C                PRINT msg92  ; "YOU FEEL STRENGTH FLOWING THROUGH YOU."
+0562        47 61 01 00 64       OBJ[1].1 := OBJ[1].1 + 100
+0567 L0567: 03 0E 01 00 05 BB 05 IF $verb <> 5 GOTO L05bb
+056e        22 20 01 00 C1 7A 05 IF A1[G1] = 193 GOTO L057a
+0575        80 5D                PRINT msg93  ; "YOU ARE NOT HOLDING THE $2."
+0577        C4 14 00             GOTO L0014
+057a L057a: 80 5E                PRINT msg94  ; "YOU DROP THE $2."
+057c        57 61 01 24 01       OBJ[1].1 := OBJ[1].1 + A1[G1].4
+0581        66 20 01 06 01       A1[G1] := $tmp6
+0586        03 01 01 00 22 A8 05 IF $noun1 <> 34 GOTO L05a8
+058d        24 22 01 00 02 A8 05 IF A1[G1].2 &=0 2 GOTO L05a8
+0594        80 81                PRINT msg129  ; "THE $2 BREAKS."
+0596        76 21 01 23 01       A1[G1].1 := A1[G1].3
+059b        80 82                PRINT msg130  ; "ITS CONTENTS ARE LOST."
+059d        C0 0E 00 A2 00 22    SYS14(162, 34)
+05a3        6A 22 01 00 FD       A1[G1].2 := A1[G1].2 AND 253
+05a8 L05a8: 03 01 01 00 03 BB 05 IF $noun1 <> 3 GOTO L05bb
+05af        02 11 01 00 00 BB 05 IF $g17 = 0 GOTO L05bb
+05b6        46 11 01 00 01       $g17 := 1
+05bb L05bb: 03 0E 01 00 07 40 06 IF $verb <> 7 GOTO L0640
+05c2        22 20 01 00 C1 CE 05 IF A1[G1] = 193 GOTO L05ce
+05c9        80 5D                PRINT msg93  ; "YOU ARE NOT HOLDING THE $2."
+05cb        C4 14 00             GOTO L0014
+05ce L05ce: 25 22 02 00 02 DA 05 IF A1[G2].2 &<>0 2 GOTO L05da
+05d5        80 5F                PRINT msg95  ; "YOU CAN'T PUT SOMETHING INTO A $3."
+05d7        C4 14 00             GOTO L0014
+05da L05da: 30 24 01 24 02 E6 05 IF A1[G1].4 < A1[G2].4 GOTO L05e6
+05e1        80 60                PRINT msg96  ; "THE $2 DOES NOT FIT INTO THE $3."
+05e3        C4 40 06             GOTO L0640
+05e6 L05e6: 66 20 01 02 01       A1[G1] := $noun2
+05eb        6B 20 01 00 80       A1[G1] := A1[G1] OR 128
+05f0        22 24 02 00 FF FC 05 IF A1[G2].4 = 255 GOTO L05fc
+05f7        77 24 02 24 01       A1[G2].4 := A1[G2].4 + A1[G1].4
+05fc L05fc: 57 61 01 24 01       OBJ[1].1 := OBJ[1].1 + A1[G1].4
+0601        80 61                PRINT msg97  ; "YOU PUT THE $2 INTO THE $3."
+0603        C4 40 06             GOTO L0640
+0606        --- 58 bytes of data ---
+            80 22 24 02 00 FF 14 7A 77 24 02 24 01 57 61 01 24 01 80 61 C4 41 7A 41 7A B7 A0 AC A0 E8 A0 A5 B6 A0 A9 A0 90 A0 A0 BA A0 80 A0 87 A0 80 B0 A0 85 B3 A0 A0 98 B4 A0 C4 00 00
+0640 L0640: 03 0E 01 00 06 60 06 IF $verb <> 6 GOTO L0660
+0647        C0 0A 01 01 00 C1    SYS10($noun1, 193)
+064d        03 03 01 00 00 59 06 IF $g3 <> 0 GOTO L0659
+0654        80 5D                PRINT msg93  ; "YOU ARE NOT HOLDING THE $2."
+0656        C4 14 00             GOTO L0014
+0659 L0659: 80 62                PRINT msg98  ; "YOU OFFER THE $2 TO THE $6."
+065b        6B 63 05 00 08       OBJ[G5].3 := OBJ[G5].3 OR 8
+0660 L0660: 03 0E 01 00 12 9D 08 IF $verb <> 18 GOTO L089d
+0667        25 22 01 00 10 73 06 IF A1[G1].2 &<>0 16 GOTO L0673
+066e        80 63                PRINT msg99  ; "WHAT FOR?"
+0670        C4 14 00             GOTO L0014
+0673 L0673: 24 25 01 00 04 F0 07 IF A1[G1].5 &=0 4 GOTO L07f0
+067a        22 20 01 00 C1 86 06 IF A1[G1] = 193 GOTO L0686
+0681        80 5D                PRINT msg93  ; "YOU ARE NOT HOLDING THE $2."
+0683        C4 14 00             GOTO L0014
+0686 L0686: 33 21 01 23 01 92 06 IF A1[G1].1 <> A1[G1].3 GOTO L0692
+068d        80 64                PRINT msg100  ; "THE $2 HAS NO POWER LEFT."
+068f        C4 9D 08             GOTO L089d
+0692 L0692: 02 20 0B 00 C1 AA 06 IF A1[11] = 193 GOTO L06aa
+0699        01 00 19 64 01 A5 06 IF 25 <= OBJ[1].4 GOTO L06a5
+06a0        80 65                PRINT msg101  ; "YOU DON'T HAVE THE POWER TO CAST THE $2."
+06a2        C4 9D 08             GOTO L089d
+06a5 L06a5: 48 64 01 00 19       OBJ[1].4 := OBJ[1].4 - 25
+06aa L06aa: 80 66                PRINT msg102  ; "YOU CAST THE $2."
+06ac        76 21 01 23 01       A1[G1].1 := A1[G1].3
+06b1        02 01 01 00 02 E9 06 IF $noun1 = 2 GOTO L06e9
+06b8        02 01 01 00 0C F2 06 IF $noun1 = 12 GOTO L06f2
+06bf        02 01 01 00 1E 01 07 IF $noun1 = 30 GOTO L0701
+06c6        02 01 01 00 14 39 07 IF $noun1 = 20 GOTO L0739
+06cd        02 01 01 00 2A 6A 07 IF $noun1 = 42 GOTO L076a
+06d4        02 01 01 00 24 CF 07 IF $noun1 = 36 GOTO L07cf
+06db        02 01 01 00 32 D9 07 IF $noun1 = 50 GOTO L07d9
+06e2        02 01 01 00 21 BB 07 IF $noun1 = 33 GOTO L07bb
+06e9 L06e9: C0 0F 00 00 00 00    SYS15(0, 0)
+06ef        C4 9D 08             GOTO L089d
+06f2 L06f2: 80 67                PRINT msg103  ; "ABOVE YOUR HEAD APPEARS A GLOBE OF LIGHT."
+06f4        46 12 01 00 19       $g18 := 25
+06f9        4B 0A 01 00 08       $flags := $flags OR 8
+06fe        C4 9D 08             GOTO L089d
+0701 L0701: 46 0B 01 00 01       $dir := 1
+0706 L0706: 24 5F 06 00 80 25 07 IF ROOM[G6][dir] &=0 128 GOTO L0725
+070d        56 04 01 5F 06       $adverb := ROOM[G6][dir]
+0712        4A 04 01 00 7F       $adverb := $adverb AND 127
+0717        20 83 04 00 02 25 07 IF A4[G4].3 < 2 GOTO L0725
+071e        80 68                PRINT msg104  ; "THE $7 $9 OPENS."
+0720        66 83 04 00 01       A4[G4].3 := 1
+0725 L0725: 47 0B 01 00 01       $dir := $dir + 1
+072a        00 0B 01 00 05 06 07 IF $dir < 5 GOTO L0706
+0731        4B 0A 01 00 04       $flags := $flags OR 4
+0736        C4 9D 08             GOTO L089d
+0739 L0739: 46 0B 01 00 01       $dir := 1
+073e L073e: 24 5F 06 00 80 5B 07 IF ROOM[G6][dir] &=0 128 GOTO L075b
+0745        56 04 01 5F 06       $adverb := ROOM[G6][dir]
+074a        4A 04 01 00 7F       $adverb := $adverb AND 127
+074f        24 82 04 00 20 5B 07 IF A4[G4].2 &=0 32 GOTO L075b
+0756        6A 82 04 00 DE       A4[G4].2 := A4[G4].2 AND 222
+075b L075b: 47 0B 01 00 01       $dir := $dir + 1
+0760        00 0B 01 00 05 3E 07 IF $dir < 5 GOTO L073e
+0767        C4 9D 08             GOTO L089d
+076a L076a: 46 01 01 00 01       $noun1 := 1
+076f L076f: 22 20 01 00 C1 AC 07 IF A1[G1] = 193 GOTO L07ac
+0776        C0 0A 01 01 06 01    SYS10($noun1, $tmp6)
+077c        02 03 01 00 00 AC 07 IF $g3 = 0 GOTO L07ac
+0783        6B 22 01 00 01       A1[G1].2 := A1[G1].2 OR 1
+0788        24 20 01 00 80 AA 07 IF A1[G1] &=0 128 GOTO L07aa
+078f        24 20 01 00 40 9B 07 IF A1[G1] &=0 64 GOTO L079b
+0796        80 69                PRINT msg105  ; "THE $6 HAS GOT A $2."
+0798        C4 AC 07             GOTO L07ac
+079b L079b: 56 02 01 20 01       $noun2 := A1[G1]
+07a0        4A 02 01 00 7F       $noun2 := $noun2 AND 127
+07a5        80 6A                PRINT msg106  ; "IN THE $3 IS A $2."
+07a7        C4 AC 07             GOTO L07ac
+07aa L07aa: 80 6B                PRINT msg107  ; "YOU SEE A $2."
+07ac L07ac: 47 01 01 00 01       $noun1 := $noun1 + 1
+07b1        01 01 01 00 32 6F 07 IF $noun1 <= 50 GOTO L076f
+07b8        C4 9D 08             GOTO L089d
+07bb L07bb: 02 05 01 00 00 9D 08 IF $tmp5 = 0 GOTO L089d
+07c2        6A 63 05 00 FE       OBJ[G5].3 := OBJ[G5].3 AND 254
+07c7        6B 63 05 00 02       OBJ[G5].3 := OBJ[G5].3 OR 2
+07cc        C4 9D 08             GOTO L089d
+07cf L07cf: 80 6C                PRINT msg108  ; "YOU BECOME INVISIBLE."
+07d1        46 07 01 00 19       $g7 := 25
+07d6        C4 9D 08             GOTO L089d
+07d9 L07d9: 02 05 01 00 00 9D 08 IF $tmp5 = 0 GOTO L089d
+07e0        32 60 05 65 05 9D 08 IF OBJ[G5] = OBJ[G5].5 GOTO L089d
+07e7        C0 12 05 01 00 00    SYS18($tmp5, 0)
+07ed        C4 9D 08             GOTO L089d
+07f0 L07f0: 33 21 01 23 01 FC 07 IF A1[G1].1 <> A1[G1].3 GOTO L07fc
+07f7        80 6E                PRINT msg110  ; "THE $2 HAS BECOME USELESS."
+07f9        C4 9D 08             GOTO L089d
+07fc L07fc: 02 01 01 00 11 1F 08 IF $noun1 = 17 GOTO L081f
+0803        02 01 01 00 20 71 08 IF $noun1 = 32 GOTO L0871
+080a        02 01 01 00 1F 76 08 IF $noun1 = 31 GOTO L0876
+0811        02 01 01 00 17 87 08 IF $noun1 = 23 GOTO L0887
+0818        02 01 01 00 19 91 08 IF $noun1 = 25 GOTO L0891
+081f L081f: 02 20 10 00 91 2B 08 IF A1[16] = 145 GOTO L082b
+0826        80 6F                PRINT msg111  ; "THE CANNON IS NOT LOADED."
+0828        C4 9D 08             GOTO L089d
+082b L082b: 80 70                PRINT msg112  ; "YOU FIRE THE CANNON. THERE IS A LOUD BANG."
+082d        02 20 12 00 91 57 08 IF A1[18] = 145 GOTO L0857
+0834        C0 0E 00 91 00 11    SYS14(145, 17)
+083a        C0 05 00 02 00 00    HOST RANDOM(2)
+0840        02 03 01 00 01 52 08 IF $g3 = 1 GOTO L0852
+0847        80 71                PRINT msg113  ; "IT EXPLODES AND PIECES HIT YOU."
+0849        C0 10 00 00 00 00    SYS16(0, 0)
+084f        C4 9D 08             GOTO L089d
+0852 L0852: 80 72                PRINT msg114  ; "YOU SEE NO EFFECT."
+0854        C4 9D 08             GOTO L089d
+0857 L0857: C0 0E 00 91 00 11    SYS14(145, 17)
+085d        46 0B 01 00 03       $dir := 3
+0862        80 73                PRINT msg115  ; "THE BALL STRIKES A HOLE IN THE WALL $9."
+0864        4A 82 13 00 FE       A4[19].2 := A4[19].2 AND 254
+0869        46 20 12 00 AE       A1[18] := 174
+086e        C4 9D 08             GOTO L089d
+0871 L0871: 80 74                PRINT msg116  ; "YOU LOOK THROUGH THE TELESCOPE. EVERYTHING LOOKS VERY LARGE."
+0873        C4 9D 08             GOTO L089d
+0876 L0876: 80 75                PRINT msg117  ; "YOU TURN THE WHEEL."
+0878        4B 63 04 00 04       OBJ[4].3 := OBJ[4].3 OR 4
+087d        80 76                PRINT msg118  ; "YOU HEAR A NOISE."
+087f        49 83 11 00 03       A4[17].3 := A4[17].3 rsub 3
+0884        C4 9D 08             GOTO L089d
+0887 L0887: 46 0B 01 09 01       $dir := $facing
+088c        80 77                PRINT msg119  ; "YOU READ THE COMPASS. YOU ARE FACING $10."
+088e        C4 9D 08             GOTO L089d
+0891 L0891: 80 78                PRINT msg120  ; "YOU PULL THE BELL-ROPE."
+0893        80 39                PRINT msg57  ; "BELLS START CHIMING."
+0895        4B 63 05 00 04       OBJ[5].3 := OBJ[5].3 OR 4
+089a        C4 9D 08             GOTO L089d
+089d L089d: 03 0E 01 00 08 DD 09 IF $verb <> 8 GOTO L09dd
+08a4        C0 05 00 14 00 00    HOST RANDOM(20)
+08aa        56 16 01 46 06       $g22 := ROOM[G6].6
+08af        02 16 01 00 00 BB 08 IF $g22 = 0 GOTO L08bb
+08b6        6B 63 16 00 04       OBJ[G22].3 := OBJ[G22].3 OR 4
+08bb L08bb: 00 00 00 01 01 2C 09 IF 0 < $noun1 GOTO L092c
+08c2        00 00 00 04 01 E9 08 IF 0 < $adverb GOTO L08e9
+08c9        80 7A                PRINT msg122  ; "YOU STRIKE THE WALL $9."
+08cb        23 5F 06 00 82 DD 09 IF ROOM[G6][dir] <> 130 GOTO L09dd
+08d2        C0 05 00 02 00 00    HOST RANDOM(2)
+08d8        02 03 01 00 02 DD 09 IF $g3 = 2 GOTO L09dd
+08df        80 7B                PRINT msg123  ; "YOU WIDEN THE HOLE IN THE WALL."
+08e1        4A 82 02 00 FE       A4[2].2 := A4[2].2 AND 254
+08e6        C4 DD 09             GOTO L09dd
+08e9 L08e9: 02 20 13 00 C1 FF 08 IF A1[19] = 193 GOTO L08ff
+08f0 L08f0: 80 7C                PRINT msg124  ; "YOU STRIKE THE $7 $9."
+08f2        48 61 01 00 05       OBJ[1].1 := OBJ[1].1 - 5
+08f7        46 18 01 00 01       $g24 := 1
+08fc        C4 0D 09             GOTO L090d
+08ff L08ff: 02 21 13 23 13 F0 08 IF A1[19].1 = A1[19].3 GOTO L08f0
+0906        80 7D                PRINT msg125  ; "YOU STRIKE THE $7 $9 WITH YOUR STAFF."
+0908        46 18 01 00 0A       $g24 := 10
+090d L090d: 24 82 04 00 10 DD 09 IF A4[G4].2 &=0 16 GOTO L09dd
+0914        20 83 04 00 02 DD 09 IF A4[G4].3 < 2 GOTO L09dd
+091b        00 18 01 03 01 DD 09 IF $g24 < $g3 GOTO L09dd
+0922        80 7E                PRINT msg126  ; "IT IS OPEN."
+0924        66 83 04 00 01       A4[G4].3 := 1
+0929        C4 DD 09             GOTO L09dd
+092c L092c: 02 01 01 00 13 3A 09 IF $noun1 = 19 GOTO L093a
+0933        02 20 13 00 C1 49 09 IF A1[19] = 193 GOTO L0949
+093a L093a: 80 7F                PRINT msg127  ; "YOU STRIKE THE $2."
+093c        48 61 01 00 05       OBJ[1].1 := OBJ[1].1 - 5
+0941        46 18 01 00 0A       $g24 := 10
+0946        C4 57 09             GOTO L0957
+0949 L0949: 02 21 13 23 13 3A 09 IF A1[19].1 = A1[19].3 GOTO L093a
+0950        80 80                PRINT msg128  ; "YOU STRIKE THE $2 WITH YOUR STAFF."
+0952        46 18 01 00 12       $g24 := 18
+0957 L0957: 02 01 01 00 03 BA 09 IF $noun1 = 3 GOTO L09ba
+095e        24 25 01 00 01 DD 09 IF A1[G1].5 &=0 1 GOTO L09dd
+0965        32 21 01 23 01 DD 09 IF A1[G1].1 = A1[G1].3 GOTO L09dd
+096c        00 18 01 03 01 DD 09 IF $g24 < $g3 GOTO L09dd
+0973        80 81                PRINT msg129  ; "THE $2 BREAKS."
+0975        76 21 01 23 01       A1[G1].1 := A1[G1].3
+097a        02 01 01 00 0A 92 09 IF $noun1 = 10 GOTO L0992
+0981        02 01 01 00 22 9F 09 IF $noun1 = 34 GOTO L099f
+0988        02 01 01 00 25 AF 09 IF $noun1 = 37 GOTO L09af
+098f        C4 DD 09             GOTO L09dd
+0992 L0992: 6B 22 01 00 02       A1[G1].2 := A1[G1].2 OR 2
+0997        6B 25 01 00 10       A1[G1].5 := A1[G1].5 OR 16
+099c        C4 DD 09             GOTO L09dd
+099f L099f: 80 82                PRINT msg130  ; "ITS CONTENTS ARE LOST."
+09a1        C0 0E 00 A2 00 22    SYS14(162, 34)
+09a7        6A 22 01 00 FD       A1[G1].2 := A1[G1].2 AND 253
+09ac        C4 DD 09             GOTO L09dd
+09af L09af: 80 71                PRINT msg113  ; "IT EXPLODES AND PIECES HIT YOU."
+09b1        C0 10 00 00 00 00    SYS16(0, 0)
+09b7        C4 DD 09             GOTO L09dd
+09ba L09ba: 02 11 01 00 00 DD 09 IF $g17 = 0 GOTO L09dd
+09c1        80 84                PRINT msg132  ; "IT GOES OUT."
+09c3        46 11 01 00 00       $g17 := 0
+09c8        02 12 01 00 00 DD 09 IF $g18 = 0 GOTO L09dd
+09cf        24 45 06 00 10 DD 09 IF ROOM[G6].5 &=0 16 GOTO L09dd
+09d6        80 09                PRINT msg9  ; "IT IS DARK."
+09d8        4A 0A 01 00 F7       $flags := $flags AND 247
+09dd L09dd: 03 0E 01 00 10 BE 0A IF $verb <> 16 GOTO L0abe
+09e4        33 60 05 65 05 F0 09 IF OBJ[G5] <> OBJ[G5].5 GOTO L09f0
+09eb        80 85                PRINT msg133  ; "IT IS USELESS TO ATTACK THE $6."
+09ed        C4 BE 0A             GOTO L0abe
+09f0 L09f0: 6A 63 05 00 FD       OBJ[G5].3 := OBJ[G5].3 AND 253
+09f5        6B 63 05 00 01       OBJ[G5].3 := OBJ[G5].3 OR 1
+09fa        C0 05 00 14 00 00    HOST RANDOM(20)
+0a00        02 20 0E 00 C1 28 0A IF A1[14] = 193 GOTO L0a28
+0a07        80 86                PRINT msg134  ; "YOU ATTACK."
+0a09        02 05 01 00 07 65 0A IF $tmp5 = 7 GOTO L0a65
+0a10        02 07 01 00 00 1E 0A IF $g7 = 0 GOTO L0a1e
+0a17        03 05 01 00 08 6A 0A IF $tmp5 <> 8 GOTO L0a6a
+0a1e L0a1e: 00 03 01 00 0B 65 0A IF $g3 < 11 GOTO L0a65
+0a25        C4 6A 0A             GOTO L0a6a
+0a28 L0a28: 80 87                PRINT msg135  ; "YOU ATTACK WITH YOUR KNIFE."
+0a2a        02 05 01 00 07 65 0A IF $tmp5 = 7 GOTO L0a65
+0a31        02 07 01 00 00 3F 0A IF $g7 = 0 GOTO L0a3f
+0a38        03 05 01 00 08 9C 0A IF $tmp5 <> 8 GOTO L0a9c
+0a3f L0a3f: 00 03 01 00 03 65 0A IF $g3 < 3 GOTO L0a65
+0a46        00 03 01 00 07 74 0A IF $g3 < 7 GOTO L0a74
+0a4d        00 03 01 00 0B 7E 0A IF $g3 < 11 GOTO L0a7e
+0a54        00 03 01 00 0F 88 0A IF $g3 < 15 GOTO L0a88
+0a5b        00 03 01 00 13 92 0A IF $g3 < 19 GOTO L0a92
+0a62        C4 9C 0A             GOTO L0a9c
+0a65 L0a65: 80 88                PRINT msg136  ; "THE $6 WARDS OFF YOUR ATTACK."
+0a67        C4 BE 0A             GOTO L0abe
+0a6a L0a6a: 80 89                PRINT msg137  ; "YOU STRIKE THE $6 A HEAVY BLOW."
+0a6c        68 61 05 00 0A       OBJ[G5].1 := OBJ[G5].1 - 10
+0a71        C4 A3 0A             GOTO L0aa3
+0a74 L0a74: 80 8A                PRINT msg138  ; "YOU SCRATCH THE $6 LIGHTLY."
+0a76        68 61 05 00 05       OBJ[G5].1 := OBJ[G5].1 - 5
+0a7b        C4 A3 0A             GOTO L0aa3
+0a7e L0a7e: 80 8B                PRINT msg139  ; "YOU GIVE THE $6 A NASTY CUT."
+0a80        68 61 05 00 0A       OBJ[G5].1 := OBJ[G5].1 - 10
+0a85        C4 A3 0A             GOTO L0aa3
+0a88 L0a88: 80 8C                PRINT msg140  ; "YOU STAB THE $6."
+0a8a        68 61 05 00 19       OBJ[G5].1 := OBJ[G5].1 - 25
+0a8f        C4 A3 0A             GOTO L0aa3
+0a92 L0a92: 80 8D                PRINT msg141  ; "YOU SLICE DEEPLY INTO THE BODY OF THE $6."
+0a94        68 61 05 00 28       OBJ[G5].1 := OBJ[G5].1 - 40
+0a99        C4 A3 0A             GOTO L0aa3
+0a9c L0a9c: 80 8E                PRINT msg142  ; "YOU DELIVER A DEADLY GASH TO THE $6."
+0a9e        66 61 05 00 00       OBJ[G5].1 := 0
+0aa3 L0aa3: 23 61 05 00 00 BE 0A IF OBJ[G5].1 <> 0 GOTO L0abe
+0aaa        C0 12 05 01 00 00    SYS18($tmp5, 0)
+0ab0        C4 BE 0A             GOTO L0abe
+0ab3        --- 11 bytes of data ---
+            7F 80 19 22 83 04 00 00 C4 00 00
+0abe L0abe: 03 0E 01 00 09 7E 0B IF $verb <> 9 GOTO L0b7e
+0ac5        00 00 00 01 01 35 0B IF 0 < $noun1 GOTO L0b35
+0acc        00 00 00 04 01 E6 0A IF 0 < $adverb GOTO L0ae6
+0ad3        80 16                PRINT msg22  ; "YOU EXAMINE THE WALL $9."
+0ad5        23 5F 06 00 82 E1 0A IF ROOM[G6][dir] <> 130 GOTO L0ae1
+0adc        80 D0                PRINT msg208  ; "THERE IS A HOLE IN THE WALL."
+0ade        C4 7E 0B             GOTO L0b7e
+0ae1 L0ae1: 80 D1                PRINT msg209  ; "YOU SEE NOTHING SPECIAL."
+0ae3        C4 7E 0B             GOTO L0b7e
+0ae6 L0ae6: 80 19                PRINT msg25  ; "YOU EXAMINE THE $7 $9."
+0ae8        22 83 04 00 00 10 0B IF A4[G4].3 = 0 GOTO L0b10
+0aef        22 83 04 00 01 15 0B IF A4[G4].3 = 1 GOTO L0b15
+0af6        22 83 04 00 02 1A 0B IF A4[G4].3 = 2 GOTO L0b1a
+0afd        22 83 04 00 03 2B 0B IF A4[G4].3 = 3 GOTO L0b2b
+0b04        22 83 04 00 04 30 0B IF A4[G4].3 = 4 GOTO L0b30
+0b0b        80 1A                PRINT msg26  ; "IT IS LATCHED AND BOLTED ON THE OTHER SIDE."
+0b0d        C4 7E 0B             GOTO L0b7e
+0b10 L0b10: 80 D1                PRINT msg209  ; "YOU SEE NOTHING SPECIAL."
+0b12        C4 7E 0B             GOTO L0b7e
+0b15 L0b15: 80 1B                PRINT msg27  ; "IT IS OPEN."
+0b17        C4 7E 0B             GOTO L0b7e
+0b1a L0b1a: 25 82 04 00 04 26 0B IF A4[G4].2 &<>0 4 GOTO L0b26
+0b21        80 1C                PRINT msg28  ; "IT IS CLOSED."
+0b23        C4 7E 0B             GOTO L0b7e
+0b26 L0b26: 80 1D                PRINT msg29  ; "IT IS CLOSED BUT NOT LOCKED."
+0b28        C4 7E 0B             GOTO L0b7e
+0b2b L0b2b: 80 1E                PRINT msg30  ; "IT IS LOCKED."
+0b2d        C4 7E 0B             GOTO L0b7e
+0b30 L0b30: 80 1F                PRINT msg31  ; "IT IS NAILED SHUT."
+0b32        C4 7E 0B             GOTO L0b7e
+0b35 L0b35: 80 20                PRINT msg32  ; "YOU EXAMINE THE $2."
+0b37        24 22 01 00 20 6C 0B IF A1[G1].2 &=0 32 GOTO L0b6c
+0b3e        03 20 04 00 C1 6C 0B IF A1[4] <> 193 GOTO L0b6c
+0b45        03 20 05 00 C1 6C 0B IF A1[5] <> 193 GOTO L0b6c
+0b4c        03 20 06 00 C1 6C 0B IF A1[6] <> 193 GOTO L0b6c
+0b53        42 20 04 00 00       A1[4] := A1[4] = 0
+0b58        42 20 05 00 00       A1[5] := A1[5] = 0
+0b5d        42 20 06 00 00       A1[6] := A1[6] = 0
+0b62        80 21                PRINT msg33  ; "TOGETHER WITH THE OTHER PIECES IT FORMS THE GLOW-SPELL."
+0b64        46 20 2A 00 C1       A1[42] := 193
+0b69        C4 7E 0B             GOTO L0b7e
+0b6c L0b6c: 46 03 01 01 01       $g3 := $noun1
+0b71        4B 03 01 00 80       $g3 := $g3 OR 128
+0b76        80 CF                PRINT msg207  ; "YOU SEE"
+0b78        C0 0C 03 01 00 00    SYS12($g3, 0)
+0b7e L0b7e: 03 0E 01 00 0F 87 0B IF $verb <> 15 GOTO L0b87
+0b85        80 22                PRINT msg34  ; "YOU WAIT."
+0b87 L0b87: 03 0E 01 00 11 90 0B IF $verb <> 17 GOTO L0b90
+0b8e        80 23                PRINT msg35  ; "THE PLACE IS $15 WIDE AND $16 DEEP."
+0b90 L0b90: 03 0E 01 00 13 A2 0B IF $verb <> 19 GOTO L0ba2
+0b97        80 CE                PRINT msg206  ; "YOU HAVE"
+0b99        C0 0C 00 C1 00 00    SYS12(193, 0)
+0b9f        C4 14 00             GOTO L0014
+0ba2 L0ba2: 03 0E 01 00 14 B4 0B IF $verb <> 20 GOTO L0bb4
+0ba9        C0 11 00 00 00 00    SYS17(0, 0)
+0baf        80 92                PRINT msg146  ; "YOUR SCORE IS: $14"
+0bb1        C4 14 00             GOTO L0014
+0bb4 L0bb4: 03 0E 01 00 15 C4 0B IF $verb <> 21 GOTO L0bc4
+0bbb        C0 06 00 00 00 00    HOST SAVE
+0bc1        C4 14 00             GOTO L0014
+0bc4 L0bc4: 03 0E 01 00 16 D4 0B IF $verb <> 22 GOTO L0bd4
+0bcb        C0 07 00 00 00 00    HOST LOAD
+0bd1        C4 14 00             GOTO L0014
+0bd4 L0bd4: C4 EA 0B             GOTO L0bea
+0bd7        --- 19 bytes of data ---
+            80 09 4A 0A 01 00 F7 02 12 01 00 00 16 80 48 12 C4 00 00
+0bea L0bea: 00 00 00 13 01 F9 0B IF 0 < $g19 GOTO L0bf9
+0bf1        80 93                PRINT msg147  ; "YOU ARE TOTALLY EXHAUSTED."
+0bf3        C0 10 00 00 00 00    SYS16(0, 0)
+0bf9 L0bf9: 02 11 01 00 00 54 0C IF $g17 = 0 GOTO L0c54
+0c00        48 11 01 00 01       $g17 := $g17 - 1
+0c05        02 11 01 00 00 2B 0C IF $g17 = 0 GOTO L0c2b
+0c0c        C0 0A 00 03 06 01    SYS10(3, $tmp6)
+0c12        02 03 01 00 00 54 0C IF $g3 = 0 GOTO L0c54
+0c19        C0 05 11 01 00 00    HOST RANDOM($g17)
+0c1f        00 03 01 11 01 54 0C IF $g3 < $g17 GOTO L0c54
+0c26        80 94                PRINT msg148  ; "THE TORCH WAVERS."
+0c28        C4 54 0C             GOTO L0c54
+0c2b L0c2b: 46 21 03 23 03       A1[3].1 := A1[3].3
+0c30        C0 0A 00 03 06 01    SYS10(3, $tmp6)
+0c36        02 03 01 00 00 54 0C IF $g3 = 0 GOTO L0c54
+0c3d        80 95                PRINT msg149  ; "THE TORCH GOES OUT."
+0c3f        00 00 00 12 01 54 0C IF 0 < $g18 GOTO L0c54
+0c46        24 45 06 00 10 54 0C IF ROOM[G6].5 &=0 16 GOTO L0c54
+0c4d        80 09                PRINT msg9  ; "IT IS DARK."
+0c4f        4A 0A 01 00 F7       $flags := $flags AND 247
+0c54 L0c54: 02 12 01 00 00 8B 0C IF $g18 = 0 GOTO L0c8b
+0c5b        48 12 01 00 01       $g18 := $g18 - 1
+0c60        00 00 00 12 01 8B 0C IF 0 < $g18 GOTO L0c8b
+0c67        80 96                PRINT msg150  ; "THE MAGIC GLOBE OF LIGHT GOES OUT."
+0c69        C0 0A 00 03 06 01    SYS10(3, $tmp6)
+0c6f        02 03 01 00 00 7D 0C IF $g3 = 0 GOTO L0c7d
+0c76        00 00 00 11 01 8B 0C IF 0 < $g17 GOTO L0c8b
+0c7d L0c7d: 24 45 06 00 10 8B 0C IF ROOM[G6].5 &=0 16 GOTO L0c8b
+0c84        80 09                PRINT msg9  ; "IT IS DARK."
+0c86        4A 0A 01 00 F7       $flags := $flags AND 247
+0c8b L0c8b: 02 07 01 00 00 A0 0C IF $g7 = 0 GOTO L0ca0
+0c92        48 07 01 00 01       $g7 := $g7 - 1
+0c97        00 00 00 07 01 A0 0C IF 0 < $g7 GOTO L0ca0
+0c9e        80 97                PRINT msg151  ; "SUDDENLY YOU BECOME VISIBLE AGAIN."
+0ca0 L0ca0: 46 04 01 00 0C       $adverb := 12
+0ca5 L0ca5: 24 82 04 00 20 B4 0D IF A4[G4].2 &=0 32 GOTO L0db4
+0cac        46 0B 01 00 01       $dir := 1
+0cb1 L0cb1: 24 5F 06 00 80 C9 0C IF ROOM[G6][dir] &=0 128 GOTO L0cc9
+0cb8        56 03 01 5F 06       $g3 := ROOM[G6][dir]
+0cbd        4A 03 01 00 7F       $g3 := $g3 AND 127
+0cc2        02 03 01 04 01 DD 0C IF $g3 = $adverb GOTO L0cdd
+0cc9 L0cc9: 47 0B 01 00 01       $dir := $dir + 1
+0cce        01 0B 01 00 04 B1 0C IF $dir <= 4 GOTO L0cb1
+0cd5        66 83 04 00 02       A4[G4].3 := 2
+0cda        C4 B4 0D             GOTO L0db4
+0cdd L0cdd: 02 04 01 00 12 18 0D IF $adverb = 18 GOTO L0d18
+0ce4        02 04 01 00 16 22 0D IF $adverb = 22 GOTO L0d22
+0ceb        02 04 01 00 1A 2C 0D IF $adverb = 26 GOTO L0d2c
+0cf2        02 04 01 00 1B 43 0D IF $adverb = 27 GOTO L0d43
+0cf9        02 04 01 00 23 4D 0D IF $adverb = 35 GOTO L0d4d
+0d00        02 04 01 00 24 70 0D IF $adverb = 36 GOTO L0d70
+0d07        03 06 01 00 27 86 0D IF $tmp6 <> 39 GOTO L0d86
+0d0e        02 83 0D 00 01 86 0D IF A4[13].3 = 1 GOTO L0d86
+0d15        C4 A6 0D             GOTO L0da6
+0d18 L0d18: 03 06 01 00 34 86 0D IF $tmp6 <> 52 GOTO L0d86
+0d1f        C4 7F 0D             GOTO L0d7f
+0d22 L0d22: 03 06 01 00 3A 86 0D IF $tmp6 <> 58 GOTO L0d86
+0d29        C4 7F 0D             GOTO L0d7f
+0d2c L0d2c: 02 06 01 00 62 7F 0D IF $tmp6 = 98 GOTO L0d7f
+0d33        C0 0A 00 1D 00 C1    SYS10(29, 193)
+0d39        02 03 01 00 00 86 0D IF $g3 = 0 GOTO L0d86
+0d40        C4 A6 0D             GOTO L0da6
+0d43 L0d43: 03 06 01 00 62 86 0D IF $tmp6 <> 98 GOTO L0d86
+0d4a        C4 7F 0D             GOTO L0d7f
+0d4d L0d4d: 02 06 01 00 59 7F 0D IF $tmp6 = 89 GOTO L0d7f
+0d54        C0 0A 00 0B 00 C1    SYS10(11, 193)
+0d5a        03 03 01 00 00 A6 0D IF $g3 <> 0 GOTO L0da6
+0d61        00 64 01 00 64 86 0D IF OBJ[1].4 < 100 GOTO L0d86
+0d68        48 64 01 00 05       OBJ[1].4 := OBJ[1].4 - 5
+0d6d        C4 A6 0D             GOTO L0da6
+0d70 L0d70: 00 14 01 00 04 86 0D IF $g20 < 4 GOTO L0d86
+0d77        46 14 01 00 00       $g20 := 0
+0d7c        C4 A6 0D             GOTO L0da6
+0d7f L0d7f: 02 09 01 0B 01 A6 0D IF $facing = $dir GOTO L0da6
+0d86 L0d86: 22 83 04 00 02 B4 0D IF A4[G4].3 = 2 GOTO L0db4
+0d8d        04 0A 01 00 04 9C 0D IF $flags &=0 4 GOTO L0d9c
+0d94        4A 0A 01 00 FB       $flags := $flags AND 251
+0d99        C4 B4 0D             GOTO L0db4
+0d9c L0d9c: 80 98                PRINT msg152  ; "THE $7 $9 CLOSES."
+0d9e        66 83 04 00 02       A4[G4].3 := 2
+0da3        C4 B4 0D             GOTO L0db4
+0da6 L0da6: 22 83 04 00 01 B4 0D IF A4[G4].3 = 1 GOTO L0db4
+0dad        80 68                PRINT msg104  ; "THE $7 $9 OPENS."
+0daf        66 83 04 00 01       A4[G4].3 := 1
+0db4 L0db4: 47 04 01 00 01       $adverb := $adverb + 1
+0db9        01 04 01 00 24 A5 0C IF $adverb <= 36 GOTO L0ca5
+0dc0        02 06 01 00 23 09 0E IF $tmp6 = 35 GOTO L0e09
+0dc7        02 06 01 00 4B 09 0E IF $tmp6 = 75 GOTO L0e09
+0dce        02 06 01 00 4C 09 0E IF $tmp6 = 76 GOTO L0e09
+0dd5        02 06 01 00 36 1E 0E IF $tmp6 = 54 GOTO L0e1e
+0ddc        02 06 01 00 1F 4A 0E IF $tmp6 = 31 GOTO L0e4a
+0de3        02 06 01 00 1D 4A 0E IF $tmp6 = 29 GOTO L0e4a
+0dea        02 06 01 00 74 52 0E IF $tmp6 = 116 GOTO L0e52
+0df1        02 06 01 00 75 5D 0E IF $tmp6 = 117 GOTO L0e5d
+0df8        02 06 01 00 43 66 0E IF $tmp6 = 67 GOTO L0e66
+0dff        02 06 01 00 69 AD 0E IF $tmp6 = 105 GOTO L0ead
+0e06        C4 D8 0E             GOTO L0ed8
+0e09 L0e09: C0 05 00 0A 00 00    HOST RANDOM(10)
+0e0f        02 03 01 00 0A D8 0E IF $g3 = 10 GOTO L0ed8
+0e16        80 99                PRINT msg153  ; "WITH A LOUD CRASH THE CEILING COLLAPSES ON YOU."
+0e18        C0 10 00 00 00 00    SYS16(0, 0)
+0e1e L0e1e: C0 0A 00 0B 00 C1    SYS10(11, 193)
+0e24        03 03 01 00 00 D8 0E IF $g3 <> 0 GOTO L0ed8
+0e2b        00 00 64 64 01 42 0E IF 100 < OBJ[1].4 GOTO L0e42
+0e32        48 61 01 00 14       OBJ[1].1 := OBJ[1].1 - 20
+0e37        80 9A                PRINT msg154  ; "YOU FALL THROUGH THE FLOOR. YOU LAND IN THE ROOM BELOW."
+0e39        C0 0B 00 0D 00 00    SYS11(13, 0)
+0e3f        C4 D8 0E             GOTO L0ed8
+0e42 L0e42: 48 64 01 00 0A       OBJ[1].4 := OBJ[1].4 - 10
+0e47        C4 D8 0E             GOTO L0ed8
+0e4a L0e4a: 4B 63 02 00 04       OBJ[2].3 := OBJ[2].3 OR 4
+0e4f        C4 D8 0E             GOTO L0ed8
+0e52 L0e52: 80 9B                PRINT msg155  ; "YOU FALL FROM A TERRIBLE HEIGHT."
+0e54        C0 10 00 00 00 00    SYS16(0, 0)
+0e5a        C4 D8 0E             GOTO L0ed8
+0e5d L0e5d: C0 0F 00 00 00 00    SYS15(0, 0)
+0e63        C4 D8 0E             GOTO L0ed8
+0e66 L0e66: 46 15 01 00 00       $g21 := 0
+0e6b        46 02 01 00 01       $noun2 := 1
+0e70 L0e70: 24 25 02 00 04 95 0E IF A1[G2].5 &=0 4 GOTO L0e95
+0e77        C0 0A 02 01 62 01    SYS10($noun2, OBJ[1].2)
+0e7d        02 03 01 00 00 95 0E IF $g3 = 0 GOTO L0e95
+0e84        32 21 02 23 02 95 0E IF A1[G2].1 = A1[G2].3 GOTO L0e95
+0e8b        76 21 02 23 02       A1[G2].1 := A1[G2].3
+0e90        46 15 01 00 01       $g21 := 1
+0e95 L0e95: 47 02 01 00 01       $noun2 := $noun2 + 1
+0e9a        01 02 01 00 32 70 0E IF $noun2 <= 50 GOTO L0e70
+0ea1        02 15 01 00 00 D8 0E IF $g21 = 0 GOTO L0ed8
+0ea8        80 9C                PRINT msg156  ; "IN THIS HOLY PLACE SPELLS LOSE THEIR POWER."
+0eaa        C4 D8 0E             GOTO L0ed8
+0ead L0ead: 47 14 01 00 01       $g20 := $g20 + 1
+0eb2        02 09 01 14 01 D8 0E IF $facing = $g20 GOTO L0ed8
+0eb9        46 14 01 00 00       $g20 := 0
+0ebe        C4 D8 0E             GOTO L0ed8
+0ec1        --- 23 bytes of data ---
+            08 E0 86 02 05 01 00 09 73 88 C4 20 8A 03 62 02 62 01 F9 82 C4 00 00
+0ed8 L0ed8: 46 05 01 00 02       $tmp5 := 2
+0edd L0edd: 32 60 05 65 05 09 17 IF OBJ[G5] = OBJ[G5].5 GOTO L1709
+0ee4        24 63 05 00 04 F7 0E IF OBJ[G5].3 &=0 4 GOTO L0ef7
+0eeb        25 63 05 00 02 F7 0E IF OBJ[G5].3 &<>0 2 GOTO L0ef7
+0ef2        6B 63 05 00 01       OBJ[G5].3 := OBJ[G5].3 OR 1
+0ef7 L0ef7: 02 05 01 00 02 32 0F IF $tmp5 = 2 GOTO L0f32
+0efe        02 05 01 00 03 5E 10 IF $tmp5 = 3 GOTO L105e
+0f05        02 05 01 00 04 F4 10 IF $tmp5 = 4 GOTO L10f4
+0f0c        02 05 01 00 05 1D 12 IF $tmp5 = 5 GOTO L121d
+0f13        02 05 01 00 06 32 13 IF $tmp5 = 6 GOTO L1332
+0f1a        02 05 01 00 07 72 16 IF $tmp5 = 7 GOTO L1672
+0f21        02 05 01 00 08 A9 13 IF $tmp5 = 8 GOTO L13a9
+0f28        02 05 01 00 09 49 15 IF $tmp5 = 9 GOTO L1549
+0f2f        C4 1A 17             GOTO L171a
+0f32 L0f32: 03 62 02 62 01 70 0F IF OBJ[2].2 <> OBJ[1].2 GOTO L0f70
+0f39        00 00 00 07 01 70 0F IF 0 < $g7 GOTO L0f70
+0f40        05 63 02 00 08 81 0F IF OBJ[2].3 &<>0 8 GOTO L0f81
+0f47        05 63 02 00 02 86 0F IF OBJ[2].3 &<>0 2 GOTO L0f86
+0f4e        03 20 2B 00 C1 62 0F IF A1[43] <> 193 GOTO L0f62
+0f55        C0 05 00 02 00 00    HOST RANDOM(2)
+0f5b        02 03 01 00 02 A1 0F IF $g3 = 2 GOTO L0fa1
+0f62 L0f62: 02 20 16 00 C1 B7 0F IF A1[22] = 193 GOTO L0fb7
+0f69        05 63 02 00 01 8D 0F IF OBJ[2].3 &<>0 1 GOTO L0f8d
+0f70 L0f70: 02 62 02 00 1F D0 0F IF OBJ[2].2 = 31 GOTO L0fd0
+0f77        02 62 02 00 16 03 10 IF OBJ[2].2 = 22 GOTO L1003
+0f7e        C4 72 16             GOTO L1672
+0f81 L0f81: 80 A1                PRINT msg161  ; "THE $6 SAYS: 'I DO NOT ACCEPT PRESENTS.'"
+0f83        C4 09 17             GOTO L1709
+0f86 L0f86: 80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+0f88        80 A9                PRINT msg169  ; "HE SAYS: 'I WILL NOT WATCH YOU.'"
+0f8a        C4 72 16             GOTO L1672
+0f8d L0f8d: 80 9D                PRINT msg157  ; "THE $6 IS ANGRY."
+0f8f        80 AA                PRINT msg170  ; "HE SAYS: 'YOU HAVE BROKEN THE REGULATIONS.'"
+0f91        80 AB                PRINT msg171  ; "HE LOCKS YOU UP."
+0f93        C0 0B 00 03 00 00    SYS11(3, 0)
+0f99        4A 63 02 00 FE       OBJ[2].3 := OBJ[2].3 AND 254
+0f9e        C4 09 17             GOTO L1709
+0fa1 L0fa1: 46 02 01 00 2B       $noun2 := 43
+0fa6        80 9D                PRINT msg157  ; "THE $6 IS ANGRY."
+0fa8        57 61 01 24 02       OBJ[1].1 := OBJ[1].1 + A1[G2].4
+0fad        66 20 02 00 C2       A1[G2] := 194
+0fb2        80 A2                PRINT msg162  ; "THE $6 TAKES THE $3 FROM YOU."
+0fb4        C4 09 17             GOTO L1709
+0fb7 L0fb7: 46 02 01 00 16       $noun2 := 22
+0fbc        80 A2                PRINT msg162  ; "THE $6 TAKES THE $3 FROM YOU."
+0fbe        57 61 01 24 02       OBJ[1].1 := OBJ[1].1 + A1[G2].4
+0fc3        66 20 02 62 02       A1[G2] := OBJ[2].2
+0fc8        4B 63 02 00 01       OBJ[2].3 := OBJ[2].3 OR 1
+0fcd        C4 09 17             GOTO L1709
+0fd0 L0fd0: 46 04 01 00 06       $adverb := 6
+0fd5        22 83 04 00 02 72 16 IF A4[G4].3 = 2 GOTO L1672
+0fdc        66 83 04 00 02       A4[G4].3 := 2
+0fe1        02 62 01 00 1A F9 0F IF OBJ[1].2 = 26 GOTO L0ff9
+0fe8        03 62 01 00 1F 09 17 IF OBJ[1].2 <> 31 GOTO L1709
+0fef        46 0B 01 00 04       $dir := 4
+0ff4        80 A3                PRINT msg163  ; "THE $6 CLOSES THE $7 $9."
+0ff6        C4 09 17             GOTO L1709
+0ff9 L0ff9: 46 0B 01 00 02       $dir := 2
+0ffe        80 98                PRINT msg152  ; "THE $7 $9 CLOSES."
+1000        C4 09 17             GOTO L1709
+1003 L1003: 46 04 01 00 04       $adverb := 4
+1008        22 83 04 00 03 72 16 IF A4[G4].3 = 3 GOTO L1672
+100f        22 83 04 00 02 41 10 IF A4[G4].3 = 2 GOTO L1041
+1016        66 83 04 00 02       A4[G4].3 := 2
+101b        03 62 01 00 14 29 10 IF OBJ[1].2 <> 20 GOTO L1029
+1022        46 0B 01 00 02       $dir := 2
+1027        80 98                PRINT msg152  ; "THE $7 $9 CLOSES."
+1029 L1029: 02 20 2B 00 C2 48 10 IF A1[43] = 194 GOTO L1048
+1030        03 62 01 00 16 09 17 IF OBJ[1].2 <> 22 GOTO L1709
+1037        46 0B 01 00 04       $dir := 4
+103c        80 A3                PRINT msg163  ; "THE $6 CLOSES THE $7 $9."
+103e        C4 09 17             GOTO L1709
+1041 L1041: 03 20 2B 00 C2 72 16 IF A1[43] <> 194 GOTO L1672
+1048 L1048: 66 83 04 00 03       A4[G4].3 := 3
+104d        03 62 01 00 16 09 17 IF OBJ[1].2 <> 22 GOTO L1709
+1054        46 0B 01 00 04       $dir := 4
+1059        80 AC                PRINT msg172  ; "THE CUSTODIAN LOCKS THE $7 $9."
+105b        C4 09 17             GOTO L1709
+105e L105e: 03 62 01 62 03 81 10 IF OBJ[1].2 <> OBJ[3].2 GOTO L1081
+1065        00 00 00 07 01 81 10 IF 0 < $g7 GOTO L1081
+106c        05 63 03 00 08 8B 10 IF OBJ[3].3 &<>0 8 GOTO L108b
+1073        05 63 03 00 01 A1 10 IF OBJ[3].3 &<>0 1 GOTO L10a1
+107a        05 63 03 00 02 B0 10 IF OBJ[3].3 &<>0 2 GOTO L10b0
+1081 L1081: 02 62 03 00 21 B5 10 IF OBJ[3].2 = 33 GOTO L10b5
+1088        C4 72 16             GOTO L1672
+108b L108b: 80 A0                PRINT msg160  ; "THE $6 ACCEPTS THE $2."
+108d        57 61 01 24 01       OBJ[1].1 := OBJ[1].1 + A1[G1].4
+1092        66 20 01 00 C3       A1[G1] := 195
+1097        4B 63 03 00 02       OBJ[3].3 := OBJ[3].3 OR 2
+109c        80 AD                PRINT msg173  ; "SHE SAYS: 'THANK YOU' AND SMILES."
+109e        C4 09 17             GOTO L1709
+10a1 L10a1: 80 AE                PRINT msg174  ; "THE GIRL SCREAMS."
+10a3        4B 63 02 00 04       OBJ[2].3 := OBJ[2].3 OR 4
+10a8        4A 63 03 00 FE       OBJ[3].3 := OBJ[3].3 AND 254
+10ad        C4 72 16             GOTO L1672
+10b0 L10b0: 80 AF                PRINT msg175  ; "THE GIRL SMILES AND SAYS: 'CAN I HELP YOU?'"
+10b2        C4 09 17             GOTO L1709
+10b5 L10b5: C0 0A 00 2C 00 C3    SYS10(44, 195)
+10bb        02 03 01 00 00 DB 10 IF $g3 = 0 GOTO L10db
+10c2        C0 05 00 06 00 00    HOST RANDOM(6)
+10c8        00 03 01 00 06 DB 10 IF $g3 < 6 GOTO L10db
+10cf        03 62 03 62 01 09 17 IF OBJ[3].2 <> OBJ[1].2 GOTO L1709
+10d6        80 A4                PRINT msg164  ; "THE $6 COUNTS THE MONEY."
+10d8        C4 09 17             GOTO L1709
+10db L10db: C0 05 00 02 00 00    HOST RANDOM(2)
+10e1        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+10e8        03 62 03 62 01 09 17 IF OBJ[3].2 <> OBJ[1].2 GOTO L1709
+10ef        80 B0                PRINT msg176  ; "THE GIRL LOOKS AT THE POSTCARDS."
+10f1        C4 09 17             GOTO L1709
+10f4 L10f4: 03 62 04 62 01 1A 11 IF OBJ[4].2 <> OBJ[1].2 GOTO L111a
+10fb        00 00 00 07 01 1A 11 IF 0 < $g7 GOTO L111a
+1102        05 63 04 00 02 82 11 IF OBJ[4].3 &<>0 2 GOTO L1182
+1109        05 63 04 00 08 2B 11 IF OBJ[4].3 &<>0 8 GOTO L112b
+1110        05 63 04 00 01 57 11 IF OBJ[4].3 &<>0 1 GOTO L1157
+1117        C4 89 11             GOTO L1189
+111a L111a: 02 62 04 00 54 96 11 IF OBJ[4].2 = 84 GOTO L1196
+1121        02 62 04 00 55 EA 11 IF OBJ[4].2 = 85 GOTO L11ea
+1128        C4 72 16             GOTO L1672
+112b L112b: 80 A0                PRINT msg160  ; "THE $6 ACCEPTS THE $2."
+112d        57 61 01 24 01       OBJ[1].1 := OBJ[1].1 + A1[G1].4
+1132        66 20 01 00 C4       A1[G1] := 196
+1137        02 01 01 00 2C 48 11 IF $noun1 = 44 GOTO L1148
+113e        80 B1                PRINT msg177  ; "HE SAYS: 'DO YOU EXPECT TO BUY ME WITH A $2?'"
+1140        4B 63 04 00 01       OBJ[4].3 := OBJ[4].3 OR 1
+1145        C4 09 17             GOTO L1709
+1148 L1148: 80 A4                PRINT msg164  ; "THE $6 COUNTS THE MONEY."
+114a        4B 63 04 00 02       OBJ[4].3 := OBJ[4].3 OR 2
+114f        4A 63 04 00 FE       OBJ[4].3 := OBJ[4].3 AND 254
+1154        C4 09 17             GOTO L1709
+1157 L1157: 80 B2                PRINT msg178  ; "THE GATEKEEPER ATTACKS. HE HITS YOU."
+1159        02 20 16 00 C1 7D 11 IF A1[22] = 193 GOTO L117d
+1160        C0 05 00 02 00 00    HOST RANDOM(2)
+1166        02 03 01 00 01 75 11 IF $g3 = 1 GOTO L1175
+116d        80 B3                PRINT msg179  ; "IT KNOCKS YOU OUT COLD."
+116f        C0 10 00 00 00 00    SYS16(0, 0)
+1175 L1175: 48 61 01 00 28       OBJ[1].1 := OBJ[1].1 - 40
+117a        C4 09 17             GOTO L1709
+117d L117d: 80 B4                PRINT msg180  ; "YOUR ARMOUR PROTECTS YOU."
+117f        C4 09 17             GOTO L1709
+1182 L1182: 80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+1184        80 A9                PRINT msg169  ; "HE SAYS: 'I WILL NOT WATCH YOU.'"
+1186        C4 72 16             GOTO L1672
+1189 L1189: 80 A5                PRINT msg165  ; "THE $6 SAYS: 'YOU ARE TRESPASSING.'"
+118b        80 B5                PRINT msg181  ; "HE PUTS YOU OUT OF HIS TERRITORY."
+118d        C0 0B 00 4F 00 00    SYS11(79, 0)
+1193        C4 09 17             GOTO L1709
+1196 L1196: C0 05 00 03 00 00    HOST RANDOM(3)
+119c        00 03 01 00 03 72 16 IF $g3 < 3 GOTO L1672
+11a3        49 83 11 00 03       A4[17].3 := A4[17].3 rsub 3
+11a8        02 62 01 00 31 C7 11 IF OBJ[1].2 = 49 GOTO L11c7
+11af        02 62 01 00 33 CF 11 IF OBJ[1].2 = 51 GOTO L11cf
+11b6        02 62 01 62 04 C0 11 IF OBJ[1].2 = OBJ[4].2 GOTO L11c0
+11bd        C4 09 17             GOTO L1709
+11c0 L11c0: 80 B6                PRINT msg182  ; "THE GATEKEEPER TURNS THE WHEEL."
+11c2        80 76                PRINT msg118  ; "YOU HEAR A NOISE."
+11c4        C4 09 17             GOTO L1709
+11c7 L11c7: 46 0B 01 00 03       $dir := 3
+11cc        C4 D4 11             GOTO L11d4
+11cf L11cf: 46 0B 01 00 01       $dir := 1
+11d4 L11d4: 46 04 01 00 11       $adverb := 17
+11d9        02 83 11 00 02 E5 11 IF A4[17].3 = 2 GOTO L11e5
+11e0        80 68                PRINT msg104  ; "THE $7 $9 OPENS."
+11e2        C4 09 17             GOTO L1709
+11e5 L11e5: 80 98                PRINT msg152  ; "THE $7 $9 CLOSES."
+11e7        C4 09 17             GOTO L1709
+11ea L11ea: 03 83 20 00 01 72 16 IF A4[32].3 <> 1 GOTO L1672
+11f1        46 04 01 00 20       $adverb := 32
+11f6        66 83 04 00 02       A4[G4].3 := 2
+11fb        02 62 01 00 56 13 12 IF OBJ[1].2 = 86 GOTO L1213
+1202        03 62 01 00 55 09 17 IF OBJ[1].2 <> 85 GOTO L1709
+1209        46 0B 01 00 04       $dir := 4
+120e        80 A3                PRINT msg163  ; "THE $6 CLOSES THE $7 $9."
+1210        C4 09 17             GOTO L1709
+1213 L1213: 46 0B 01 00 02       $dir := 2
+1218        80 98                PRINT msg152  ; "THE $7 $9 CLOSES."
+121a        C4 09 17             GOTO L1709
+121d L121d: 03 62 05 62 01 47 12 IF OBJ[5].2 <> OBJ[1].2 GOTO L1247
+1224        00 00 00 07 01 47 12 IF 0 < $g7 GOTO L1247
+122b        05 63 05 00 02 9F 12 IF OBJ[5].3 &<>0 2 GOTO L129f
+1232        05 63 05 00 08 5F 12 IF OBJ[5].3 &<>0 8 GOTO L125f
+1239        02 20 1D 00 C1 75 12 IF A1[29] = 193 GOTO L1275
+1240        05 63 05 00 01 8E 12 IF OBJ[5].3 &<>0 1 GOTO L128e
+1247 L1247: 02 62 05 00 43 B2 12 IF OBJ[5].2 = 67 GOTO L12b2
+124e        02 62 05 00 45 CD 12 IF OBJ[5].2 = 69 GOTO L12cd
+1255        02 62 05 00 47 F2 12 IF OBJ[5].2 = 71 GOTO L12f2
+125c        C4 72 16             GOTO L1672
+125f L125f: 80 A0                PRINT msg160  ; "THE $6 ACCEPTS THE $2."
+1261        57 61 01 24 01       OBJ[1].1 := OBJ[1].1 + A1[G1].4
+1266        66 20 01 00 C5       A1[G1] := 197
+126b        80 B7                PRINT msg183  ; "HE SAYS: 'THANK YOU, SON'."
+126d        4B 63 05 00 02       OBJ[5].3 := OBJ[5].3 OR 2
+1272        C4 09 17             GOTO L1709
+1275 L1275: 46 02 01 00 1D       $noun2 := 29
+127a        80 A2                PRINT msg162  ; "THE $6 TAKES THE $3 FROM YOU."
+127c        57 61 01 24 02       OBJ[1].1 := OBJ[1].1 + A1[G2].4
+1281        66 20 02 00 C5       A1[G2] := 197
+1286        4B 63 05 00 01       OBJ[5].3 := OBJ[5].3 OR 1
+128b        C4 09 17             GOTO L1709
+128e L128e: 80 9D                PRINT msg157  ; "THE $6 IS ANGRY."
+1290        4A 63 05 00 FE       OBJ[5].3 := OBJ[5].3 AND 254
+1295        80 B8                PRINT msg184  ; "HE SPEAKS A MALEDICTION. YOU FEEL YOURSELF LOSING STRENGTH."
+1297        48 61 01 00 1E       OBJ[1].1 := OBJ[1].1 - 30
+129c        C4 09 17             GOTO L1709
+129f L129f: 80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+12a1        4A 63 05 00 FD       OBJ[5].3 := OBJ[5].3 AND 253
+12a6        80 B9                PRINT msg185  ; "HE SPEAKS A BENEDICTION."
+12a8        80 5C                PRINT msg92  ; "YOU FEEL STRENGTH FLOWING THROUGH YOU."
+12aa        47 61 01 00 14       OBJ[1].1 := OBJ[1].1 + 20
+12af        C4 09 17             GOTO L1709
+12b2 L12b2: C0 05 00 03 00 00    HOST RANDOM(3)
+12b8        00 03 01 00 03 72 16 IF $g3 < 3 GOTO L1672
+12bf        03 62 01 62 05 C8 12 IF OBJ[1].2 <> OBJ[5].2 GOTO L12c8
+12c6        80 BA                PRINT msg186  ; "THE PRIEST PULLS THE BELL-ROPE."
+12c8 L12c8: 80 39                PRINT msg57  ; "BELLS START CHIMING."
+12ca        C4 09 17             GOTO L1709
+12cd L12cd: C0 05 00 03 00 00    HOST RANDOM(3)
+12d3        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+12da        03 62 01 62 05 09 17 IF OBJ[1].2 <> OBJ[5].2 GOTO L1709
+12e1        02 20 1D 00 C5 ED 12 IF A1[29] = 197 GOTO L12ed
+12e8        80 9F                PRINT msg159  ; "THE $6 RESTS."
+12ea        C4 09 17             GOTO L1709
+12ed L12ed: 80 BB                PRINT msg187  ; "THE PRIEST READS THE BOOK OF SECRETS."
+12ef        C4 09 17             GOTO L1709
+12f2 L12f2: C0 05 00 02 00 00    HOST RANDOM(2)
+12f8        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+12ff        02 20 1D 00 9A 10 13 IF A1[29] = 154 GOTO L1310
+1306        02 20 1D 00 C5 21 13 IF A1[29] = 197 GOTO L1321
+130d        C4 72 16             GOTO L1672
+1310 L1310: 46 20 1D 00 C5       A1[29] := 197
+1315        03 62 01 62 05 09 17 IF OBJ[1].2 <> OBJ[5].2 GOTO L1709
+131c        80 BC                PRINT msg188  ; "THE PRIEST TAKES THE BOOK OF SECRETS FROM THE BOOK-CASE."
+131e        C4 09 17             GOTO L1709
+1321 L1321: 46 20 1D 00 9A       A1[29] := 154
+1326        03 62 01 62 05 09 17 IF OBJ[1].2 <> OBJ[5].2 GOTO L1709
+132d        80 BD                PRINT msg189  ; "THE PRIEST PUTS THE BOOK OF SECRETS IN THE BOOK-CASE."
+132f        C4 09 17             GOTO L1709
+1332 L1332: 03 62 06 62 01 90 13 IF OBJ[6].2 <> OBJ[1].2 GOTO L1390
+1339        02 07 01 00 00 42 13 IF $g7 = 0 GOTO L1342
+1340        80 A6                PRINT msg166  ; "THE $6 CAN SMELL YOU, ALTHOUGH YOU ARE INVISIBLE."
+1342 L1342: 05 63 06 00 01 5A 13 IF OBJ[6].3 &<>0 1 GOTO L135a
+1349        05 63 06 00 02 66 13 IF OBJ[6].3 &<>0 2 GOTO L1366
+1350        02 62 06 00 63 73 13 IF OBJ[6].2 = 99 GOTO L1373
+1357        C4 90 13             GOTO L1390
+135a L135a: 80 9D                PRINT msg157  ; "THE $6 IS ANGRY."
+135c        80 BE                PRINT msg190  ; "IT STABS YOU WITH ITS BEAK."
+135e        48 61 01 00 0F       OBJ[1].1 := OBJ[1].1 - 15
+1363        C4 09 17             GOTO L1709
+1366 L1366: 80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+1368        80 BF                PRINT msg191  ; "IT CARRIES YOU THROUGH THE AIR AND PUTS YOU DOWN GENTLY."
+136a        C0 0B 00 31 00 00    SYS11(49, 0)
+1370        C4 09 17             GOTO L1709
+1373 L1373: C0 05 00 03 00 00    HOST RANDOM(3)
+1379        02 03 01 00 01 90 13 IF $g3 = 1 GOTO L1390
+1380        80 C0                PRINT msg192  ; "THE EAGLE REGARDS YOU AS AN INTRUDER. IT TAKES YOU UP AND DROPS YOU FROM A HEIGHT."
+1382        C0 0B 00 31 00 00    SYS11(49, 0)
+1388        48 61 01 00 46       OBJ[1].1 := OBJ[1].1 - 70
+138d        C4 09 17             GOTO L1709
+1390 L1390: C0 05 00 03 00 00    HOST RANDOM(3)
+1396        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+139d        03 62 01 62 06 09 17 IF OBJ[1].2 <> OBJ[6].2 GOTO L1709
+13a4        80 9F                PRINT msg159  ; "THE $6 RESTS."
+13a6        C4 09 17             GOTO L1709
+13a9 L13a9: 03 62 08 62 01 E7 13 IF OBJ[8].2 <> OBJ[1].2 GOTO L13e7
+13b0        02 07 01 00 00 C5 13 IF $g7 = 0 GOTO L13c5
+13b7        80 C1                PRINT msg193  ; "THE WIZARD SAYS: 'I SEE YOU HAVE USED MY INVISIBILITY-SPELL'."
+13b9        05 63 08 00 02 C5 13 IF OBJ[8].3 &<>0 2 GOTO L13c5
+13c0        4B 63 08 00 01       OBJ[8].3 := OBJ[8].3 OR 1
+13c5 L13c5: 05 63 08 00 08 F8 13 IF OBJ[8].3 &<>0 8 GOTO L13f8
+13cc        05 63 08 00 01 FD 13 IF OBJ[8].3 &<>0 1 GOTO L13fd
+13d3        05 63 08 00 02 13 14 IF OBJ[8].3 &<>0 2 GOTO L1413
+13da        C0 05 00 02 00 00    HOST RANDOM(2)
+13e0        02 03 01 00 01 56 14 IF $g3 = 1 GOTO L1456
+13e7 L13e7: 02 62 08 00 6B 17 15 IF OBJ[8].2 = 107 GOTO L1517
+13ee        02 62 08 00 68 30 15 IF OBJ[8].2 = 104 GOTO L1530
+13f5        C4 63 14             GOTO L1463
+13f8 L13f8: 80 A1                PRINT msg161  ; "THE $6 SAYS: 'I DO NOT ACCEPT PRESENTS.'"
+13fa        C4 09 17             GOTO L1709
+13fd L13fd: 80 9D                PRINT msg157  ; "THE $6 IS ANGRY."
+13ff        4A 63 08 00 FE       OBJ[8].3 := OBJ[8].3 AND 254
+1404        03 20 32 00 C8 56 14 IF A1[50] <> 200 GOTO L1456
+140b        80 C2                PRINT msg194  ; "HE CASTS THE KILL-SPELL."
+140d        C0 10 00 00 00 00    SYS16(0, 0)
+1413 L1413: C0 05 00 06 00 00    HOST RANDOM(6)
+1419        02 03 01 00 01 4C 14 IF $g3 = 1 GOTO L144c
+1420        80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+1422        02 20 0B 00 C8 33 14 IF A1[11] = 200 GOTO L1433
+1429        04 20 0B 00 80 42 14 IF A1[11] &=0 128 GOTO L1442
+1430        C4 72 16             GOTO L1672
+1433 L1433: 80 C3                PRINT msg195  ; "HE GIVES YOU THE RESERVOIR OF MAGIC."
+1435        48 61 01 24 0B       OBJ[1].1 := OBJ[1].1 - A1[11].4
+143a        46 20 0B 00 C1       A1[11] := 193
+143f        C4 09 17             GOTO L1709
+1442 L1442: 46 08 01 20 0B       $g8 := A1[11]
+1447        80 C4                PRINT msg196  ; "HE SAYS: 'THE RESERVOIR OF MAGIC IS IN THE $5.'"
+1449        C4 09 17             GOTO L1709
+144c L144c: 80 C5                PRINT msg197  ; "THE WIZARD WORKS OFF THE CHARM-SPELL."
+144e        4A 63 08 00 FD       OBJ[8].3 := OBJ[8].3 AND 253
+1453        C4 09 17             GOTO L1709
+1456 L1456: 80 A5                PRINT msg165  ; "THE $6 SAYS: 'YOU ARE TRESPASSING.'"
+1458        80 AB                PRINT msg171  ; "HE LOCKS YOU UP."
+145a        C0 0B 00 69 00 00    SYS11(105, 0)
+1460        C4 09 17             GOTO L1709
+1463 L1463: C0 05 00 05 00 00    HOST RANDOM(5)
+1469        01 03 01 00 02 72 16 IF $g3 <= 2 GOTO L1672
+1470        C0 05 00 32 00 00    HOST RANDOM(50)
+1476        46 15 01 03 01       $g21 := $g3
+147b        46 02 01 03 01       $noun2 := $g3
+1480 L1480: 24 22 02 00 80 94 14 IF A1[G2].2 &=0 128 GOTO L1494
+1487        C0 0A 02 01 62 08    SYS10($noun2, OBJ[8].2)
+148d        03 03 01 00 00 AF 14 IF $g3 <> 0 GOTO L14af
+1494 L1494: 47 02 01 00 01       $noun2 := $noun2 + 1
+1499        01 02 01 00 32 A5 14 IF $noun2 <= 50 GOTO L14a5
+14a0        48 02 01 00 32       $noun2 := $noun2 - 50
+14a5 L14a5: 03 02 01 15 01 80 14 IF $noun2 <> $g21 GOTO L1480
+14ac        C4 72 16             GOTO L1672
+14af L14af: 22 20 02 00 C8 D4 14 IF A1[G2] = 200 GOTO L14d4
+14b6        C0 0A 02 01 00 C1    SYS10($noun2, 193)
+14bc        03 03 01 00 00 08 15 IF $g3 <> 0 GOTO L1508
+14c3        66 20 02 00 C8       A1[G2] := 200
+14c8        03 62 01 62 08 09 17 IF OBJ[1].2 <> OBJ[8].2 GOTO L1709
+14cf        80 C6                PRINT msg198  ; "THE $6 TAKES THE $3."
+14d1        C4 09 17             GOTO L1709
+14d4 L14d4: C0 05 00 05 00 00    HOST RANDOM(5)
+14da        02 03 01 00 01 EB 14 IF $g3 = 1 GOTO L14eb
+14e1        02 03 01 00 02 FC 14 IF $g3 = 2 GOTO L14fc
+14e8        C4 72 16             GOTO L1672
+14eb L14eb: 66 20 02 62 08       A1[G2] := OBJ[8].2
+14f0        03 62 01 62 08 09 17 IF OBJ[1].2 <> OBJ[8].2 GOTO L1709
+14f7        80 C7                PRINT msg199  ; "THE $6 DROPS THE $3."
+14f9        C4 09 17             GOTO L1709
+14fc L14fc: 03 62 01 62 08 09 17 IF OBJ[1].2 <> OBJ[8].2 GOTO L1709
+1503        80 C8                PRINT msg200  ; "THE WIZARD EXAMINES THE $3."
+1505        C4 09 17             GOTO L1709
+1508 L1508: 80 A2                PRINT msg162  ; "THE $6 TAKES THE $3 FROM YOU."
+150a        57 61 01 24 02       OBJ[1].1 := OBJ[1].1 + A1[G2].4
+150f        66 20 02 00 C8       A1[G2] := 200
+1514        C4 09 17             GOTO L1709
+1517 L1517: C0 05 00 02 00 00    HOST RANDOM(2)
+151d        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+1524        03 62 01 62 08 09 17 IF OBJ[1].2 <> OBJ[8].2 GOTO L1709
+152b        80 C9                PRINT msg201  ; "THE WIZARD CARRIES OUT AN EXPERIMENT."
+152d        C4 09 17             GOTO L1709
+1530 L1530: C0 05 00 03 00 00    HOST RANDOM(3)
+1536        02 03 01 00 01 72 16 IF $g3 = 1 GOTO L1672
+153d        03 62 01 62 08 09 17 IF OBJ[1].2 <> OBJ[8].2 GOTO L1709
+1544        80 9F                PRINT msg159  ; "THE $6 RESTS."
+1546        C4 09 17             GOTO L1709
+1549 L1549: 03 62 09 62 01 75 15 IF OBJ[9].2 <> OBJ[1].2 GOTO L1575
+1550        02 07 01 00 00 59 15 IF $g7 = 0 GOTO L1559
+1557        80 A6                PRINT msg166  ; "THE $6 CAN SMELL YOU, ALTHOUGH YOU ARE INVISIBLE."
+1559 L1559: 04 63 09 00 08 67 15 IF OBJ[9].3 &=0 8 GOTO L1567
+1560        02 01 01 00 2F 4B 16 IF $noun1 = 47 GOTO L164b
+1567 L1567: 05 63 09 00 01 7F 15 IF OBJ[9].3 &<>0 1 GOTO L157f
+156e        05 63 09 00 02 9C 15 IF OBJ[9].3 &<>0 2 GOTO L159c
+1575 L1575: 02 20 2F 62 09 4B 16 IF A1[47] = OBJ[9].2 GOTO L164b
+157c        C4 DE 15             GOTO L15de
+157f L157f: 05 0A 01 00 08 97 15 IF $flags &<>0 8 GOTO L1597
+1586        02 20 16 00 C1 6D 16 IF A1[22] = 193 GOTO L166d
+158d        80 CB                PRINT msg203  ; "YOU FEEL A BITE."
+158f        48 61 01 00 05       OBJ[1].1 := OBJ[1].1 - 5
+1594        C4 72 16             GOTO L1672
+1597 L1597: 80 CC                PRINT msg204  ; "THE RAT FLEES IN FEAR."
+1599        C4 72 16             GOTO L1672
+159c L159c: 04 0A 01 00 08 A5 15 IF $flags &=0 8 GOTO L15a5
+15a3        80 9E                PRINT msg158  ; "THE $6 IS FRIENDLY."
+15a5 L15a5: 46 02 01 00 04       $noun2 := 4
+15aa L15aa: 22 20 02 00 C9 C0 15 IF A1[G2] = 201 GOTO L15c0
+15b1        47 02 01 00 01       $noun2 := $noun2 + 1
+15b6        01 02 01 00 06 AA 15 IF $noun2 <= 6 GOTO L15aa
+15bd        C4 72 16             GOTO L1672
+15c0 L15c0: 04 0A 01 00 08 D6 15 IF $flags &=0 8 GOTO L15d6
+15c7        58 61 01 24 02       OBJ[1].1 := OBJ[1].1 - A1[G2].4
+15cc        66 20 02 00 C1       A1[G2] := 193
+15d1        80 CD                PRINT msg205  ; "YOU ARE GIVEN SOMETHING."
+15d3        C4 09 17             GOTO L1709
+15d6 L15d6: 66 20 02 62 09       A1[G2] := OBJ[9].2
+15db        C4 09 17             GOTO L1709
+15de L15de: C0 05 00 0A 00 00    HOST RANDOM(10)
+15e4        00 03 01 00 04 72 16 IF $g3 < 4 GOTO L1672
+15eb        46 02 01 00 04       $noun2 := 4
+15f0 L15f0: 22 20 02 62 09 0D 16 IF A1[G2] = OBJ[9].2 GOTO L160d
+15f7        22 20 02 00 C9 2C 16 IF A1[G2] = 201 GOTO L162c
+15fe L15fe: 47 02 01 00 01       $noun2 := $noun2 + 1
+1603        01 02 01 00 06 F0 15 IF $noun2 <= 6 GOTO L15f0
+160a        C4 72 16             GOTO L1672
+160d L160d: 02 03 01 00 0A FE 15 IF $g3 = 10 GOTO L15fe
+1614        66 20 02 00 C9       A1[G2] := 201
+1619        03 62 01 62 09 09 17 IF OBJ[1].2 <> OBJ[9].2 GOTO L1709
+1620        04 0A 01 00 08 6D 16 IF $flags &=0 8 GOTO L166d
+1627        80 C6                PRINT msg198  ; "THE $6 TAKES THE $3."
+1629        C4 09 17             GOTO L1709
+162c L162c: 03 03 01 00 0A FE 15 IF $g3 <> 10 GOTO L15fe
+1633        66 20 02 62 09       A1[G2] := OBJ[9].2
+1638        03 62 01 62 09 09 17 IF OBJ[1].2 <> OBJ[9].2 GOTO L1709
+163f        04 0A 01 00 08 6D 16 IF $flags &=0 8 GOTO L166d
+1646        80 C7                PRINT msg199  ; "THE $6 DROPS THE $3."
+1648        C4 09 17             GOTO L1709
+164b L164b: 46 20 2F 00 00       A1[47] := 0
+1650        4A 63 09 00 FE       OBJ[9].3 := OBJ[9].3 AND 254
+1655        4B 63 09 00 02       OBJ[9].3 := OBJ[9].3 OR 2
+165a        03 62 01 62 09 09 17 IF OBJ[1].2 <> OBJ[9].2 GOTO L1709
+1661        04 0A 01 00 08 6D 16 IF $flags &=0 8 GOTO L166d
+1668        80 CA                PRINT msg202  ; "THE RAT EATS THE FOOD."
+166a        C4 09 17             GOTO L1709
+166d L166d: 80 76                PRINT msg118  ; "YOU HEAR A NOISE."
+166f        C4 09 17             GOTO L1709
+1672 L1672: 56 06 01 62 05       $tmp6 := OBJ[G5].2
+1677        C0 05 00 04 00 00    HOST RANDOM(4)
+167d        46 0B 01 03 01       $dir := $g3
+1682 L1682: 22 5F 06 00 00 B7 16 IF ROOM[G6][dir] = 0 GOTO L16b7
+1689        56 08 01 5F 06       $g8 := ROOM[G6][dir]
+168e        04 08 01 00 80 B0 16 IF $g8 &=0 128 GOTO L16b0
+1695        46 04 01 08 01       $adverb := $g8
+169a        4A 04 01 00 7F       $adverb := $adverb AND 127
+169f        56 08 01 81 04       $g8 := A4[G4].1
+16a4        48 08 01 06 01       $g8 := $g8 - $tmp6
+16a9        10 00 01 83 04 B7 16 IF 1 < A4[G4].3 GOTO L16b7
+16b0 L16b0: 22 46 08 05 01 CB 16 IF ROOM[G8].6 = $tmp5 GOTO L16cb
+16b7 L16b7: 4A 0B 01 00 03       $dir := $dir AND 3
+16bc        47 0B 01 00 01       $dir := $dir + 1
+16c1        03 0B 01 03 01 82 16 IF $dir <> $g3 GOTO L1682
+16c8        C4 09 17             GOTO L1709
+16cb L16cb: 03 62 01 06 01 E0 16 IF OBJ[1].2 <> $tmp6 GOTO L16e0
+16d2        04 0A 01 00 08 DE 16 IF $flags &=0 8 GOTO L16de
+16d9        80 A7                PRINT msg167  ; "THE $6 GOES TO THE $5 $9."
+16db        C4 E0 16             GOTO L16e0
+16de L16de: 80 76                PRINT msg118  ; "YOU HEAR A NOISE."
+16e0 L16e0: 66 62 05 08 01       OBJ[G5].2 := $g8
+16e5        03 62 01 08 01 09 17 IF OBJ[1].2 <> $g8 GOTO L1709
+16ec        04 0A 01 00 08 07 17 IF $flags &=0 8 GOTO L1707
+16f3        47 0B 01 00 01       $dir := $dir + 1
+16f8        4A 0B 01 00 03       $dir := $dir AND 3
+16fd        47 0B 01 00 01       $dir := $dir + 1
+1702        80 A8                PRINT msg168  ; "THE $6 ENTERS FROM THE $4 $9."
+1704        C4 09 17             GOTO L1709
+1707 L1707: 80 76                PRINT msg118  ; "YOU HEAR A NOISE."
+1709 L1709: 6A 63 05 00 F3       OBJ[G5].3 := OBJ[G5].3 AND 243
+170e        47 05 01 00 01       $tmp5 := $tmp5 + 1
+1713        01 05 01 00 09 DD 0E IF $tmp5 <= 9 GOTO L0edd
+171a L171a: C4 14 00             GOTO L0014
+171d        --- 83 bytes of data ---
+            C4 00 00 C4 15 74 C4 00 00 89 A0 85 A0 A4 C6 A0 FD A0 E1 A0 A4 BA A0 A5 A0 E5 A0 A6 A0 A0 8A A0 A4 A0 96 A0 A0 80 A0 FB A0 E7 A0 A0 FF A0 9E A0 F0 A0 A0 DF A0 E0 A0 F6 A0 A0 FF A0 A2 A0 A0 A1 C4 A0 A0 A5 A0 A0 A0 A0 86 A0 E8 A0 C9 A0 A0 89 A0 90 A0
+1770 L1770: 03 1E 01 00 0A DE 17 IF $g30 <> 10 GOTO L17de
+1777        56 18 01 21 1C       $g24 := A1[G28].1
+177c L177c: 23 21 1C 18 01 D3 17 IF A1[G28].1 <> $g24 GOTO L17d3
+1783        56 03 01 20 1C       $g3 := A1[G28]
+1788 L1788: 03 03 01 1D 01 9C 17 IF $g3 <> $g29 GOTO L179c
+178f        46 03 01 1C 01       $g3 := $g28
+1794        C4 D8 17             GOTO L17d8
+1797        --- 5 bytes of data ---
+            46 03 01 1C 01
+179c L179c: 05 03 01 00 80 B2 17 IF $g3 &<>0 128 GOTO L17b2
+17a3        47 1C 01 00 01       $g28 := $g28 + 1
+17a8        00 1C 01 00 33 7C 17 IF $g28 < 51 GOTO L177c
+17af        C4 D3 17             GOTO L17d3
+17b2 L17b2: 04 03 01 00 40 C6 17 IF $g3 &=0 64 GOTO L17c6
+17b9        4A 03 01 00 3F       $g3 := $g3 AND 63
+17be        56 03 01 62 03       $g3 := OBJ[G3].2
+17c3        C4 88 17             GOTO L1788
+17c6 L17c6: 4A 03 01 00 7F       $g3 := $g3 AND 127
+17cb        56 03 01 20 03       $g3 := A1[G3]
+17d0        C4 88 17             GOTO L1788
+17d3 L17d3: 46 03 01 00 00       $g3 := 0
+17d8 L17d8: C0 03 00 00 00 00    RETURN
+17de L17de: 03 1E 01 00 0B 90 18 IF $g30 <> 11 GOTO L1890
+17e5        04 0A 01 00 08 F1 17 IF $flags &=0 8 GOTO L17f1
+17ec        6B 45 06 00 40       ROOM[G6].5 := ROOM[G6].5 OR 64
+17f1 L17f1: 46 06 01 1C 01       $tmp6 := $g28
+17f6        46 62 01 06 01       OBJ[1].2 := $tmp6
+17fb        24 45 06 00 10 36 18 IF ROOM[G6].5 &=0 16 GOTO L1836
+1802        C0 0A 00 03 06 01    SYS10(3, $tmp6)
+1808        02 03 01 00 00 25 18 IF $g3 = 0 GOTO L1825
+180f        00 00 00 11 01 36 18 IF 0 < $g17 GOTO L1836
+1816        02 21 03 23 03 25 18 IF A1[3].1 = A1[3].3 GOTO L1825
+181d        46 11 01 00 4B       $g17 := 75
+1822        C4 36 18             GOTO L1836
+1825 L1825: 00 00 00 12 01 36 18 IF 0 < $g18 GOTO L1836
+182c        80 09                PRINT msg9  ; "IT IS DARK."
+182e        4A 0A 01 00 F7       $flags := $flags AND 247
+1833        C4 72 18             GOTO L1872
+1836 L1836: 4B 0A 01 00 08       $flags := $flags OR 8
+183b        46 1B 01 06 01       $g27 := $tmp6
+1840        25 47 06 00 10 4C 18 IF ROOM[G6].7 &<>0 16 GOTO L184c
+1847        80 0A                PRINT msg10  ; "YOU ARE IN $12 $4."
+1849        C4 4E 18             GOTO L184e
+184c L184c: 80 0B                PRINT msg11  ; "YOU ARE ON $12 $4."
+184e L184e: 56 05 01 46 06       $tmp5 := ROOM[G6].6
+1853        02 05 01 00 00 72 18 IF $tmp5 = 0 GOTO L1872
+185a        22 62 05 06 01 69 18 IF OBJ[G5].2 = $tmp6 GOTO L1869
+1861        46 05 01 00 00       $tmp5 := 0
+1866        C4 72 18             GOTO L1872
+1869 L1869: 04 0A 01 00 08 72 18 IF $flags &=0 8 GOTO L1872
+1870        80 0C                PRINT msg12  ; "THERE IS A $6 HERE."
+1872 L1872: 03 20 16 00 C1 7E 18 IF A1[22] <> 193 GOTO L187e
+1879        48 61 01 00 01       OBJ[1].1 := OBJ[1].1 - 1
+187e L187e: 03 06 01 00 69 8A 18 IF $tmp6 <> 105 GOTO L188a
+1885        46 14 01 00 00       $g20 := 0
+188a L188a: C0 03 00 00 00 00    RETURN
+1890 L1890: 03 1E 01 00 02 48 19 IF $g30 <> 2 GOTO L1948
+1897        56 01 02 A0 0E       G[2].1 := A5[G14]
+189c        56 02 02 21 01       G[2].2 := A1[G1].1
+18a1        56 03 02 21 02       G[2].3 := A1[G2].1
+18a6        56 04 02 40 06       G[2].4 := ROOM[G6]
+18ab        56 05 02 40 08       G[2].5 := ROOM[G8]
+18b0        56 06 02 60 05       G[2].6 := OBJ[G5]
+18b5        56 07 02 80 04       G[2].7 := A4[G4]
+18ba        46 1C 01 0B 01       $g28 := $dir
+18bf        47 1C 01 00 04       $g28 := $g28 + 4
+18c4        48 1C 01 09 01       $g28 := $g28 - $facing
+18c9        4A 1C 01 00 03       $g28 := $g28 AND 3
+18ce        46 08 02 1C 01       G[2].8 := $g28
+18d3        47 08 02 00 61       G[2].8 := G[2].8 + 97
+18d8        46 09 02 1C 01       G[2].9 := $g28
+18dd        47 09 02 00 A5       G[2].9 := G[2].9 + 165
+18e2        46 0A 02 0B 01       G[2].10 := $dir
+18e7        47 0A 02 00 64       G[2].10 := G[2].10 + 100
+18ec        24 47 1B 00 20 FB 18 IF ROOM[G27].7 &=0 32 GOTO L18fb
+18f3        46 0C 02 00 AA       G[2].12 := 170
+18f8        C4 0F 19             GOTO L190f
+18fb L18fb: 24 47 1B 00 40 0A 19 IF ROOM[G27].7 &=0 64 GOTO L190a
+1902        46 0C 02 00 AB       G[2].12 := 171
+1907        C4 0F 19             GOTO L190f
+190a L190a: 46 0C 02 00 A9       G[2].12 := 169
+190f L190f: 46 0E 02 03 01       G[2].14 := $g3
+1914        05 09 01 00 01 28 19 IF $facing &<>0 1 GOTO L1928
+191b        56 0F 02 45 06       G[2].15 := ROOM[G6].5
+1920        56 10 02 47 06       G[2].16 := ROOM[G6].7
+1925        C4 32 19             GOTO L1932
+1928 L1928: 56 0F 02 47 06       G[2].15 := ROOM[G6].7
+192d        56 10 02 45 06       G[2].16 := ROOM[G6].5
+1932 L1932: 4A 0F 02 00 0F       G[2].15 := G[2].15 AND 15
+1937        4A 10 02 00 0F       G[2].16 := G[2].16 AND 15
+193c        C0 04 00 00 00 00    HOST PRINT $par
+1942        C0 03 00 00 00 00    RETURN
+1948 L1948: 03 1E 01 00 0C D3 19 IF $g30 <> 12 GOTO L19d3
+194f        46 01 01 00 00       $noun1 := 0
+1954        46 02 01 00 01       $noun2 := 1
+1959        46 03 01 00 00       $g3 := 0
+195e        46 18 01 1C 01       $g24 := $g28
+1963 L1963: 23 20 02 18 01 86 19 IF A1[G2] <> $g24 GOTO L1986
+196a        24 22 02 00 01 86 19 IF A1[G2].2 &=0 1 GOTO L1986
+1971        02 03 01 00 00 AF 19 IF $g3 = 0 GOTO L19af
+1978        02 03 01 00 01 B7 19 IF $g3 = 1 GOTO L19b7
+197f        80 25                PRINT msg37  ; ", A $2"
+1981 L1981: 46 01 01 02 01       $noun1 := $noun2
+1986 L1986: 47 02 01 00 01       $noun2 := $noun2 + 1
+198b        01 02 01 00 32 63 19 IF $noun2 <= 50 GOTO L1963
+1992        03 03 01 00 00 9E 19 IF $g3 <> 0 GOTO L199e
+1999        80 18                PRINT msg24  ; "NOTHING SPECIAL."
+199b        C4 C1 19             GOTO L19c1
+199e L199e: 03 03 01 00 01 AA 19 IF $g3 <> 1 GOTO L19aa
+19a5        80 15                PRINT msg21  ; "A $2."
+19a7        C4 C1 19             GOTO L19c1
+19aa L19aa: 80 26                PRINT msg38  ; "AND A $2."
+19ac        C4 C1 19             GOTO L19c1
+19af L19af: 46 03 01 00 01       $g3 := 1
+19b4        C4 81 19             GOTO L1981
+19b7 L19b7: 46 03 01 00 02       $g3 := 2
+19bc        80 24                PRINT msg36  ; "A $2"
+19be        C4 81 19             GOTO L1981
+19c1 L19c1: C0 03 00 00 00 00    RETURN
+19c7        --- 12 bytes of data ---
+            C0 09 00 00 00 00 C0 09 00 00 00 00
+19d3 L19d3: 03 1E 01 00 0D B1 1A IF $g30 <> 13 GOTO L1ab1
+19da        46 0B 01 1D 01       $dir := $g29
+19df        46 08 01 1C 01       $g8 := $g28
+19e4        02 08 01 00 00 AB 1A IF $g8 = 0 GOTO L1aab
+19eb        05 1C 01 00 80 44 1A IF $g28 &<>0 128 GOTO L1a44
+19f2        24 45 08 00 10 FE 19 IF ROOM[G8].5 &=0 16 GOTO L19fe
+19f9        80 27                PRINT msg39  ; "$9 IT IS DARK."
+19fb        C4 AB 1A             GOTO L1aab
+19fe L19fe: 24 45 08 00 20 2E 1A IF ROOM[G8].5 &=0 32 GOTO L1a2e
+1a05        33 40 06 40 08 1D 1A IF ROOM[G6] <> ROOM[G8] GOTO L1a1d
+1a0c        30 48 06 48 08 18 1A IF ROOM[G6].8 < ROOM[G8].8 GOTO L1a18
+1a13        80 28                PRINT msg40  ; "$9 THE STAIRCASE GOES ON LEADING DOWN."
+1a15        C4 AB 1A             GOTO L1aab
+1a18 L1a18: 80 29                PRINT msg41  ; "$9 THE STAIRCASE GOES ON LEADING UP."
+1a1a        C4 AB 1A             GOTO L1aab
+1a1d L1a1d: 30 48 06 48 08 29 1A IF ROOM[G6].8 < ROOM[G8].8 GOTO L1a29
+1a24        80 2A                PRINT msg42  ; "$9 IS A STAIRCASE LEADING DOWN."
+1a26        C4 AB 1A             GOTO L1aab
+1a29 L1a29: 80 2B                PRINT msg43  ; "$9 IS A STAIRCASE LEADING UP."
+1a2b        C4 AB 1A             GOTO L1aab
+1a2e L1a2e: 33 40 06 40 08 3A 1A IF ROOM[G6] <> ROOM[G8] GOTO L1a3a
+1a35        80 2C                PRINT msg44  ; "$9 THE $5 GOES ON."
+1a37        C4 AB 1A             GOTO L1aab
+1a3a L1a3a: 46 1B 01 08 01       $g27 := $g8
+1a3f        80 2D                PRINT msg45  ; "$9 IS $12 $5."
+1a41        C4 AB 1A             GOTO L1aab
+1a44 L1a44: 46 04 01 1C 01       $adverb := $g28
+1a49        4A 04 01 00 7F       $adverb := $adverb AND 127
+1a4e        56 08 01 81 04       $g8 := A4[G4].1
+1a53        48 08 01 06 01       $g8 := $g8 - $tmp6
+1a58        23 83 04 00 00 6B 1A IF A4[G4].3 <> 0 GOTO L1a6b
+1a5f        25 82 04 00 01 AB 1A IF A4[G4].2 &<>0 1 GOTO L1aab
+1a66        80 2E                PRINT msg46  ; "$9 IS A $7."
+1a68        C4 80 1A             GOTO L1a80
+1a6b L1a6b: 22 83 04 00 01 7E 1A IF A4[G4].3 = 1 GOTO L1a7e
+1a72        25 82 04 00 01 AB 1A IF A4[G4].2 &<>0 1 GOTO L1aab
+1a79        80 2F                PRINT msg47  ; "$9 IS A $7. IT IS CLOSED."
+1a7b        C4 AB 1A             GOTO L1aab
+1a7e L1a7e: 80 30                PRINT msg48  ; "$9 IS A $7. IT IS OPEN."
+1a80 L1a80: 24 45 08 00 10 8C 1A IF ROOM[G8].5 &=0 16 GOTO L1a8c
+1a87        80 31                PRINT msg49  ; "BEYOND IT IS DARK."
+1a89        C4 AB 1A             GOTO L1aab
+1a8c L1a8c: 24 45 08 00 20 A4 1A IF ROOM[G8].5 &=0 32 GOTO L1aa4
+1a93        30 48 06 48 08 9F 1A IF ROOM[G6].8 < ROOM[G8].8 GOTO L1a9f
+1a9a        80 32                PRINT msg50  ; "BEYOND IS A STAIRCASE LEADING DOWN."
+1a9c        C4 AB 1A             GOTO L1aab
+1a9f L1a9f: 80 33                PRINT msg51  ; "BEYOND IS A STAIRCASE LEADING UP."
+1aa1        C4 AB 1A             GOTO L1aab
+1aa4 L1aa4: 46 1B 01 08 01       $g27 := $g8
+1aa9        80 34                PRINT msg52  ; "BEYOND IS $12 $5."
+1aab L1aab: C0 03 00 00 00 00    RETURN
+1ab1 L1ab1: 03 1E 01 00 0E F1 1A IF $g30 <> 14 GOTO L1af1
+1ab8        46 03 01 00 01       $g3 := 1
+1abd        46 17 01 1C 01       $g23 := $g28
+1ac2        46 18 01 1D 01       $g24 := $g29
+1ac7 L1ac7: 23 20 03 17 01 DF 1A IF A1[G3] <> $g23 GOTO L1adf
+1ace        66 20 03 00 00       A1[G3] := 0
+1ad3        22 24 18 00 FF DF 1A IF A1[G24].4 = 255 GOTO L1adf
+1ada        78 24 18 24 03       A1[G24].4 := A1[G24].4 - A1[G3].4
+1adf L1adf: 47 03 01 00 01       $g3 := $g3 + 1
+1ae4        01 03 01 00 32 C7 1A IF $g3 <= 50 GOTO L1ac7
+1aeb        C0 03 00 00 00 00    RETURN
+1af1 L1af1: 03 1E 01 00 0F 0F 1B IF $g30 <> 15 GOTO L1b0f
+1af8        80 91                PRINT msg145  ; "YOU RETURN TO THE WORLD."
+1afa        C0 11 00 00 00 00    SYS17(0, 0)
+1b00        47 03 01 00 0A       $g3 := $g3 + 10
+1b05        80 92                PRINT msg146  ; "YOUR SCORE IS: $14"
+1b07        80 D2                PRINT msg210  ; "$0 $0 PRESS <RETURN> TO PLAY AGAIN."
+1b09        C0 08 00 00 00 00    HOST QUIT
+1b0f L1b0f: 03 1E 01 00 10 28 1B IF $g30 <> 16 GOTO L1b28
+1b16        80 90                PRINT msg144  ; "YOU DIE!"
+1b18        C0 11 00 00 00 00    SYS17(0, 0)
+1b1e        80 92                PRINT msg146  ; "YOUR SCORE IS: $14"
+1b20        80 D2                PRINT msg210  ; "$0 $0 PRESS <RETURN> TO PLAY AGAIN."
+1b22        C0 08 00 00 00 00    HOST QUIT
+1b28 L1b28: 03 1E 01 00 11 8E 1B IF $g30 <> 17 GOTO L1b8e
+1b2f        46 03 01 00 00       $g3 := 0
+1b34        46 08 01 00 01       $g8 := 1
+1b39 L1b39: 24 45 08 00 80 4C 1B IF ROOM[G8].5 &=0 128 GOTO L1b4c
+1b40        24 45 08 00 40 4C 1B IF ROOM[G8].5 &=0 64 GOTO L1b4c
+1b47        47 03 01 00 01       $g3 := $g3 + 1
+1b4c L1b4c: 47 08 01 00 01       $g8 := $g8 + 1
+1b51        01 08 01 00 75 39 1B IF $g8 <= 117 GOTO L1b39
+1b58        46 02 01 00 01       $noun2 := 1
+1b5d L1b5d: 24 22 02 00 80 7C 1B IF A1[G2].2 &=0 128 GOTO L1b7c
+1b64        23 20 02 00 C1 7C 1B IF A1[G2] <> 193 GOTO L1b7c
+1b6b        47 03 01 00 0F       $g3 := $g3 + 15
+1b70        32 21 02 23 02 7C 1B IF A1[G2].1 = A1[G2].3 GOTO L1b7c
+1b77        47 03 01 00 05       $g3 := $g3 + 5
+1b7c L1b7c: 47 02 01 00 01       $noun2 := $noun2 + 1
+1b81        01 02 01 00 32 5D 1B IF $noun2 <= 50 GOTO L1b5d
+1b88        C0 03 00 00 00 00    RETURN
+1b8e L1b8e: 03 1E 01 00 12 C8 1B IF $g30 <> 18 GOTO L1bc8
+1b95        46 03 01 1C 01       $g3 := $g28
+1b9a        80 6D                PRINT msg109  ; "THE $6 IS DEAD."
+1b9c        76 60 03 65 03       OBJ[G3] := OBJ[G3].5
+1ba1        46 02 01 00 01       $noun2 := 1
+1ba6        46 1D 01 03 01       $g29 := $g3
+1bab        4B 1D 01 00 C0       $g29 := $g29 OR 192
+1bb0 L1bb0: 23 20 02 1D 01 BC 1B IF A1[G2] <> $g29 GOTO L1bbc
+1bb7        76 20 02 62 03       A1[G2] := OBJ[G3].2
+1bbc L1bbc: 47 02 01 00 01       $noun2 := $noun2 + 1
+1bc1        01 02 01 00 32 B0 1B IF $noun2 <= 50 GOTO L1bb0
+1bc8 L1bc8: C0 03 00 00 00 00    RETURN
+1bce        --- 107 bytes of data ---
+            C4 00 00 B0 93 FF D2 D2 A0 B8 B6 E7 FF A0 C5 A0 A5 A0 F0 FF A0 A0 A0 89 A0 8C FE A0 CF A0 E5 A0 A4 B6 A0 CE C4 83 A0 E8 A0 A0 A0 D3 85 A0 90 A0 A0 C4 A0 FF A0 88 A0 A0 B7 A0 AC A0 A9 A0 A5 B6 A0 A9 A0 90 A0 A5 BA CF 80 A0 87 A0 80 B0 A0 85 A0 A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00

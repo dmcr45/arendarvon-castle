@@ -1,0 +1,9 @@
+﻿BUG FIX @09c8: 20000 commands; @09c8 executed in 994; outcome differed in 805; differed WITHOUT executing @09c8: 0
+EXAMPLE (globe off, room dark)
+  command: STRIKE TORCH
+  original: R:20=3 | YOU STRIKE THE $2. | IT GOES OUT. | R:4=3 | R:4=2 | R:3=3 | R:4=4 | R:3=2 | R:4=1 | R:5=2 | R:4=3 | R:10=7 | R:4=4 | $0 > | I   [LIT after: yes]
+  fixed:    R:20=3 | YOU STRIKE THE $2. | IT GOES OUT. | IT IS DARK. | R:4=3 | R:4=2 | R:3=3 | R:4=4 | R:3=2 | R:4=1 | R:5=2 | R:4=3 | R:10=7 | R:4=4 | $0 > | I   [LIT after: no]
+EXAMPLE (globe shining, room dark)
+  command: STRIKE TORCH
+  original: R:20=6 | YOU STRIKE THE $2. | IT GOES OUT. | IT IS DARK. | R:4=4 | R:6=1 | R:2=2 | R:4=1 | R:4=1 | R:3=1 | R:4=2 | R:4=1 | R:5=3 | R:50=14 | R:5=1 | R:10=4 | R:4=2 | $0 > | I   [LIT after: no]
+  fixed:    R:20=6 | YOU STRIKE THE $2. | IT GOES OUT. | R:4=4 | R:6=1 | R:2=2 | R:4=1 | R:4=1 | R:3=1 | R:4=2 | R:4=1 | R:5=3 | R:50=14 | R:5=1 | R:10=4 | R:4=2 | $0 > | I   [LIT after: yes]

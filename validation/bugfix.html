@@ -1,0 +1,82 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script src="campaign.js"></script>
+<script>
+// What does the @09c8 bug fix change? The original bytecode (A) against the same bytecode with the
+// single byte at @09c8 changed from 02 to 03 (B). Before every command B is given A's exact state and
+// both get the same random numbers, so each command is compared on its own. Every difference must
+// come from a command that executed @09c8.
+const out = [];
+try {
+    const q = new URLSearchParams(location.search);
+    const steps = Number(q.get("steps") || 20000);
+    const rng = V.mulberry32(9001);
+    const R = (n) => Math.floor(rng() * n);
+    const pick = (arr) => arr[R(arr.length)];
+    const OBJ = (o, f) => 0x38 + 6 * o + f, CH = (c, f) => 0x581 + 6 * c + f, ROOM = (r, f) => 0x161 + 9 * r + f;
+    const DARK_ROOMS = [], LIGHT_ROOMS = [];
+    for (let r = 1; r <= 117; r++) ((V.START[ROOM(r, 5)] & 16) ? DARK_ROOMS : LIGHT_ROOMS).push(r);
+    let seedA = null, seedB = null;
+    const covA = { ins: new Set(), taken: new Set(), notTaken: new Set() };
+    let A, B;
+    const fresh = () => {
+        A = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(seedA() * n), patch012b: true, coverage: covA });
+        B = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(seedB() * n), patch012b: true, patch09c8: true });
+        seedA = V.mulberry32(1); seedB = V.mulberry32(1);
+        A.run(); B.run();
+    };
+    fresh();
+    const gen = Campaign.commandGenerator(rng);
+    let executed = 0, differed = 0, differedWithout = 0;
+    const examples = {};
+    for (let i = 0; i < steps; i++) {
+        if (A.status !== "input") { fresh(); continue; }
+        const bytes = A.state();
+        let line;
+        if (rng() < 0.5) {                                            // a torch situation
+            bytes[OBJ(3, 0)] = pick([193, 193, bytes[CH(1, 2)]]);
+            bytes[OBJ(3, 1)] = V.START[OBJ(3, 1)];
+            bytes[17] = pick([0, 1, 20]);                               // torch turns
+            bytes[18] = pick([0, 0, 1, 5, 25]);                         // globe turns
+            bytes[10] = pick([8, 8, 0, 12]);                            // LIT (and DOORS_HELD_OPEN)
+            bytes[CH(1, 2)] = rng() < 0.8 ? pick(DARK_ROOMS) : pick(LIGHT_ROOMS);
+            bytes[CH(1, 1)] = pick([0, 5, 100, 250]);
+            line = pick(["STRIKE TORCH", "STRIKE TORCH", "STRIKE TOR", "LOOK", "WAIT", "TAKE TORCH", "DROP TORCH"]);
+        } else {
+            if (rng() < 0.2) Campaign.mutate(bytes, rng);
+            line = rng() < 0.5 ? Campaign.smartCommand(bytes, rng) : gen();
+            if (/^(SAVE|LOAD)/.test(line)) line = "WAIT";
+        }
+        A.mem.set(bytes, 0x1900); B.mem.set(bytes, 0x1900);
+        const s = R(1e9); seedA = V.mulberry32(s); seedB = V.mulberry32(s);
+        covA.ins.clear();
+        let ea, eb;
+        try { ea = A.submit(line.toUpperCase()); } catch (e) { ea = [{ type: "halt" }]; }
+        try { eb = B.submit(line.toUpperCase()); } catch (e) { eb = [{ type: "halt" }]; }
+        const ran = covA.ins.has(0x09c8);
+        if (ran) executed++;
+        const ta = ea.map(V.refEventText).join(" | "), tb = eb.map(V.refEventText).join(" | ");
+        const sa = A.state(), sb = B.state();
+        let stateDiff = false;
+        for (let k = 0; k < 1672; k++) if (sa[k] !== sb[k] && !V.SCRATCH.has(k)) { stateDiff = true; break; }
+        if (ta !== tb || stateDiff) {
+            differed++;
+            if (!ran) differedWithout++;
+            const key = "globe " + (bytes[18] ? "shining" : "off") + ", room " + ((V.START[ROOM(bytes[CH(1, 2)], 5)] & 16) ? "dark" : "light");
+            if (!examples[key]) examples[key] = "  command: " + line + "\n  original: " + ta.replace(/P:/g, "") + "   [LIT after: " + ((sa[10] & 8) ? "yes" : "no") + "]\n  fixed:    " + tb.replace(/P:/g, "") + "   [LIT after: " + ((sb[10] & 8) ? "yes" : "no") + "]";
+        }
+        if (A.status !== B.status) fresh();
+        else if (A.status === "waitkey" || A.status === "halted") fresh();
+    }
+    out.push("BUG FIX @09c8: " + steps + " commands; @09c8 executed in " + executed + "; outcome differed in " + differed + "; differed WITHOUT executing @09c8: " + differedWithout);
+    for (const k of Object.keys(examples).sort()) out.push("EXAMPLE (" + k + ")\n" + examples[k]);
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

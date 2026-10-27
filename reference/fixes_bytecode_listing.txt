@@ -1,0 +1,122 @@
+﻿THE APPROVED FIXES, WRITTEN AS ALADIN BYTECODE
+==============================================
+Offsets are relative to the start of the bytecode (&21C7), as in bytecode_listing.txt.
+The validation reference runs the original program with these changes (and the @012b and
+@09c8 corrections) and compares it with arendarvon-engine.js command by command. The new
+routines sit in parts of the bytecode that the original never executes.
+
+New messages, built only from words of the original vocabulary:
+  msg212  "YOU CAN'T UNLOCK A $7."
+  msg213  "YOU CAN'T LOCK AN OPEN $7."
+  msg214  "THE $7 IS ALREADY LOCKED."
+
+FIX 7 - the character loop gets its own counter (the spare global byte &190C)
+-----------------------------------------------------------------------------
+  new routine at @0606 (13 bytes):
+    @0606  46 0C 01 00 02       counter := 2
+    @060b  46 05 01 0C 01       character := counter
+    @0610  C4 DD 0E             GOTO @0edd
+  @0ed8  was 46 05 01 00 02       character := 2
+         now C4 06 06             GOTO @0606
+  @1709  was 6A 63 05 00 F3       characters[character].mood := characters[character].mood AND 243
+         now 6A 63 0C 00 F3       characters[counter].mood := characters[counter].mood AND 243
+  @170e  was 47 05 01 00 01       character := character + 1
+         now 47 0C 01 00 01       counter := counter + 1
+  @1713  was 01 05 01 00 09 DD 0E IF character <= 9 GOTO @0edd
+         now 01 0C 01 00 09 0B 06 IF counter <= 9 GOTO @060b
+
+FIX 8 - no record 0: a table is looked up by a number only if the number is not 0
+---------------------------------------------------------------------------------
+  new routine at @0613 (20 bytes):
+    @0613  46 07 02 00 00       slot$7 := 0
+    @0618  02 04 01 00 00 24 06 IF passage = 0 GOTO @0624
+    @061f  56 07 02 80 04       slot$7 := passages[passage].name
+    @0624  C4 BA 18             GOTO @18ba
+  new routine at @0627 (25 bytes):
+    @0627  02 1B 01 00 00 38 06 IF articleRoom = 0 GOTO @0638
+    @062e  24 47 1B 00 20 FB 18 IF rooms[articleRoom].textFlags &=0 32 GOTO @18fb
+    @0635  C4 F3 18             GOTO @18f3
+    @0638  46 0C 02 00 00       slot$12 := 0
+    @063d  C4 0F 19             GOTO @190f
+  new routine at @0bd7 (15 bytes):
+    @0bd7  56 05 01 46 06       character := rooms[here].owner
+    @0bdc  03 05 01 00 00 7C 00 IF character <> 0 GOTO @007c
+    @0be3  C4 88 00             GOTO @0088
+  new routine at @0ec1 (17 bytes):
+    @0ec1  02 05 01 00 00 D5 04 IF character = 0 GOTO @04d5
+    @0ec8  24 63 05 00 02 D0 04 IF characters[character].mood &=0 2 GOTO @04d0
+    @0ecf  C4 CB 04             GOTO @04cb
+  new routine at @171d (30 bytes):
+    @171d  02 06 01 00 00 2E 17 IF here = 0 GOTO @172e
+    @1724  05 09 01 00 01 28 19 IF facing &<>0 1 GOTO @1928
+    @172b  C4 1B 19             GOTO @191b
+    @172e  46 0F 02 00 00       slot$15 := 0
+    @1733  46 10 02 00 00       slot$16 := 0
+    @1738  C4 3C 19             GOTO @193c
+  new routine at @189a (30 bytes, in the old slot-filling code that @1897 now jumps over):
+    @189a  03 01 01 00 00 8B 10 IF object1 <> 0 GOTO @108b
+    @18a1  C4 73 10             GOTO @1073
+    @18a4  03 01 01 00 00 2B 11 IF object1 <> 0 GOTO @112b
+    @18ab  C4 10 11             GOTO @1110
+    @18ae  03 01 01 00 00 5F 12 IF object1 <> 0 GOTO @125f
+    @18b5  C4 39 12             GOTO @1239
+  new routine at @1bce (105 bytes):
+    @1bce  46 01 02 00 00       slot$1 := 0
+    @1bd3  02 0E 01 00 00 DF 1B IF verb = 0 GOTO @1bdf
+    @1bda  56 01 02 A0 0E       slot$1 := verbs[verb].name
+    @1bdf  46 02 02 00 00       slot$2 := 0
+    @1be4  02 01 01 00 00 F0 1B IF object1 = 0 GOTO @1bf0
+    @1beb  56 02 02 21 01       slot$2 := objects[object1].name
+    @1bf0  46 03 02 00 00       slot$3 := 0
+    @1bf5  02 02 01 00 00 01 1C IF object2 = 0 GOTO @1c01
+    @1bfc  56 03 02 21 02       slot$3 := objects[object2].name
+    @1c01  46 04 02 00 00       slot$4 := 0
+    @1c06  02 06 01 00 00 12 1C IF here = 0 GOTO @1c12
+    @1c0d  56 04 02 40 06       slot$4 := rooms[here].name
+    @1c12  46 05 02 00 00       slot$5 := 0
+    @1c17  02 08 01 00 00 23 1C IF targetRoom = 0 GOTO @1c23
+    @1c1e  56 05 02 40 08       slot$5 := rooms[targetRoom].name
+    @1c23  46 06 02 00 00       slot$6 := 0
+    @1c28  02 05 01 00 00 34 1C IF character = 0 GOTO @1c34
+    @1c2f  56 06 02 60 05       slot$6 := characters[character].name
+    @1c34  C4 13 06             GOTO @0613
+  @0077  was 56 05 01 46 06       character := rooms[here].owner
+         now C4 D7 0B             GOTO @0bd7
+  @04c4  was 24 63 05 00 02 D0 04 IF characters[character].mood &=0 2 GOTO @04d0
+         now C4 C1 0E             GOTO @0ec1
+  @106c  was 05 63 03 00 08 8B 10 IF characters[3].mood &<>0 8 GOTO @108b
+         now 05 63 03 00 08 9A 18 IF characters[3].mood &<>0 8 GOTO @189a
+  @1109  was 05 63 04 00 08 2B 11 IF characters[4].mood &<>0 8 GOTO @112b
+         now 05 63 04 00 08 A4 18 IF characters[4].mood &<>0 8 GOTO @18a4
+  @1232  was 05 63 05 00 08 5F 12 IF characters[5].mood &<>0 8 GOTO @125f
+         now 05 63 05 00 08 AE 18 IF characters[5].mood &<>0 8 GOTO @18ae
+  @1897  was 56 01 02 A0 0E       slot$1 := verbs[verb].name
+         now C4 CE 1B             GOTO @1bce
+  @18ec  was 24 47 1B 00 20 FB 18 IF rooms[articleRoom].textFlags &=0 32 GOTO @18fb
+         now C4 27 06             GOTO @0627
+  @1914  was 05 09 01 00 01 28 19 IF facing &<>0 1 GOTO @1928
+         now C4 1D 17             GOTO @171d
+
+FIXES 9-11 - UNLOCK's message; UNLOCK leaves the door CLOSED; LOCK only a CLOSED door
+-------------------------------------------------------------------------------------
+  new routine at @0140 (10 bytes):
+    @0140  80 D5                PRINT msg213  "YOU CAN'T LOCK AN OPEN $7."
+    @0142  C4 4B 04             GOTO @044b
+    @0145  80 D6                PRINT msg214  "THE $7 IS ALREADY LOCKED."
+    @0147  C4 4B 04             GOTO @044b
+  new routine at @173b (45 bytes):
+    @173b  22 83 04 00 02 44 04 IF passages[passage].state = 2 GOTO @0444
+    @1742  22 83 04 00 01 40 01 IF passages[passage].state = 1 GOTO @0140
+    @1749  22 83 04 00 03 45 01 IF passages[passage].state = 3 GOTO @0145
+    @1750  22 83 04 00 04 63 17 IF passages[passage].state = 4 GOTO @1763
+    @1757  23 83 04 00 05 27 04 IF passages[passage].state <> 5 GOTO @0427
+    @175e  80 1A                PRINT msg26  "IT IS LATCHED AND BOLTED ON THE OTHER SIDE."
+    @1760  C4 4B 04             GOTO @044b
+    @1763  80 1F                PRINT msg31  "IT IS NAILED SHUT."
+    @1765  C4 4B 04             GOTO @044b
+  @0438  was 02 20 2B 00 C1 44 04 IF objects[43].location = 193 GOTO @0444
+         now 02 20 2B 00 C1 3B 17 IF objects[43].location = 193 GOTO @173b
+  @0459  was 80 47                PRINT msg71  "YOU CAN'T LOCK A $7."
+         now 80 D4                PRINT msg212  "YOU CAN'T UNLOCK A $7."
+  @0484  was 66 83 04 00 01       passages[passage].state := 1
+         now 66 83 04 00 02       passages[passage].state := 2

@@ -1,0 +1,44 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="../arendarvon-engine.js"></script>
+<script src="terminal-source.js"></script>
+<script>
+// Runs arendarvon.js (the Node terminal front end) with simulated fs / path / readline modules.
+const out = [];
+try {
+    let screen = "";
+    const files = {};
+    const handlers = {};
+    let prompt = "";
+    const fakeReadline = {
+        createInterface: () => ({
+            on: (ev, fn) => { handlers[ev] = fn; },
+            setPrompt: (p) => { prompt = p; },
+            prompt: () => { screen += prompt; },
+            close: () => { handlers.close && handlers.close(); },
+        }),
+    };
+    const fakeFs = {
+        mkdirSync: () => {},
+        writeFileSync: (f, t) => { files[f] = t; },
+        readFileSync: (f) => { if (!(f in files)) throw new Error("ENOENT"); return files[f]; },
+    };
+    const fakePath = { join: (...parts) => parts.join("/") };
+    const fakeProcess = { stdout: { columns: 50, isTTY: true, write: (s) => { screen += s; }, on: () => {} }, exit: () => { screen += "<exit>"; } };
+    // (the window-resize redraw is tested with a real Node readline: terminal_resize_test.js)
+    const moduleObj = { exports: {} };
+    const requireFn = (name) => ({ fs: fakeFs, path: fakePath, readline: fakeReadline, "./arendarvon-engine.js": createArendarvonGame })[name];
+    const body = TERMINAL_SOURCE.replace(/^#!.*\n/, "");
+    new Function("require", "process", "module", "__dirname", body)(requireFn, fakeProcess, moduleObj, "/games");
+    for (const line of ["go ahead", "take", "well", "save", "y", "test", "go back", "load", "y", "test", "look", "xxx", "exit", "n", "take", "quit", "y", ""]) {
+        screen += line + "\n";
+        handlers.line(line);
+    }
+    handlers.SIGINT();
+    out.push(screen.replace(/\x1b\[2J\x1b\[H/g, "<clear screen>\n"));
+    out.push("---- saved files: " + Object.keys(files).join(", "));
+    const widest = Math.max(...screen.split("\n").map(l => l.length));
+    out.push("---- widest line: " + widest + " (terminal width 50)");
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

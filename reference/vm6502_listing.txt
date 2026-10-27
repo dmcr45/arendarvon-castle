@@ -1,0 +1,294 @@
+$1F88  00        BRK
+$1F89  00        BRK
+$1F8A  00        BRK
+$1F8B  00        BRK
+$1F8C  00        BRK
+$1F8D  00        BRK
+$1F8E  00        BRK
+$1F8F  00        BRK
+$1F90  00        BRK
+$1F91  00        BRK
+$1F92  52        ???
+$1F93  0A        ASL A
+$1F94  E1 18     SBC ($18,X)
+$1F96  38        SEC
+$1F97  19 61 1A  ORA $1a61,Y
+$1F9A  81 1E     STA ($1e,X)
+$1F9C  B9 1E 5B  LDA $5b1e,Y
+$1F9F  1F        ???
+$1FA0  1F        ???
+$1FA1  06 09     ASL $09
+$1FA3  06 04     ASL $04
+$1FA5  02        ???
+$1FA6  AD 01 06  LDA $0601
+$1FA9  85 7D     STA $7d
+$1FAB  AD 02 06  LDA $0602
+$1FAE  85 7E     STA $7e
+$1FB0  AD 04 06  LDA $0604
+$1FB3  85 7F     STA $7f
+$1FB5  AD 05 06  LDA $0605
+$1FB8  85 80     STA $80
+$1FBA  A0 00     LDY #$00
+$1FBC  B1 7D     LDA ($7d),Y
+$1FBE  C9 05     CMP #$05
+$1FC0  D0 05     BNE $1fc7
+$1FC2  B1 7F     LDA ($7f),Y
+$1FC4  8D 03 19  STA $1903
+$1FC7  A0 00     LDY #$00
+$1FC9  B1 70     LDA ($70),Y
+$1FCB  C9 C4     CMP #$c4
+$1FCD  F0 3B     BEQ $200a
+$1FCF  29 F0     AND #$f0
+$1FD1  C9 80     CMP #$80
+$1FD3  F0 49     BEQ $201e
+$1FD5  29 C0     AND #$c0
+$1FD7  C9 40     CMP #$40
+$1FD9  F0 0B     BEQ $1fe6
+$1FDB  C9 00     CMP #$00
+$1FDD  F0 59     BEQ $2038
+$1FDF  C9 C0     CMP #$c0
+$1FE1  F0 6A     BEQ $204d
+$1FE3  4C C7 1F  JMP $1fc7
+$1FE6  20 96 20  JSR $2096
+$1FE9  A0 00     LDY #$00
+$1FEB  91 79     STA ($79),Y
+$1FED  A9 05     LDA #$05
+$1FEF  20 A0 21  JSR $21a0
+$1FF2  4C C7 1F  JMP $1fc7
+$1FF5  AC 93 1F  LDY $1f93
+$1FF8  B9 89 1F  LDA $1f89,Y
+$1FFB  85 71     STA $71
+$1FFD  C8        INY
+$1FFE  B9 89 1F  LDA $1f89,Y
+$2001  85 70     STA $70
+$2003  C8        INY
+$2004  8C 93 1F  STY $1f93
+$2007  4C C7 1F  JMP $1fc7
+$200A  A0 01     LDY #$01
+$200C  B1 70     LDA ($70),Y
+$200E  18        CLC
+$200F  69 C7     ADC #$c7
+$2011  AA        TAX
+$2012  C8        INY
+$2013  B1 70     LDA ($70),Y
+$2015  69 21     ADC #$21
+$2017  85 71     STA $71
+$2019  86 70     STX $70
+$201B  4C C7 1F  JMP $1fc7
+$201E  B1 70     LDA ($70),Y
+$2020  29 0F     AND #$0f
+$2022  C8        INY
+$2023  91 7F     STA ($7f),Y
+$2025  B1 70     LDA ($70),Y
+$2027  88        DEY
+$2028  91 7F     STA ($7f),Y
+$202A  A9 02     LDA #$02
+$202C  8D 1E 19  STA $191e
+$202F  20 A0 21  JSR $21a0
+$2032  20 AC 21  JSR $21ac
+$2035  4C C7 1F  JMP $1fc7
+$2038  20 96 20  JSR $2096
+$203B  D0 08     BNE $2045
+$203D  A9 07     LDA #$07
+$203F  20 A0 21  JSR $21a0
+$2042  4C C7 1F  JMP $1fc7
+$2045  A9 04     LDA #$04
+$2047  20 A0 21  JSR $21a0
+$204A  4C 0A 20  JMP $200a
+$204D  C8        INY
+$204E  B1 70     LDA ($70),Y
+$2050  C9 03     CMP #$03
+$2052  F0 A1     BEQ $1ff5
+$2054  C9 0A     CMP #$0a
+$2056  90 22     BCC $207a
+$2058  8D 1E 19  STA $191e
+$205B  A0 02     LDY #$02
+$205D  A2 20     LDX #$20
+$205F  20 B2 20  JSR $20b2
+$2062  8D 1C 19  STA $191c
+$2065  A0 04     LDY #$04
+$2067  A2 10     LDX #$10
+$2069  20 B2 20  JSR $20b2
+$206C  8D 1D 19  STA $191d
+$206F  A9 06     LDA #$06
+$2071  20 A0 21  JSR $21a0
+$2074  20 AC 21  JSR $21ac
+$2077  4C C7 1F  JMP $1fc7
+$207A  88        DEY
+$207B  91 7D     STA ($7d),Y
+$207D  C9 05     CMP #$05
+$207F  D0 0F     BNE $2090
+$2081  A0 02     LDY #$02
+$2083  A2 20     LDX #$20
+$2085  20 B2 20  JSR $20b2
+$2088  A0 00     LDY #$00
+$208A  91 7F     STA ($7f),Y
+$208C  98        TYA
+$208D  C8        INY
+$208E  91 7F     STA ($7f),Y
+$2090  A9 06     LDA #$06
+$2092  20 A0 21  JSR $21a0
+$2095  60        RTS
+$2096  A0 03     LDY #$03
+$2098  A2 10     LDX #$10
+$209A  20 B2 20  JSR $20b2
+$209D  85 77     STA $77
+$209F  A0 01     LDY #$01
+$20A1  A2 20     LDX #$20
+$20A3  20 B2 20  JSR $20b2
+$20A6  85 76     STA $76
+$20A8  A0 00     LDY #$00
+$20AA  B1 70     LDA ($70),Y
+$20AC  29 0F     AND #$0f
+$20AE  20 2D 21  JSR $212d
+$20B1  60        RTS
+$20B2  B1 70     LDA ($70),Y
+$20B4  85 74     STA $74
+$20B6  C8        INY
+$20B7  B1 70     LDA ($70),Y
+$20B9  85 75     STA $75
+$20BB  8A        TXA
+$20BC  A0 00     LDY #$00
+$20BE  31 70     AND ($70),Y
+$20C0  F0 07     BEQ $20c9
+$20C2  A4 75     LDY $75
+$20C4  B9 00 19  LDA $1900,Y
+$20C7  85 75     STA $75
+$20C9  A5 74     LDA $74
+$20CB  D0 09     BNE $20d6
+$20CD  A5 75     LDA $75
+$20CF  8D 00 19  STA $1900
+$20D2  A9 01     LDA #$01
+$20D4  85 75     STA $75
+$20D6  A5 74     LDA $74
+$20D8  4A        LSR A
+$20D9  4A        LSR A
+$20DA  4A        LSR A
+$20DB  4A        LSR A
+$20DC  4A        LSR A
+$20DD  A8        TAY
+$20DE  B9 A0 1F  LDA $1fa0,Y
+$20E1  85 78     STA $78
+$20E3  98        TYA
+$20E4  0A        ASL A
+$20E5  A8        TAY
+$20E6  B9 94 1F  LDA $1f94,Y
+$20E9  85 79     STA $79
+$20EB  C8        INY
+$20EC  B9 94 1F  LDA $1f94,Y
+$20EF  85 7A     STA $7a
+$20F1  A5 74     LDA $74
+$20F3  29 1F     AND #$1f
+$20F5  C9 1F     CMP #$1f
+$20F7  D0 03     BNE $20fc
+$20F9  AD 0B 19  LDA $190b
+$20FC  18        CLC
+$20FD  65 79     ADC $79
+$20FF  85 79     STA $79
+$2101  A9 00     LDA #$00
+$2103  65 7A     ADC $7a
+$2105  85 7A     STA $7a
+$2107  20 0F 21  JSR $210f
+$210A  A0 00     LDY #$00
+$210C  B1 79     LDA ($79),Y
+$210E  60        RTS
+$210F  A9 00     LDA #$00
+$2111  85 74     STA $74
+$2113  46 78     LSR $78
+$2115  90 0D     BCC $2124
+$2117  A5 79     LDA $79
+$2119  18        CLC
+$211A  65 75     ADC $75
+$211C  85 79     STA $79
+$211E  A5 7A     LDA $7a
+$2120  65 74     ADC $74
+$2122  85 7A     STA $7a
+$2124  06 75     ASL $75
+$2126  26 74     ROL $74
+$2128  A5 78     LDA $78
+$212A  D0 E7     BNE $2113
+$212C  60        RTS
+$212D  0A        ASL A
+$212E  A8        TAY
+$212F  B9 3F 21  LDA $213f,Y
+$2132  85 7B     STA $7b
+$2134  C8        INY
+$2135  B9 3F 21  LDA $213f,Y
+$2138  85 7C     STA $7c
+$213A  A5 76     LDA $76
+$213C  6C 7B 00  JMP ($007b)
+$213F  57        ???
+$2140  21 5D     AND ($5d,X)
+$2142  21 65     AND ($65,X)
+$2144  21 6B     AND ($6b,X)
+$2146  21 71     AND ($71,X)
+$2148  21 77     AND ($77,X)
+$214A  21 7D     AND ($7d,X)
+$214C  21 80     AND ($80,X)
+$214E  21 86     AND ($86,X)
+$2150  21 8C     AND ($8c,X)
+$2152  21 94     AND ($94,X)
+$2154  21 97     AND ($97,X)
+$2156  21 C5     AND ($c5,X)
+$2158  77        ???
+$2159  90 42     BCC $219d
+$215B  B0 3D     BCS $219a
+$215D  C5 77     CMP $77
+$215F  90 3C     BCC $219d
+$2161  F0 3A     BEQ $219d
+$2163  B0 35     BCS $219a
+$2165  C5 77     CMP $77
+$2167  F0 34     BEQ $219d
+$2169  D0 2F     BNE $219a
+$216B  C5 77     CMP $77
+$216D  D0 2E     BNE $219d
+$216F  F0 29     BEQ $219a
+$2171  25 77     AND $77
+$2173  F0 28     BEQ $219d
+$2175  D0 23     BNE $219a
+$2177  25 77     AND $77
+$2179  D0 22     BNE $219d
+$217B  F0 1D     BEQ $219a
+$217D  A5 77     LDA $77
+$217F  60        RTS
+$2180  18        CLC
+$2181  65 77     ADC $77
+$2183  B0 18     BCS $219d
+$2185  60        RTS
+$2186  38        SEC
+$2187  E5 77     SBC $77
+$2189  90 0F     BCC $219a
+$218B  60        RTS
+$218C  A5 77     LDA $77
+$218E  38        SEC
+$218F  E5 76     SBC $76
+$2191  90 07     BCC $219a
+$2193  60        RTS
+$2194  25 77     AND $77
+$2196  60        RTS
+$2197  05 77     ORA $77
+$2199  60        RTS
+$219A  A9 00     LDA #$00
+$219C  60        RTS
+$219D  A9 FF     LDA #$ff
+$219F  60        RTS
+$21A0  18        CLC
+$21A1  65 70     ADC $70
+$21A3  85 70     STA $70
+$21A5  A5 71     LDA $71
+$21A7  69 00     ADC #$00
+$21A9  85 71     STA $71
+$21AB  60        RTS
+$21AC  AC 93 1F  LDY $1f93
+$21AF  88        DEY
+$21B0  A5 70     LDA $70
+$21B2  99 89 1F  STA $1f89,Y
+$21B5  88        DEY
+$21B6  A5 71     LDA $71
+$21B8  99 89 1F  STA $1f89,Y
+$21BB  8C 93 1F  STY $1f93
+$21BE  A9 37     LDA #$37
+$21C0  85 70     STA $70
+$21C2  A9 39     LDA #$39
+$21C4  85 71     STA $71
+$21C6  60        RTS

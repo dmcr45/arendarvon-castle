@@ -1,0 +1,2 @@
+﻿TYPO CHECK: 11780 steps; commands that reached @012b with no second noun: 11179; problems: 0
+bytes that ever differed: &1903, &1918, &191C, &191D, &191E, &192D

@@ -1,0 +1,250 @@
+﻿ROOMS (base &1A61, 9 bytes)
+0   LARDER                   exits P127 -    P72  P22  f5=10010101 owner=164 f7=00000001 lvl=4
+1   SECRET STAIRCASE         exits -    P1   2    -    f5=00110001 owner=0   f7=00010001 lvl=1
+2   SECRET STAIRCASE         exits 1    59   -    -    f5=00110001 owner=0   f7=00010001 lvl=2
+3   DUNGEON                  exits -    P2   -    P1   f5=10010010 owner=9   f7=00000010 lvl=0
+4   CELLAR-VAULT             exits 5    P3   10   P2   f5=00000010 owner=9   f7=00000011 lvl=0
+5   WELL                     exits -    -    4    -    f5=10000001 owner=9   f7=00000001 lvl=0
+6   LARDER                   exits -    -    -    P3   f5=10010001 owner=9   f7=00000001 lvl=0
+7   CELLAR-VAULT             exits -    -    8    10   f5=00010010 owner=9   f7=00000010 lvl=0
+8   STAIRCASE                exits 7    -    9    -    f5=00110001 owner=0   f7=00010001 lvl=1
+9   STAIRCASE                exits 8    P15  -    -    f5=00100001 owner=9   f7=00010001 lvl=2
+10  CELLAR-VAULT             exits 4    7    -    11   f5=00010010 owner=9   f7=00000010 lvl=0
+11  CELLAR-VAULT             exits -    10   13   12   f5=00010010 owner=9   f7=00000010 lvl=0
+12  CELLAR-VAULT             exits -    11   -    -    f5=00010010 owner=9   f7=00000010 lvl=0
+13  CELLAR-VAULT             exits 11   -    -    -    f5=00010010 owner=9   f7=00000010 lvl=0
+14  SOLDIERS' LIVING-ROOM    exits -    16   66   -    f5=00000100 owner=0   f7=00000010 lvl=3
+15  SOLDIERS' ROOM           exits -    -    16   -    f5=10000010 owner=0   f7=00000010 lvl=3
+16  CORRIDOR                 exits 15   20   -    14   f5=00000001 owner=0   f7=00000010 lvl=3
+17  SOLDIERS' ROOM           exits -    -    -    66   f5=10010010 owner=0   f7=00000010 lvl=3
+18  STAIRCASE                exits -    19   20   -    f5=00110001 owner=0   f7=00010001 lvl=4
+19  STAIRCASE                exits -    -    68   18   f5=00110001 owner=0   f7=00010001 lvl=5
+20  CORRIDOR                 exits 18   P4   21   16   f5=00000001 owner=0   f7=00000010 lvl=3
+21  SOLDIERS' ROOM           exits 20   -    -    -    f5=10000010 owner=0   f7=00000010 lvl=3
+22  GREAT HALL               exits -    23   -    P4   f5=10000100 owner=2   f7=01000011 lvl=3
+23  ANTE-ROOM                exits -    28   24   22   f5=10000011 owner=2   f7=01000011 lvl=3
+24  SHORT CORRIDOR           exits 23   -    P5   -    f5=00000001 owner=2   f7=00000001 lvl=3
+25  STAIRCASE                exits -    26   -    98   f5=00110001 owner=0   f7=00010001 lvl=5
+26  STAIRCASE                exits -    P6   -    25   f5=00100001 owner=0   f7=00010001 lvl=4
+27  EXHIBITION-ROOM          exits -    -    28   -    f5=10000010 owner=2   f7=01000100 lvl=3
+28  CORRIDOR                 exits 27   29   32   23   f5=00000001 owner=2   f7=00000011 lvl=3
+29  STAIRCASE                exits -    -    30   28   f5=00100001 owner=2   f7=00010001 lvl=4
+30  STAIRCASE                exits 29   -    -    74   f5=00100001 owner=2   f7=00010001 lvl=5
+31  MEDIEVAL BEDROOM         exits -    P7   -    P6   f5=10000011 owner=2   f7=01000010 lvl=3
+32  MEDIEVAL BEDROOM         exits 28   -    33   P7   f5=00000011 owner=2   f7=01000001 lvl=3
+33  ENTRY-HALL               exits 32   -    P9   P8   f5=10000010 owner=3   f7=00100011 lvl=3
+34  CORRIDOR                 exits P9   P10  44   45   f5=00000011 owner=0   f7=00000001 lvl=3
+35  ROOM                     exits -    -    P11  P10  f5=00000010 owner=0   f7=00000010 lvl=3
+36  SERVANTS' ROOM           exits P11  P13  42   -    f5=10010011 owner=0   f7=00000010 lvl=3
+37  SECRET STAIRCASE         exits -    -    38   77   f5=10110001 owner=0   f7=00010001 lvl=5
+38  SECRET STAIRCASE         exits 37   -    P12  -    f5=10100001 owner=0   f7=00010001 lvl=4
+39  WARDROBE                 exits P12  -    -    P13  f5=10000001 owner=0   f7=00000001 lvl=3
+40  STAIRCASE                exits 79   -    -    41   f5=00100001 owner=0   f7=00010001 lvl=5
+41  STAIRCASE                exits -    40   -    42   f5=00100001 owner=0   f7=00010001 lvl=4
+42  CORRIDOR                 exits 36   41   -    43   f5=00010001 owner=0   f7=00000001 lvl=3
+43  CORRIDOR                 exits P14  42   -    -    f5=00010001 owner=0   f7=00000001 lvl=3
+44  KITCHEN                  exits 34   -    P14  P15  f5=10000010 owner=9   f7=00000011 lvl=3
+45  CORRIDOR                 exits P16  34   -    46   f5=00000001 owner=0   f7=00000010 lvl=3
+46  STAIRCASE                exits -    45   47   -    f5=00100001 owner=0   f7=00010001 lvl=4
+47  STAIRCASE                exits 46   -    83   -    f5=00100001 owner=0   f7=00010001 lvl=5
+48  COURTYARD                exits P5   P8   P16  49   f5=10000101 owner=3   f7=01000011 lvl=3
+49  COURTYARD                exits -    48   P17  50   f5=10000101 owner=3   f7=01000010 lvl=3
+50  COURTYARD                exits -    49   P19  P23  f5=10000101 owner=3   f7=01000011 lvl=3
+51  GATEWAY                  exits P17  -    117  P18  f5=10000011 owner=0   f7=00000010 lvl=3
+52  SECRET CORRIDOR          exits P19  P18  P20  58   f5=00010001 owner=0   f7=00000011 lvl=3
+53  MAGIC WORKSHOP           exits P20  -    P21  -    f5=10000010 owner=7   f7=00000011 lvl=3
+54  SECRET CORRIDOR          exits P21  -    -    55   f5=10000001 owner=7   f7=00000010 lvl=3
+55  SECRET STAIRCASE         exits -    54   -    56   f5=00100001 owner=7   f7=00010001 lvl=4
+56  SECRET STAIRCASE         exits 89   55   -    -    f5=00100001 owner=7   f7=00010001 lvl=5
+57  ARMOURY                  exits 62   P22  -    -    f5=10000011 owner=0   f7=01000011 lvl=3
+58  SECRET CORRIDOR          exits 59   52   -    P22  f5=00010001 owner=0   f7=00000001 lvl=3
+59  SECRET CORRIDOR          exits 60   -    58   2    f5=00010001 owner=0   f7=00000001 lvl=3
+60  SECRET STAIRCASE         exits -    -    59   61   f5=00110001 owner=0   f7=00010001 lvl=4
+61  SECRET STAIRCASE         exits -    60   94   -    f5=00110001 owner=0   f7=00010001 lvl=5
+62  LONG CORRIDOR            exits 63   -    57   -    f5=00000010 owner=0   f7=00000001 lvl=3
+63  LONG CORRIDOR            exits 64   P23  62   -    f5=00000001 owner=0   f7=00000011 lvl=3
+64  LONG CORRIDOR            exits 66   65   63   -    f5=00000001 owner=0   f7=00000001 lvl=3
+65  SOLDIERS' ROOM           exits -    -    -    64   f5=10000010 owner=0   f7=00000010 lvl=3
+66  LONG CORRIDOR            exits 14   17   64   -    f5=00000010 owner=0   f7=00000001 lvl=3
+67  CHAPEL                   exits -    68   97   -    f5=10000100 owner=5   f7=01000100 lvl=6
+68  SHORT CORRIDOR           exits 19   70   P24  67   f5=00000001 owner=5   f7=00000010 lvl=6
+69  VESTRY                   exits P24  -    -    -    f5=10000010 owner=5   f7=00000010 lvl=6
+70  GALLERY                  exits -    -    71   68   f5=10000010 owner=5   f7=00000001 lvl=6
+71  GALLERY                  exits 70   P26  -    -    f5=10000001 owner=5   f7=00000011 lvl=6
+72  GUEST-ROOM               exits -    P28  P27  -    f5=10000011 owner=0   f7=00000011 lvl=6
+73  GUEST-ROOM               exits -    -    P29  -    f5=10000010 owner=0   f7=00000100 lvl=6
+74  LANDING                  exits P29  30   P30  P28  f5=00000010 owner=0   f7=00010011 lvl=6
+75  ROOM                     exits P30  -    76   -    f5=00000011 owner=0   f7=00000011 lvl=6
+76  ROOM                     exits 75   -    P31  -    f5=00000011 owner=0   f7=00000011 lvl=6
+77  SECRET STAIRCASE         exits -    37   78   -    f5=10100001 owner=0   f7=00010001 lvl=7
+78  SECRET STAIRCASE         exits 77   110  -    -    f5=10100001 owner=0   f7=00010001 lvl=8
+79  SHORT CORRIDOR           exits -    -    40   80   f5=00000001 owner=0   f7=00000010 lvl=6
+80  GAMBLING-ROOM            exits P31  79   -    82   f5=00000100 owner=4   f7=00000010 lvl=6
+81  GUARD-ROOM               exits -    -    82   -    f5=10000010 owner=4   f7=00000010 lvl=6
+82  CORRIDOR                 exits 81   80   -    83   f5=00000001 owner=4   f7=00000010 lvl=6
+83  CORRIDOR                 exits 47   82   -    85   f5=00000001 owner=4   f7=00000001 lvl=6
+84  GUARD-ROOM               exits -    -    85   -    f5=10000010 owner=4   f7=00000010 lvl=6
+85  CORRIDOR                 exits 84   83   -    P32  f5=00000001 owner=4   f7=00000010 lvl=6
+86  TORTURE-ROOM             exits -    P32  -    P33  f5=10000011 owner=0   f7=00000011 lvl=6
+87  LOOK-OUT                 exits -    -    -    88   f5=10000010 owner=0   f7=00000010 lvl=6
+88  LONG CORRIDOR            exits 92   87   -    P35  f5=00000001 owner=0   f7=00000001 lvl=6
+89  SECRET CORRIDOR          exits 90   P35  56   -    f5=00000001 owner=7   f7=00000001 lvl=6
+90  STAIRCASE                exits 91   -    89   -    f5=00100001 owner=7   f7=00010001 lvl=7
+91  STAIRCASE                exits -    101  90   -    f5=00100001 owner=7   f7=00010001 lvl=8
+92  LONG CORRIDOR            exits 95   93   88   -    f5=00000010 owner=0   f7=00000001 lvl=6
+93  LONG CORRIDOR            exits P34  P33  -    92   f5=00000001 owner=0   f7=00000010 lvl=6
+94  PRIVATE-ROOM             exits 61   -    P34  -    f5=10000010 owner=0   f7=00000010 lvl=6
+95  LONG CORRIDOR            exits 97   -    92   -    f5=00000011 owner=0   f7=00000001 lvl=6
+96  LUMBER-ROOM              exits -    -    -    97   f5=10000100 owner=0   f7=00000010 lvl=6
+97  LONG CORRIDOR            exits 67   96   95   -    f5=00000011 owner=0   f7=00000001 lvl=6
+98  CORRIDOR                 exits P27  25   -    P26  f5=10000001 owner=0   f7=00000001 lvl=6
+99  BIRDS' NEST              exits -    -    100  P40  f5=10000001 owner=6   f7=00000011 lvl=1
+100 BELL-TOWER               exits 99   -    -    -    f5=10000010 owner=0   f7=00000011 lvl=10
+101 SHORT CORRIDOR           exits -    102  104  91   f5=00000010 owner=8   f7=00000001 lvl=9
+102 STAIRCASE                exits -    103  -    101  f5=00100001 owner=8   f7=00010001 lvl=10
+103 STAIRCASE                exits -    -    114  102  f5=00100001 owner=8   f7=00010001 lvl=11
+104 BEDROOM                  exits 101  P36  -    -    f5=10000010 owner=8   f7=00000010 lvl=9
+105 BEWITCHED ROOM           exits 105  -    -    P36  f5=10000011 owner=0   f7=00000010 lvl=9
+106 CUPBOARD                 exits -    -    P37  -    f5=10010001 owner=0   f7=00000001 lvl=12
+107 LABORATORY               exits P37  114  -    -    f5=10000010 owner=8   f7=00000010 lvl=12
+108 STORE-ROOM               exits -    109  -    -    f5=10000100 owner=8   f7=00000010 lvl=9
+109 STORE-ROOM               exits -    -    -    108  f5=00000010 owner=8   f7=00000010 lvl=9
+110 SECRET STAIRCASE         exits 111  -    -    78   f5=10100001 owner=0   f7=00010001 lvl=10
+111 SECRET STAIRCASE         exits -    -    110  112  f5=10100001 owner=0   f7=00010001 lvl=11
+112 STUDY                    exits -    -    P25  -    f5=10000011 owner=8   f7=00000011 lvl=12
+113 SMALL ROOM               exits -    -    -    P39  f5=00000010 owner=8   f7=00000001 lvl=12
+114 LABORATORY               exits 103  P38  -    107  f5=10000010 owner=8   f7=00000001 lvl=12
+115 CORRIDOR                 exits P25  P39  -    P38  f5=00000001 owner=8   f7=00000011 lvl=12
+116 OPEN AIR                 exits -    P40  -    -    f5=00000000 owner=6   f7=01000000 lvl=10
+117 DRAWBRIDGE               exits 51   -    -    -    f5=00000011 owner=0   f7=00010001 lvl=3
+PASSAGES (base &1EB9, 4 bytes)
+0   WELL               sum=0    flags=00000000  state=172  used by 
+1   STRONG DOOR        sum=4    flags=00000110  state=5  used by 1.E,3.W
+2   HOLE IN THE WALL   sum=7    flags=00000001  state=0  used by 3.E,4.W
+3   LARDER-DOOR        sum=10   flags=00001110  state=3  used by 4.E,6.W
+4   DOOR               sum=42   flags=00011110  state=3  used by 20.E,22.W
+5   DOOR               sum=72   flags=00011110  state=1  used by 24.S,48.N
+6   DOOR               sum=57   flags=00000110  state=2  used by 26.E,31.W
+7   CORD               sum=63   flags=00000000  state=0  used by 31.E,32.W
+8   DOOR               sum=81   flags=00001110  state=1  used by 33.W,48.E
+9   DOOR               sum=67   flags=00001110  state=3  used by 33.S,34.N
+10  DOOR               sum=69   flags=00010110  state=4  used by 34.E,35.W
+11  DOOR               sum=71   flags=00000110  state=1  used by 35.S,36.N
+12  HIDDEN DOOR        sum=77   flags=00100011  state=2  used by 38.S,39.N
+13  WARDROBE-DOOR      sum=75   flags=00000110  state=2  used by 36.E,39.W
+14  DOOR               sum=87   flags=00010110  state=4  used by 43.N,44.S
+15  CELLAR-DOOR        sum=53   flags=00011110  state=1  used by 9.E,44.W
+16  DOOR               sum=93   flags=00001110  state=3  used by 45.N,48.S
+17  PORTCULLIS         sum=100  flags=00000000  state=1  used by 49.S,51.N
+18  HIDDEN DOOR        sum=103  flags=00100011  state=2  used by 51.W,52.E
+19  HOLE IN THE WALL   sum=102  flags=00000001  state=0  used by 50.S,52.N
+20  DOOR               sum=105  flags=00000110  state=1  used by 52.S,53.N
+21  CURTAIN            sum=107  flags=00000010  state=1  used by 53.S,54.N
+22  HIDDEN DOOR        sum=115  flags=00100011  state=2  used by 57.E,58.W
+23  DOOR               sum=113  flags=00001110  state=3  used by 50.W,63.E
+24  CURTAIN            sum=137  flags=00000010  state=1  used by 68.S,69.N
+25  DOOR               sum=227  flags=00000110  state=1  used by 112.S,115.N
+26  HIDDEN DOOR        sum=169  flags=00100011  state=2  used by 71.E,98.W
+27  HIDDEN DOOR        sum=170  flags=00100011  state=2  used by 72.S,98.N
+28  DOOR               sum=146  flags=00000110  state=2  used by 72.E,74.W
+29  DOOR               sum=147  flags=00000110  state=2  used by 73.S,74.N
+30  DOOR               sum=149  flags=00010110  state=4  used by 74.S,75.N
+31  DOOR               sum=156  flags=00010110  state=4  used by 76.S,80.N
+32  DOOR               sum=171  flags=00000110  state=1  used by 85.W,86.E
+33  DOOR               sum=179  flags=00000110  state=1  used by 86.W,93.E
+34  DOOR               sum=187  flags=00001110  state=4  used by 93.N,94.S
+35  HIDDEN DOOR        sum=177  flags=00100011  state=2  used by 88.W,89.E
+36  HIDDEN DOOR        sum=209  flags=00100011  state=2  used by 104.E,105.W
+37  CUPBOARD-DOOR      sum=213  flags=00000110  state=2  used by 106.S,107.N
+38  MAGICAL PASSWAY    sum=229  flags=00000000  state=0  used by 114.E,115.W
+39  DOOR               sum=228  flags=00000110  state=1  used by 113.W,115.E
+40  BROKEN WINDOW      sum=215  flags=00000000  state=1  used by 99.W,116.E
+OBJECTS (base &1938, 6 bytes)
+0   ?193                    inside obj 32      f2=10100000  alt=133(WHEEL)                   wt=160  f5=10010010
+1   DEAD BODY               room 3             f2=00000101  alt=0                            wt=100  f5=00010000
+2   HOME-SPELL              inside obj 1       f2=10010101  alt=151(USED HOME-SPELL)         wt=1    f5=00000100
+3   TORCH                   room 3             f2=00000101  alt=125(EXTINGUISHED TORCH)      wt=10   f5=00000000
+4   SCRAP OF PAPER          room 10            f2=00100101  alt=0                            wt=0    f5=00000000
+5   STRIP OF PAPER          room 11            f2=00100101  alt=0                            wt=0    f5=00000000
+6   PIECE OF PAPER          room 12            f2=00100101  alt=0                            wt=1    f5=00000000
+7   HEAP OF RUBBISH         room 17            f2=00000111  alt=0                            wt=255  f5=00010000
+8   HEAP OF RUBBISH         room 65            f2=00000111  alt=0                            wt=255  f5=00010000
+9   HEAP OF RUBBISH         room 21            f2=00000111  alt=0                            wt=255  f5=00010000
+10  SHOW-CASE               room 27            f2=00001101  alt=153(BROKEN SHOW-CASE)        wt=255  f5=00000001
+11  RESERVOIR OF MAGIC      room 112           f2=10000101  alt=0                            wt=20   f5=00000000
+12  LIGHT-SPELL             inside obj 10      f2=10010101  alt=154(USED LIGHT-SPELL)        wt=1    f5=00000100
+13  POSTCARD STAND          room 33            f2=00001111  alt=0                            wt=255  f5=00010000
+14  KNIFE                   room 44            f2=00000101  alt=0                            wt=7    f5=00000000
+15  WELL                    room 49            f2=00001010  alt=0                            wt=255  f5=00010000
+16  HEAP OF GUNPOWDER       inside obj 17      f2=00000101  alt=0                            wt=7    f5=00000000
+17  CANNON                  room 50            f2=00011111  alt=0                            wt=255  f5=00010000
+18  BALL                    inside obj 46      f2=00000101  alt=0                            wt=40   f5=00000000
+19  STAFF                   room 53            f2=00000101  alt=173(BROKEN STAFF)            wt=13   f5=00000001
+20  REVEAL-SPELL            room 106           f2=10010101  alt=155(USED REVEAL-SPELL)       wt=1    f5=00000100
+21  COLLECTION OF WEAPONS   room 57            f2=00000101  alt=0                            wt=255  f5=00000000
+22  SUIT OF ARMOUR          room 57            f2=00000100  alt=0                            wt=60   f5=00000000
+23  COMPASS                 inside obj 7       f2=00010101  alt=152(BROKEN COMPASS)          wt=5    f5=00000001
+24  RING                    inside obj 8       f2=00000101  alt=156(BROKEN RING)             wt=3    f5=00000001
+25  BELL-ROPE               room 67            f2=01011000  alt=100(LEFT)                    wt=30   f5=00000000
+26  BOOK-CASE               room 71            f2=00001111  alt=0                            wt=255  f5=00010000
+27  COLLECTION OF BOOKS     inside obj 26      f2=00000101  alt=0                            wt=100  f5=00000000
+28  BOOK ON MAGIC           inside obj 26      f2=00000110  alt=0                            wt=18   f5=00010000
+29  BOOK OF SECRETS         inside obj 26      f2=00000110  alt=0                            wt=20   f5=00010000
+30  DISCLOSE-SPELL          inside obj 28      f2=10010101  alt=157(USED DISCLOSE-SPELL)     wt=1    f5=00000100
+31  WHEEL                   room 84            f2=00010101  alt=158(BROKEN WHEEL)            wt=255  f5=00000001
+32  TELESCOPE               room 87            f2=00010101  alt=159(BROKEN TELESCOPE)        wt=25   f5=00000001
+33  CHARM-SPELL             room 100           f2=10010101  alt=160(USED CHARM-SPELL)        wt=1    f5=00000100
+34  FLASK                   room 106           f2=00000111  alt=161(BROKEN FLASK)            wt=9    f5=00010001
+35  BLUE FLUID              inside obj 34      f2=00000101  alt=0                            wt=7    f5=00000000
+36  INVISIBILITY-SPELL      room 53            f2=10010101  alt=162(USED INVISIBILITY-SPELL) wt=1    f5=00000100
+37  STILL                   room 107           f2=00000101  alt=0                            wt=111  f5=00000001
+38  GREEN FLUID             inside obj 37      f2=00000101  alt=0                            wt=9    f5=00000000
+39  SUPPLY OF RED FLUID     room 108           f2=00000111  alt=0                            wt=255  f5=00010000
+40  SHORT LADDER            room 109           f2=01001101  alt=113(SHOW-CASE)               wt=255  f5=00000000
+41  SHORT LADDER            room 113           f2=01001101  alt=109(STRIP OF PAPER)          wt=255  f5=00000000
+42  GLOW-SPELL              nowhere            f2=10010101  alt=163(USED GLOW-SPELL)         wt=1    f5=00000100
+43  BUNCH OF KEYS           held by actor 2    f2=00000101  alt=0                            wt=10   f5=00000000
+44  WAD OF MONEY            held by actor 3    f2=00000101  alt=0                            wt=4    f5=00000000
+45  RED FLUID               inside obj 39      f2=00000101  alt=0                            wt=7    f5=00000000
+46  STACK OF BALLS          room 50            f2=00001111  alt=0                            wt=255  f5=00010000
+47  FOOD SUPPLY             room 6             f2=00000101  alt=0                            wt=30   f5=00000000
+48  SERIES OF RUNGS         room 5             f2=01001001  alt=49(HOLE IN THE WALL)         wt=255  f5=00000000
+49  SERIES OF RUNGS         inside obj 15      f2=01001001  alt=5(LARDER)                    wt=255  f5=00000000
+50  KILL-SPELL              held by actor 8    f2=10010101  alt=164(USED KILL-SPELL)         wt=1    f5=00000100
+51  (0)                     room 1             f2=10000001  alt=2(DUNGEON)                   wt=0    f5=00110001
+ACTORS (base &1E81, 6 bytes)
+0  (0)          str=0    loc=3    mood=0   magic=17   dead=CELLAR-VAULT             owns rooms 1,2,8,14,15,16,17,18,19,20,21,25,26,34,35,36,37,38,39,40,41,42,43,45,46,47,51,52,57,58,59,60,61,62,63,64,65,66,72,73,74,75,76,77,78,79,86,87,88,92,93,94,95,96,97,98,100,105,106,110,111,117
+1  YOU          str=250  loc=51   mood=0   magic=150  dead=(0)                      owns rooms 
+2  CUSTODIAN    str=150  loc=28   mood=0   magic=0    dead=DEAD CUSTODIAN           owns rooms 22,23,24,27,28,29,30,31,32
+3  GIRL         str=100  loc=33   mood=0   magic=0    dead=GIRL'S BODY              owns rooms 33,48,49,50
+4  GATEKEEPER   str=250  loc=85   mood=0   magic=0    dead=BODY OF THE GATEKEEPER   owns rooms 80,81,82,83,84,85
+5  PRIEST       str=100  loc=69   mood=0   magic=0    dead=DEAD PRIEST              owns rooms 67,68,69,70,71
+6  EAGLE        str=150  loc=99   mood=0   magic=0    dead=EAGLE'S CARCASS          owns rooms 99,116
+7  WIZARD       str=1    loc=54   mood=0   magic=0    dead=WIZARD'S BODY            owns rooms 53,54,55,56,89,90,91
+8  WIZARD       str=100  loc=112  mood=0   magic=0    dead=WIZARD'S BODY            owns rooms 101,102,103,104,107,108,109,112,113,114,115
+9  RAT          str=50   loc=4    mood=0   magic=0    dead=DEAD RAT                 owns rooms 3,4,5,6,7,9,10,11,12,13,44
+VERBS (base &1F5B, 2 bytes)
+0  (0)          needs=00000001
+1  GO           needs=00000110
+2  TURN         needs=00000110
+3  CLIMB        needs=00010011
+4  TAKE         needs=00010001
+5  DROP         needs=00010000
+6  GIVE         needs=01010001
+7  PUT          needs=10010001
+8  STRIKE       needs=00100011
+9  EXAMINE      needs=00100001
+10 OPEN         needs=00001010
+11 CLOSE        needs=00001010
+12 LOCK         needs=00001011
+13 UNLOCK       needs=00001011
+14 LOOK         needs=00000000
+15 WAIT         needs=00000000
+16 ATTACK       needs=01000011
+17 MEASURE      needs=00000001
+18 USE          needs=00010001
+19 INVENTORY    needs=00000000
+20 SCORE        needs=00000000
+21 SAVE         needs=00000000
+EXCEPTION: TypeError: Cannot read properties of undefined (reading 'toString')
+    at file:///C:/Users/dmcr4/AppData/Roaming/Claude/scratch-workspaces/c3ec6dcc-b616-4501-8099-80961f1ca3ef/9be8855e-f6ea-4686-a553-2f70b10fdd77/scratch-2026-09-17-8363fb/test/dumpdata.html:45:123

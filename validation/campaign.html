@@ -1,0 +1,45 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script src="campaign.js"></script>
+<script src="bytecode.js"></script>
+<script>
+try {
+    const q = new URLSearchParams(location.search);
+    const num = (k, d) => (q.has(k) ? Number(q.get(k)) : d);
+    // 1. the data: a freshly reset engine world must equal $.!Start byte for byte
+    const eng = createArendarvonGame({});
+    const fresh = eng.newWorldSnapshot();
+    const d = V.stateDiff(V.START, fresh, null);
+    V.log("DATA CHECK: engine's new world vs $.!Start: " + (d.length ? d.length + " bytes differ: " + d.slice(0, 10).join(", ") : "all 1672 bytes identical"));
+    // 2. the campaign
+    const coverage = { ins: new Set(), taken: new Set(), notTaken: new Set() };
+    let total = { steps: 0, problems: 0, games: 0, quits: 0, halts: 0, mutations: 0, ms: 0 };
+    const seeds = num("seeds", 1), first = num("seed", 1);
+    for (let s = first; s < first + seeds; s++) {
+        const r = Campaign.run({ seed: s, games: num("games", 10), commands: num("commands", 100), fuzz: num("fuzz", 0.05), smart: num("smart", 0), scenario: num("scenario", 0), coverage, maxProblems: num("maxProblems", 5) });
+        total.steps += r.steps; total.problems += r.problems; total.games += r.gamesRun; total.quits += r.quits; total.halts += r.halts; total.mutations += r.mutations; total.ms += r.ms;
+        if (total.problems >= num("maxProblems", 5)) break;
+    }
+    V.log("CAMPAIGN: " + JSON.stringify(total));
+    V.log("COVERAGE: instructions executed " + coverage.ins.size + ", branches taken " + coverage.taken.size + ", not taken " + coverage.notTaken.size);
+    window.COVERAGE = coverage;
+    // Coverage is measured on the program the reference ran: the original with the fixes.
+    const program = Bytecode.analyse([[0x012b, [0x02]], [0x09c8, [0x03]]].concat(Patches.build(Patches.ALL)));
+    const all = program.list;
+    const missIns = all.filter(i => !coverage.ins.has(i.off));
+    const ifs = all.filter(i => i.kind === "if");
+    const missTaken = ifs.filter(i => !coverage.taken.has(i.off)), missNot = ifs.filter(i => !coverage.notTaken.has(i.off));
+    V.log("REACHABLE (original + fixes): " + all.length + " instructions, " + ifs.length + " conditionals");
+    V.log("NOT EXECUTED (" + missIns.length + "): " + missIns.map(i => i.off.toString(16).padStart(4, "0")).join(","));
+    V.log("BRANCH NEVER TAKEN (" + missTaken.length + "): " + missTaken.map(i => i.off.toString(16).padStart(4, "0")).join(","));
+    V.log("BRANCH NEVER FALLEN THROUGH (" + missNot.length + "): " + missNot.map(i => i.off.toString(16).padStart(4, "0")).join(","));
+} catch (e) { V.log("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = V.out.join("\n");
+</script></body></html>

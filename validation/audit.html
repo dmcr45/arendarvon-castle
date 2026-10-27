@@ -1,0 +1,112 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="bytecode.js"></script>
+<script src="engine-source.js"></script>
+<script>
+// STATIC TRACEABILITY AUDIT of arendarvon-engine.js against the bytecode on the SSD.
+const out = [];
+const log = (s) => out.push(s);
+try {
+    const hex = (n) => n.toString(16).padStart(4, "0");
+    const code = Bytecode.code;
+    const starts = Bytecode.list.map(i => i.off);
+    const lines = ENGINE_SOURCE.split("\n");
+    const mentioned = new Map();        // offset -> [line numbers]
+    const bad = [];
+    const lineOffsets = [];             // per line: offsets referenced
+    let tagged = 0;
+    lines.forEach((text, n) => {
+        const offs = [];
+        const cm = text.indexOf("//");
+        if (cm < 0) { lineOffsets.push(offs); return; }
+        const comment = text.substring(cm);
+        if (text.substring(0, cm).trim() === "" || /^\s*\*/.test(text)) { lineOffsets.push(offs); return; }   // tags count only on code lines
+        const re = /@([0-9a-f]{4})(?:-([0-9a-f]{4}))?/g;
+        let m;
+        while ((m = re.exec(comment)) !== null) {
+            const a = parseInt(m[1], 16), b = m[2] ? parseInt(m[2], 16) : a;
+            if (!code.has(a)) bad.push("line " + (n + 1) + ": @" + m[1] + " is not an instruction start");
+            if (m[2] && !code.has(b)) bad.push("line " + (n + 1) + ": @" + m[2] + " (range end) is not an instruction start");
+            if (b < a) bad.push("line " + (n + 1) + ": bad range " + m[0]);
+            for (const s of starts) if (s >= a && s <= b) { offs.push(s); if (!mentioned.has(s)) mentioned.set(s, []); mentioned.get(s).push(n + 1); }
+            tagged++;
+        }
+        lineOffsets.push(offs);
+    });
+    log("Offset tags found: " + tagged + " on " + lineOffsets.filter(o => o.length).length + " lines");
+    log("Invalid tags: " + bad.length);
+    bad.forEach(b => log("  " + b));
+
+    // Every reachable instruction must be accounted for (GOTOs may become structure).
+    const missing = Bytecode.list.filter(i => !mentioned.has(i.off));
+    const missingNonGoto = missing.filter(i => i.kind !== "goto");
+    log("Reachable instructions: " + Bytecode.list.length + "  (GOTO: " + Bytecode.list.filter(i => i.kind === "goto").length + ")");
+    log("Instructions tagged in the source: " + mentioned.size);
+    log("Non-GOTO instructions with no tag: " + missingNonGoto.length + (missingNonGoto.length ? "  " + missingNonGoto.map(i => hex(i.off) + "(" + i.kind + ")").join(", ") : ""));
+    log("GOTO instructions that became pure structure (untagged): " + missing.filter(i => i.kind === "goto").length);
+
+    // Every PRINT: the say() literal on its line must be exactly the original message -
+    // or, where an approved fix changed the message (patches.js), exactly the new one.
+    for (const n of Object.keys(Patches.READABLE)) MESSAGES_READABLE[Number(n)] = Patches.READABLE[n];
+    const fixed = Bytecode.analyse(Patches.build(Patches.ALL));
+    const changedPrints = [];
+    let printsChecked = 0, printsIndirect = 0;
+    const printProblems = [];
+    for (const ins of Bytecode.list.filter(i => i.kind === "print")) {
+        const now = fixed.decode(ins.off);
+        const msg = now.kind === "print" ? now.msg : ins.msg;
+        if (msg !== ins.msg) changedPrints.push("@" + hex(ins.off) + " msg" + ins.msg + " -> msg" + msg + " " + JSON.stringify(MESSAGES_READABLE[msg]));
+        const want = MESSAGES_READABLE[msg];
+        const where = mentioned.get(ins.off) || [];
+        let found = false, indirect = false;
+        for (const ln of where) {
+            const m = /say\("((?:[^"\\]|\\.)*)"\)/.exec(lines[ln - 1]);
+            if (m) {
+                const literal = JSON.parse('"' + m[1] + '"');
+                if (literal === want) found = true;
+                else printProblems.push("@" + hex(ins.off) + " line " + ln + ": say(" + JSON.stringify(literal) + ") but the original prints msg" + msg + " " + JSON.stringify(want));
+            } else if (/say\(\w+\)|askPlayer|describeExit|listObjectsAt|winGame|die\(/.test(lines[ln - 1])) {
+                indirect = true;
+            }
+        }
+        if (found) printsChecked++;
+        else if (indirect && ENGINE_SOURCE.indexOf(JSON.stringify(want).slice(1, -1)) >= 0) printsIndirect++;
+        else if (!printProblems.some(p => p.startsWith("@" + hex(ins.off)))) printProblems.push("@" + hex(ins.off) + ": no say() of msg" + msg + " " + JSON.stringify(want));
+    }
+    log("PRINT instructions: " + Bytecode.list.filter(i => i.kind === "print").length + "; say() literal verified on the tagged line: " + printsChecked + "; passed through a parameter (text verified present): " + printsIndirect);
+    log("PRINT instructions whose message an approved fix changed: " + changedPrints.length + (changedPrints.length ? "  " + changedPrints.join("; ") : ""));
+    log("PRINT problems: " + printProblems.length);
+    printProblems.forEach(p => log("  " + p));
+
+    // Every say("...") literal in the game logic must be one of the original messages
+    // (or one of the fixes' new messages, which use only words of the original vocabulary).
+    const known = new Set(MESSAGES_READABLE);
+    const fixLines = lines.filter(l => /\(FIX \d+/.test(l)).length;
+    log("Lines marked (FIX n): " + fixLines + "; new messages: " + Object.keys(Patches.READABLE).map(n => "msg" + n + " " + JSON.stringify(Patches.READABLE[n]) + (ENGINE_SOURCE.indexOf('say("' + Patches.READABLE[n].replace(/'/g, "'") + '")') >= 0 ? " (used)" : " (NOT USED)")).join("; "));
+    const partStart = lines.findIndex(l => l.includes("PART 4  GAME LOGIC"));
+    const partEnd = lines.findIndex(l => l.includes("PART 5  GAME DATA"));
+    const strays = [];
+    for (let n = partStart; n < partEnd; n++) {
+        const re = /(?:say|askPlayer)\((?:\w+, )?"((?:[^"\\]|\\.)*)"\)/g;
+        let m;
+        while ((m = re.exec(lines[n])) !== null) {
+            const literal = JSON.parse('"' + m[1] + '"');
+            if (!known.has(literal)) strays.push("line " + (n + 1) + ": " + JSON.stringify(literal));
+        }
+    }
+    log("say() texts in PART 4 that are not original messages: " + strays.length);
+    strays.forEach(s => log("  " + s));
+
+    // Which messages are printed by the bytecode (with the fixes) at all?
+    const used = new Set(fixed.list.filter(i => i.kind === "print").map(i => i.msg));
+    const unused = [];
+    for (let i = 1; i < MESSAGES_READABLE.length; i++) if (!used.has(i)) unused.push("msg" + i + " " + JSON.stringify(MESSAGES_READABLE[i]));
+    log("Messages never printed by the bytecode: " + unused.join("; "));
+} catch (e) { log("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

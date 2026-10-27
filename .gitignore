@@ -1,0 +1,15 @@
+# saved games made while playing
+saves/
+validation/saves/
+
+# editor and OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+
+# test leftovers
+node_modules/
+*.tmp
+edgeprofile/

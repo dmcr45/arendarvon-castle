@@ -1,0 +1,132 @@
+<!doctype html>
+<html><body><pre id="out"></pre>
+<script src="ssd-data.js"></script>
+<script src="cpu6502.js"></script>
+<script src="bbcref.js"></script>
+<script src="patches.js"></script>
+<script src="messages.js"></script>
+<script src="../arendarvon-engine.js"></script>
+<script src="validate.js"></script>
+<script src="campaign.js"></script>
+<script>
+// What does each approved fix change? For each fix, the original bytecode (A: with the @012b
+// and @09c8 corrections, as validated before) runs side by side with the same bytecode plus
+// that ONE fix (B), both written as real bytecode (patches.js). Before every command B is
+// given A's exact state and both get the same random numbers, so each command is compared
+// on its own. A "trigger" is recorded when A does the thing the fix is about:
+//   loop     the character loop's counter jumped (a character moved the player)
+//   record0  an instruction used record 0 of a table
+//   locks    UNLOCK of a non-door (@0459), UNLOCK leaving a door OPEN (@0484), or LOCK of a
+//            door that was not CLOSED (@0444)
+// Every difference must come from a command with a trigger.
+// State bytes compared: all except the scratch bytes (V.SCRATCH) and &1905 ('character'):
+// at the command prompt that byte is dead - the next command sets it before any use (@0077) -
+// and with the loop fix it is left as the last character to act instead of 10.
+const out = [];
+try {
+    const q = new URLSearchParams(location.search);
+    const steps = Number(q.get("steps") || 20000);
+    const doorRate = Number(q.has("doors") ? q.get("doors") : 0.25);
+    const OBJ = (o, f) => 0x38 + 6 * o + f, CH = (c, f) => 0x581 + 6 * c + f, ROOM = (r, f) => 0x161 + 9 * r + f, PAS = (p, f) => 0x5B9 + 4 * p + f;
+    // every place where the player can face a door that has a lock: [room, facing, passage]
+    const DOOR_SPOTS = [];
+    for (let r = 1; r <= 117; r++) for (let d = 1; d <= 4; d++) {
+        const exit = V.START[ROOM(r, d)];
+        if ((exit & 128) && (V.START[PAS(exit & 127, 2)] & 12) === 12) DOOR_SPOTS.push([r, d, exit & 127]);
+    }
+    const NOT_DOOR_SPOTS = [];
+    for (let r = 1; r <= 117; r++) for (let d = 1; d <= 4; d++) {
+        const exit = V.START[ROOM(r, d)];
+        if ((exit & 128) && (V.START[PAS(exit & 127, 2)] & 4) === 0) NOT_DOOR_SPOTS.push([r, d, exit & 127]);
+    }
+    out.push("Doors with a lock can be faced from " + DOOR_SPOTS.length + " places; passages that are not doors from " + NOT_DOOR_SPOTS.length + ".");
+
+    for (const fix of Patches.ALL) {
+        const rng = V.mulberry32(4242);
+        const R = (n) => Math.floor(rng() * n);
+        const pick = (arr) => arr[R(arr.length)];
+        let trigger = false, expectNext = 2;
+        const watch = (off, mem) => {
+            const G = (n) => mem[0x1900 + n];
+            if (fix === "loop") {
+                if (off === 0x0ed8) expectNext = 2;
+                else if (off === 0x0edd) { if (G(5) !== expectNext) trigger = true; expectNext = G(5) + 1; }
+                else if (off === 0x0f2f) trigger = true;
+            } else if (fix === "locks") {
+                if (off === 0x0459 || off === 0x0484) trigger = true;
+                if (off === 0x0444 && mem[0x1EB9 + 4 * G(4) + 3] !== 2) trigger = true;
+            } else if (fix === "record0") {
+                const at = 0x21C7 + off, opcode = mem[at];
+                if (opcode === 0xC4 || (opcode & 0xF0) === 0x80) return;
+                const [a, b] = (opcode & 0xC0) === 0xC0 ? [at + 2, at + 4] : [at + 1, at + 3];
+                [[a, 0x20], [b, 0x10]].forEach(([p, bit]) => {
+                    if (mem[p] === 0) return;
+                    const index = (opcode & bit) ? mem[0x1900 + mem[p + 1]] : mem[p + 1];
+                    if (index === 0) trigger = true;
+                });
+            }
+        };
+        let seedA = null, seedB = null, A, B;
+        const fresh = () => {
+            A = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(seedA() * n), patch012b: true, patch09c8: true, onInstruction: watch });
+            B = new Ref.Machine(SSD_BASE64, { random: (n) => 1 + Math.floor(seedB() * n), patch012b: true, patch09c8: true, patches: [fix] });
+            seedA = V.mulberry32(1); seedB = V.mulberry32(1);
+            A.run(); B.run();
+        };
+        fresh();
+        const gen = Campaign.commandGenerator(rng);
+        let triggered = 0, differed = 0, differedWithout = 0;
+        const examples = [], kinds = new Map(), movers = new Map();
+        const firstMessage = (t) => (t.split(" | ").find(x => !/^R:/.test(x)) || "").replace(/\| R:.*$/, "");
+        for (let i = 0; i < steps; i++) {
+            if (A.status !== "input") { fresh(); continue; }
+            const bytes = A.state();
+            let line;
+            if (fix === "locks" && rng() < doorRate) {                 // stand at a door (or a passage that is not one)
+                const [room, facing, p] = rng() < 0.85 ? pick(DOOR_SPOTS) : pick(NOT_DOOR_SPOTS);
+                bytes[CH(1, 2)] = room; bytes[9] = facing;
+                if (rng() < 0.8) bytes[OBJ(43, 0)] = 193;              // carrying the BUNCH OF KEYS
+                if ((V.START[PAS(p, 2)] & 4) !== 0) bytes[PAS(p, 3)] = 1 + R(5);   // OPEN .. BOLTED
+                bytes[CH(2, 2)] = 28;                                   // the custodian elsewhere
+                line = pick(["LOCK AHEAD", "UNLOCK AHEAD", "LOCK AHEAD", "UNLOCK AHEAD", "OPEN AHEAD", "CLOSE AHEAD", "EXAMINE AHEAD", "GO AHEAD"]);
+            } else {
+                line = rng() < 0.6 ? Campaign.smartCommand(bytes, rng) : gen();
+                if (/^(SAVE|LOAD)/.test(line)) line = "WAIT";
+            }
+            A.mem.set(bytes, 0x1900); B.mem.set(bytes, 0x1900);
+            const s = R(1e9); seedA = V.mulberry32(s); seedB = V.mulberry32(s);
+            trigger = false;
+            let ea, eb;
+            try { ea = A.submit(line.toUpperCase()); } catch (e) { ea = [{ type: "halt" }]; }
+            try { eb = B.submit(line.toUpperCase()); } catch (e) { eb = [{ type: "halt" }]; }
+            if (trigger) triggered++;
+            if (trigger && fix === "loop") {                            // what moved the player?
+                const said = ea.filter(e => e.type === "print").map(e => MESSAGES_READABLE[e.msg]);
+                const mover = ["HE LOCKS YOU UP.", "IT CARRIES YOU THROUGH THE AIR AND PUTS YOU DOWN GENTLY."].find(m => said.includes(m)) || "other: " + said.join(" / ");
+                movers.set(mover, (movers.get(mover) || 0) + 1);
+            }
+            const ta = ea.map(V.refEventText).join(" | "), tb = eb.map(V.refEventText).join(" | ");
+            const sa = A.state(), sb = B.state();
+            const stateDiffs = [];
+            for (let k = 0; k < 1672; k++) if (sa[k] !== sb[k] && !V.SCRATCH.has(k) && k !== 5) stateDiffs.push("&" + (0x1900 + k).toString(16).toUpperCase());
+            if (ta !== tb || stateDiffs.length) {
+                differed++;
+                if (!trigger) differedWithout++;
+                const kind = firstMessage(ta) + " => " + firstMessage(tb) + (stateDiffs.length ? " (state)" : "");
+                kinds.set(kind, (kinds.get(kind) || 0) + 1);
+                if ((kinds.get(kind) === 1 && examples.length < Number(q.get("examples") || 12)) || (!trigger && examples.length < 40))
+                    examples.push("  command: " + line + (trigger ? "" : "   ** NO TRIGGER **") +
+                        "\n  original: " + ta.replace(/P:/g, "").replace(/ \| R:[^|]*/g, "") +
+                        "\n  fixed:    " + tb.replace(/P:/g, "").replace(/ \| R:[^|]*/g, "") +
+                        (stateDiffs.length ? "\n  state bytes that differ afterwards: " + stateDiffs.slice(0, 8).join(" ") : ""));
+            }
+            if (A.status !== B.status || A.status === "waitkey" || A.status === "halted") fresh();
+        }
+        out.push("");
+        out.push("FIX '" + fix + "': " + steps + " commands; triggered in " + triggered + "; outcome differed in " + differed + "; differed WITHOUT a trigger: " + differedWithout);
+        if (movers.size) out.push("  what moved the player when the loop jumped: " + Array.from(movers.entries()).map(([m, n]) => JSON.stringify(m) + " x" + n).join("; "));
+        examples.forEach(e => out.push(e));
+    }
+} catch (e) { out.push("EXCEPTION: " + e.stack); }
+document.getElementById("out").textContent = out.join("\n");
+</script></body></html>

@@ -1,0 +1,5 @@
+﻿original: loops for ever: true (50000 events before the guard stopped it; first: P:YOU WAIT. | R:4=4 | P:THE GIRL SMILES AND SAYS: 'CAN I HELP YOU?' | R:4=3 | R:3=1 | R:4=2)
+with the fixes: loops for ever: false; the turn ends normally: true
+  fixed bytecode: P:YOU WAIT. | R:4=4 | P:THE GIRL SMILES AND SAYS: 'CAN I HELP YOU?' | R:4=3 | R:3=1 | R:4=2 | P:THE $6 IS FRIENDLY. | P:IT CARRIES YOU THROUGH THE AIR AND PUTS YOU DOWN GENTLY. | P:YOU ARE IN $12 $4. | P:THERE IS A $6 HERE. | R:4=2 | R:5=3 | R:50=15 | R:5=5 | R:4=1 | R:10=9 | R:4=1 | P:$0 > | I
+  engine:         P:YOU WAIT. | R:4=4 | P:THE GIRL SMILES AND SAYS: 'CAN I HELP YOU?' | R:4=3 | R:3=1 | R:4=2 | P:THE $6 IS FRIENDLY. | P:IT CARRIES YOU THROUGH THE AIR AND PUTS YOU DOWN GENTLY. | P:YOU ARE IN $12 $4. | P:THERE IS A $6 HERE. | R:4=2 | R:5=3 | R:50=15 | R:5=5 | R:4=1 | R:10=9 | R:4=1 | P:$0 > | I
+  differences between them: none
