@@ -103,8 +103,9 @@ data, so treat the whole as a derivative work.
 It is published as preservation of a type-in listing forty years out of print,
 following the line [bbcmicro.co.uk](https://bbcmicro.co.uk/game.php?id=2216)
 draws: the program is archived so people can play it, and the printed book is
-left to others. The program is here; the book is not. If any of the authors or
-rights holders would prefer this changed or taken down, saying so is enough.
+left to others. The program is here; the book is not. And if any of the authors
+or rights holders would prefer this be changed or taken down, their request will
+be promptly honored.
 
 ## Credits
 
