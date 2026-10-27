@@ -142,7 +142,7 @@ program listings, dated 7 July 1984. The castle, the writing, the puzzles and
 ALADIN itself are theirs.
 
 The refactor, harness and documentation are mine — **Dennis McRitchie** —
-working with Claude Code (Anthropic): I set the goals, made the design
-decisions, desk-checked the code, and played the result as an additional
-validation; Claude Code did the disassembly, wrote the code, and built and ran
-the test harness.
+working with Claude Code (Anthropic), running Claude Opus 5: I set the goals,
+made the design decisions, desk-checked the code, and played the result as an
+additional validation; Claude Code did the disassembly, wrote the code, and
+built and ran the test harness.

@@ -323,7 +323,7 @@ const page = [
     '   @page{size:landscape;margin:8mm}',
     '   :root{--paper:#fff}',
     '   body{padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}',
-    '   header{display:none}',
+    '   header{max-width:none;break-after:page;page-break-after:always}',
     '   svg{margin:0;width:100%;break-inside:avoid;page-break-inside:avoid;break-after:page;page-break-after:always}',
     '   svg:last-of-type{break-after:auto;page-break-after:auto}',
     ' }',
