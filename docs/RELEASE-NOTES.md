@@ -1,6 +1,6 @@
 # v1.0.0 — The Secret of Arendarvon Castle, playable again
 
-The 1984 BBC Micro adventure by Hal Renko & Sam Edwards with Arend Rensink
+The 1985 BBC Micro adventure by Hal Renko & Sam Edwards with Arend Rensink
 (Addison-Wesley, ISBN 0-201-14080-4), disassembled from its original ALADIN
 bytecode and rewritten as a single, documented JavaScript file that runs on its
 own — no BBC Micro, no emulator, no BASIC.
@@ -31,7 +31,7 @@ message, every random number, and all 1,672 bytes of saved state.
 
 `docs/VALIDATION_REPORT.txt` gives the full account, and the suite can be re-run.
 
-## Deliberate differences from 1984
+## Deliberate differences from the original
 
 Lower-case input, sentence-case output, text wrapped to the window, readable JSON
 saved games, and `QUIT`/`EXIT` in place of the authors' debug word `XXX`.

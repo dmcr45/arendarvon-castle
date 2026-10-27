@@ -1,7 +1,8 @@
 # The Secret of Arendarvon Castle
 
-A playable, documented refactor of the 1984 BBC Micro adventure by Hal Renko &
-Sam Edwards with Arend Rensink (Addison-Wesley, ISBN 0-201-14080-4).
+A playable, documented refactor of the 1985 BBC Micro adventure by Hal Renko &
+Sam Edwards with Arend Rensink (Addison-Wesley, ISBN 0-201-14080-4). The
+program listings in the book are dated July 1984.
 
 The game was published as a type-in listing, so its buyers spent seven evenings
 copying an encoded program out of a book without being able to read a line of
@@ -112,11 +113,11 @@ be promptly honored.
 
 ## Credits
 
-The game is by **Hal Renko & Sam Edwards** with **Arend Rensink**. The first two
-are pen names, used across a number of 1980s computer books: Hal Renko is Kasper
-Boon, Sam Edwards is Alex Pelsmaeker. Rensink's own name signs the program
-listings, dated 7 July 1984. The castle, the writing, the puzzles and ALADIN
-itself are theirs.
+The game is by **Hal Renko** & **Sam Edwards** with **Arend Rensink**. The
+first two are pen names, used across a number of 1980s computer books: Hal Renko
+is Kasper Boon, Sam Edwards is Alex Pelsmaeker. Rensink's own name signs the
+program listings, dated 7 July 1984. The castle, the writing, the puzzles and
+ALADIN itself are theirs.
 
 The refactor, harness and documentation are mine — **Dennis McRitchie** —
 working with Claude Code (Anthropic): I set the goals, made the design
