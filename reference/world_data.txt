@@ -1,4 +1,4 @@
-﻿ROOMS (base &1A61, 9 bytes)
+ROOMS (base &1A61, 9 bytes)
 0   LARDER                   exits P127 -    P72  P22  f5=10010101 owner=164 f7=00000001 lvl=4
 1   SECRET STAIRCASE         exits -    P1   2    -    f5=00110001 owner=0   f7=00010001 lvl=1
 2   SECRET STAIRCASE         exits 1    59   -    -    f5=00110001 owner=0   f7=00010001 lvl=2
@@ -246,5 +246,10 @@ VERBS (base &1F5B, 2 bytes)
 19 INVENTORY    needs=00000000
 20 SCORE        needs=00000000
 21 SAVE         needs=00000000
-EXCEPTION: TypeError: Cannot read properties of undefined (reading 'toString')
-    at file:///C:/Users/dmcr4/AppData/Roaming/Claude/scratch-workspaces/c3ec6dcc-b616-4501-8099-80961f1ca3ef/9be8855e-f6ea-4686-a553-2f70b10fdd77/scratch-2026-09-17-8363fb/test/dumpdata.html:45:123
+22 LOAD         needs=00000000   (byte at &1F88, past the saved area)
+GLOBALS G[1] &1900: 0 0 0 0 0 0 0 0 0 1 8 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0
+GLOBALS G[2] &191F: 133 75 51 51 3 2 48 92 97 165 105 196 233 160 4 2 3 160 215 165 160 176 198 160 160 160 193 160 133 160 146
+WORDS with spaces: 3
+Glue after $0 or at start:
+  msg37: ["\b,","A","$2"]
+Descriptions containing $: 

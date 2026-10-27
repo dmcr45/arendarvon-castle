@@ -60,4 +60,6 @@ release is a translation, published as preservation with full credit and no
 claim over the original; see the README.
 
 The refactor, the harness and the documentation are by Dennis McRitchie, working
-with Claude (Anthropic).
+with Claude Code (Anthropic): Dennis set the goals, made the design decisions,
+desk-checked the code and played the result as an additional validation; Claude
+Code did the disassembly, wrote the code, and built and ran the test harness.

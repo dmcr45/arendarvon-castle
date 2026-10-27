@@ -13,8 +13,11 @@ is tested rather than asserted.
 
 ## Play it
 
-**In a browser:** open `arendarvon.html`, keeping it next to
-`arendarvon-engine.js`. 
+**Online, right now:** [dmcr45.github.io/arendarvon-castle](https://dmcr45.github.io/arendarvon-castle/)
+
+**From a download:** take the zip from the
+[latest release](https://github.com/dmcr45/arendarvon-castle/releases/latest)
+and open `arendarvon.html`, keeping it next to `arendarvon-engine.js`.
 
 **In a terminal,** with [Node.js](https://nodejs.org):
 ```bash
@@ -116,6 +119,7 @@ listings, dated 7 July 1984. The castle, the writing, the puzzles and ALADIN
 itself are theirs.
 
 The refactor, harness and documentation are mine — **Dennis McRitchie** —
-working with Claude (Anthropic): I set the goals, made the design decisions and
-played the result; Claude did the disassembly, wrote the code, and built and ran
+working with Claude Code (Anthropic): I set the goals, made the design
+decisions, desk-checked the code, and played the result as an additional
+validation; Claude Code did the disassembly, wrote the code, and built and ran
 the test harness.
