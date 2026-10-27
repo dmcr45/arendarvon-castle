@@ -1,36 +1,31 @@
-This repository contains two kinds of work, and only one of them is mine to
-license. Please read NOTICE.md first.
+This repository holds two kinds of work, and only one of them is mine to
+license. See "Rights and preservation" in README.md.
 
 1. THE ORIGINAL GAME
 
    "The Secret of Arendarvon Castle" (Addison-Wesley, 1984/85) by Hal Renko &
-   Sam Edwards with Arend Rensink: its logic, text, world data, puzzles, the
-   ALADIN virtual machine and its bytecode, in whatever form they appear here.
+   Sam Edwards with Arend Rensink: its logic, text, world data, puzzles, and the
+   ALADIN virtual machine and bytecode, in whatever form they appear here.
 
-   Copyright remains with the authors and/or their publisher's successor. No
-   license is granted over it by me, because none is mine to grant. The
-   engine in this repository is a translation of that program and embeds its
-   text and data, so it is a derivative work: using it requires the rights
-   holders' permission, not merely mine.
+   Copyright rests with the authors or their publisher's successor.
 
-2. MY OWN CONTRIBUTIONS
+2. MY CONTRIBUTIONS
 
    The structure, naming and commentary of the refactored source; the test
    harness, including the 6502 emulator and the re-implemented BBC BASIC host;
-   the browser and terminal front ends; the documentation and the map.
+   the two front ends; the documentation and the map.
 
    Copyright (c) 2026 Dennis McRitchie
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of these contributions, to deal in them without restriction, including
    without limitation the rights to use, copy, modify, merge, publish,
-   distribute, sublicense and/or sell copies, and to permit persons to whom
-   they are furnished to do so, subject to the following conditions:
+   distribute, sublicense and/or sell copies, and to permit persons to whom they
+   are furnished to do so, subject to the following conditions:
 
    The above copyright notice and this permission notice shall be included in
-   all copies or substantial portions of these contributions, and nothing in
-   this grant shall be read as granting any right in the original game
-   described in paragraph 1.
+   all copies or substantial portions of these contributions. Nothing here
+   grants any right in the original game described above.
 
    THESE CONTRIBUTIONS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
