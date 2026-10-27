@@ -41,7 +41,8 @@ capitals on a 40-column screen.
 | `arendarvon.html`, `arendarvon.js` | browser and terminal front ends |
 | `validation/` | the test harness: a 6502 emulator, the BASIC host re-implemented, and the comparison campaign |
 | `reference/` | listings made from the disc: bytecode, the 6502 VM, vocabulary, messages, descriptions, world data, the BASIC host |
-| `docs/` | validation report, castle map |
+| `maps/` | a map of all five floors, drawn from the game data |
+| `docs/` | validation report |
 | `disc/` | the disc image the harness runs against |
 
 Every statement carries the offset of the bytecode it came from, so any line can
@@ -83,6 +84,27 @@ the keys open doors the author had nailed shut.
 Each fix was also written into the original bytecode, so the comparison above
 still runs against a like-for-like original;
 `reference/fixes_bytecode_listing.txt` lists those patches.
+
+## The map
+
+[All five floors](https://dmcr45.github.io/arendarvon-castle/maps/), generated from the
+game's tables rather than drawn by hand: every room at the size MEASURE reports,
+every door in the state it starts in, every object and character where the game
+puts them, the staircases with the way up marked, and the oddities: the magical
+passway, the one-way entrance to the Study, the drawbridge that ends the game.
+
+[![The first floor](maps/floor-1.svg)](https://dmcr45.github.io/arendarvon-castle/maps/)
+
+To redraw them after a change to the engine:
+
+```bash
+node tools/mapmodel.js arendarvon-engine.js tools/map-layout.json > model.json
+node tools/makemap.js model.json maps
+```
+
+`tools/map-layout.json` holds where each room sits. The game fixes the rooms'
+sizes and which walls they share, but not where a corridor slides along a wall;
+those few free choices are frozen in that file.
 
 ## The original
 

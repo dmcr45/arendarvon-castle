@@ -1,0 +1,438 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1112 736" width="1112" height="736">
+<style>
+:root{--paper:#F6F4EE;--ink:#1E242B;--dim:#76808A;--grid:#E6E2D8;--room:#FFFDF8;--dark:#EAE5D9;--scores:#FBF6E4;--accent:#1F5C8B;--accent2:#7A5B16;--magic:#7B3FA0;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#141A20;--ink:#DEE4EA;--dim:#8B97A2;--grid:#1F272F;--room:#1C242C;--dark:#161D24;--scores:#222A26;--accent:#7FB1DC;--accent2:#D9B36A;--magic:#C08BE0;}}
+:root[data-theme="dark"]{--paper:#141A20;--ink:#DEE4EA;--dim:#8B97A2;--grid:#1F272F;--room:#1C242C;--dark:#161D24;--scores:#222A26;--accent:#7FB1DC;--accent2:#D9B36A;--magic:#C08BE0;}
+text{font-family:"Segoe UI",system-ui,sans-serif}
+.grid{stroke:var(--grid);stroke-width:.5}
+.foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
+.footfill{fill:var(--dim);opacity:.09}
+.room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
+.door{stroke:var(--ink);stroke-width:1.5;fill:none}
+.shut{fill:var(--ink)}
+.hid{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:2.6 2.6;fill:none}
+.magic{stroke:var(--magic);stroke-width:2.6;fill:none}
+.oneway{fill:var(--accent)}
+.rname{font-size:10px;font-weight:600;fill:var(--ink);text-anchor:middle}
+.rnum{font-family:"Cascadia Mono",Consolas,monospace;font-size:8px;fill:var(--dim)}
+.item{font-size:8.5px;fill:var(--accent2);text-anchor:middle}
+.who{font-size:9px;font-style:italic;fill:var(--accent);text-anchor:middle}
+.up{font-family:"Cascadia Mono",Consolas,monospace;font-size:8px;fill:var(--dim);text-anchor:middle}
+.h1{font-size:19px;font-weight:600;fill:var(--ink)}
+.sub{font-size:11px;fill:var(--dim)}
+.keyh{font-size:11px;font-weight:600;fill:var(--ink)}
+.key{font-size:10px;fill:var(--ink)}
+.keydim{font-size:10px;fill:var(--dim)}
+</style>
+<defs><pattern id="steps" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--room)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--dim)" stroke-width="1.3"/></pattern></defs>
+<rect width="1112" height="736" fill="var(--paper)"/>
+<text class="h1" x="34" y="42">The Secret of Arendarvon Castle &#8212; 3rd floor</text>
+<text class="sub" x="34" y="61">height 9; the Bell-tower and the Birds nest stand apart from the rest. One square is one unit as MEASURE reports it; north is up. Everything shown is as the game starts. The grey shape behind is the castle at ground level.</text>
+<line class="grid" x1="34" y1="86" x2="34" y2="702"/>
+<line class="grid" x1="78" y1="86" x2="78" y2="702"/>
+<line class="grid" x1="122" y1="86" x2="122" y2="702"/>
+<line class="grid" x1="166" y1="86" x2="166" y2="702"/>
+<line class="grid" x1="210" y1="86" x2="210" y2="702"/>
+<line class="grid" x1="254" y1="86" x2="254" y2="702"/>
+<line class="grid" x1="298" y1="86" x2="298" y2="702"/>
+<line class="grid" x1="342" y1="86" x2="342" y2="702"/>
+<line class="grid" x1="386" y1="86" x2="386" y2="702"/>
+<line class="grid" x1="430" y1="86" x2="430" y2="702"/>
+<line class="grid" x1="474" y1="86" x2="474" y2="702"/>
+<line class="grid" x1="518" y1="86" x2="518" y2="702"/>
+<line class="grid" x1="562" y1="86" x2="562" y2="702"/>
+<line class="grid" x1="606" y1="86" x2="606" y2="702"/>
+<line class="grid" x1="650" y1="86" x2="650" y2="702"/>
+<line class="grid" x1="694" y1="86" x2="694" y2="702"/>
+<line class="grid" x1="738" y1="86" x2="738" y2="702"/>
+<line class="grid" x1="34" y1="86" x2="738" y2="86"/>
+<line class="grid" x1="34" y1="130" x2="738" y2="130"/>
+<line class="grid" x1="34" y1="174" x2="738" y2="174"/>
+<line class="grid" x1="34" y1="218" x2="738" y2="218"/>
+<line class="grid" x1="34" y1="262" x2="738" y2="262"/>
+<line class="grid" x1="34" y1="306" x2="738" y2="306"/>
+<line class="grid" x1="34" y1="350" x2="738" y2="350"/>
+<line class="grid" x1="34" y1="394" x2="738" y2="394"/>
+<line class="grid" x1="34" y1="438" x2="738" y2="438"/>
+<line class="grid" x1="34" y1="482" x2="738" y2="482"/>
+<line class="grid" x1="34" y1="526" x2="738" y2="526"/>
+<line class="grid" x1="34" y1="570" x2="738" y2="570"/>
+<line class="grid" x1="34" y1="614" x2="738" y2="614"/>
+<line class="grid" x1="34" y1="658" x2="738" y2="658"/>
+<line class="grid" x1="34" y1="702" x2="738" y2="702"/>
+<rect class="footfill" x="34" y="86" width="44" height="44"/>
+<rect class="footfill" x="34" y="130" width="44" height="44"/>
+<rect class="footfill" x="34" y="174" width="44" height="44"/>
+<rect class="footfill" x="34" y="218" width="44" height="44"/>
+<rect class="footfill" x="78" y="86" width="44" height="44"/>
+<rect class="footfill" x="78" y="130" width="44" height="44"/>
+<rect class="footfill" x="78" y="174" width="44" height="44"/>
+<rect class="footfill" x="78" y="218" width="44" height="44"/>
+<rect class="footfill" x="122" y="86" width="44" height="44"/>
+<rect class="footfill" x="122" y="130" width="44" height="44"/>
+<rect class="footfill" x="166" y="86" width="44" height="44"/>
+<rect class="footfill" x="166" y="130" width="44" height="44"/>
+<rect class="footfill" x="122" y="174" width="44" height="44"/>
+<rect class="footfill" x="166" y="174" width="44" height="44"/>
+<rect class="footfill" x="122" y="218" width="44" height="44"/>
+<rect class="footfill" x="122" y="262" width="44" height="44"/>
+<rect class="footfill" x="166" y="218" width="44" height="44"/>
+<rect class="footfill" x="166" y="262" width="44" height="44"/>
+<rect class="footfill" x="210" y="174" width="44" height="44"/>
+<rect class="footfill" x="254" y="174" width="44" height="44"/>
+<rect class="footfill" x="210" y="218" width="44" height="44"/>
+<rect class="footfill" x="210" y="262" width="44" height="44"/>
+<rect class="footfill" x="254" y="218" width="44" height="44"/>
+<rect class="footfill" x="254" y="262" width="44" height="44"/>
+<rect class="footfill" x="298" y="130" width="44" height="44"/>
+<rect class="footfill" x="298" y="174" width="44" height="44"/>
+<rect class="footfill" x="298" y="218" width="44" height="44"/>
+<rect class="footfill" x="298" y="262" width="44" height="44"/>
+<rect class="footfill" x="342" y="130" width="44" height="44"/>
+<rect class="footfill" x="342" y="174" width="44" height="44"/>
+<rect class="footfill" x="342" y="218" width="44" height="44"/>
+<rect class="footfill" x="342" y="262" width="44" height="44"/>
+<rect class="footfill" x="386" y="130" width="44" height="44"/>
+<rect class="footfill" x="386" y="174" width="44" height="44"/>
+<rect class="footfill" x="386" y="218" width="44" height="44"/>
+<rect class="footfill" x="386" y="262" width="44" height="44"/>
+<rect class="footfill" x="430" y="130" width="44" height="44"/>
+<rect class="footfill" x="430" y="174" width="44" height="44"/>
+<rect class="footfill" x="430" y="218" width="44" height="44"/>
+<rect class="footfill" x="474" y="130" width="44" height="44"/>
+<rect class="footfill" x="474" y="174" width="44" height="44"/>
+<rect class="footfill" x="474" y="218" width="44" height="44"/>
+<rect class="footfill" x="518" y="130" width="44" height="44"/>
+<rect class="footfill" x="518" y="174" width="44" height="44"/>
+<rect class="footfill" x="518" y="218" width="44" height="44"/>
+<rect class="footfill" x="430" y="262" width="44" height="44"/>
+<rect class="footfill" x="562" y="86" width="44" height="44"/>
+<rect class="footfill" x="562" y="130" width="44" height="44"/>
+<rect class="footfill" x="606" y="86" width="44" height="44"/>
+<rect class="footfill" x="606" y="130" width="44" height="44"/>
+<rect class="footfill" x="650" y="86" width="44" height="44"/>
+<rect class="footfill" x="650" y="130" width="44" height="44"/>
+<rect class="footfill" x="694" y="86" width="44" height="44"/>
+<rect class="footfill" x="694" y="130" width="44" height="44"/>
+<rect class="footfill" x="562" y="174" width="44" height="44"/>
+<rect class="footfill" x="606" y="174" width="44" height="44"/>
+<rect class="footfill" x="650" y="174" width="44" height="44"/>
+<rect class="footfill" x="562" y="218" width="44" height="44"/>
+<rect class="footfill" x="562" y="262" width="44" height="44"/>
+<rect class="footfill" x="562" y="306" width="44" height="44"/>
+<rect class="footfill" x="606" y="218" width="44" height="44"/>
+<rect class="footfill" x="606" y="262" width="44" height="44"/>
+<rect class="footfill" x="606" y="306" width="44" height="44"/>
+<rect class="footfill" x="650" y="218" width="44" height="44"/>
+<rect class="footfill" x="650" y="262" width="44" height="44"/>
+<rect class="footfill" x="650" y="306" width="44" height="44"/>
+<rect class="footfill" x="562" y="350" width="44" height="44"/>
+<rect class="footfill" x="562" y="394" width="44" height="44"/>
+<rect class="footfill" x="606" y="350" width="44" height="44"/>
+<rect class="footfill" x="606" y="394" width="44" height="44"/>
+<rect class="footfill" x="650" y="350" width="44" height="44"/>
+<rect class="footfill" x="650" y="394" width="44" height="44"/>
+<rect class="footfill" x="562" y="438" width="44" height="44"/>
+<rect class="footfill" x="562" y="482" width="44" height="44"/>
+<rect class="footfill" x="562" y="526" width="44" height="44"/>
+<rect class="footfill" x="606" y="438" width="44" height="44"/>
+<rect class="footfill" x="606" y="482" width="44" height="44"/>
+<rect class="footfill" x="650" y="438" width="44" height="44"/>
+<rect class="footfill" x="650" y="482" width="44" height="44"/>
+<rect class="footfill" x="606" y="526" width="44" height="44"/>
+<rect class="footfill" x="606" y="570" width="44" height="44"/>
+<rect class="footfill" x="606" y="614" width="44" height="44"/>
+<rect class="footfill" x="650" y="526" width="44" height="44"/>
+<rect class="footfill" x="650" y="570" width="44" height="44"/>
+<rect class="footfill" x="650" y="614" width="44" height="44"/>
+<rect class="footfill" x="694" y="614" width="44" height="44"/>
+<rect class="footfill" x="606" y="658" width="44" height="44"/>
+<rect class="footfill" x="562" y="658" width="44" height="44"/>
+<rect class="footfill" x="474" y="570" width="44" height="44"/>
+<rect class="footfill" x="474" y="614" width="44" height="44"/>
+<rect class="footfill" x="518" y="570" width="44" height="44"/>
+<rect class="footfill" x="518" y="614" width="44" height="44"/>
+<rect class="footfill" x="562" y="570" width="44" height="44"/>
+<rect class="footfill" x="562" y="614" width="44" height="44"/>
+<rect class="footfill" x="474" y="526" width="44" height="44"/>
+<rect class="footfill" x="518" y="526" width="44" height="44"/>
+<rect class="footfill" x="430" y="306" width="44" height="44"/>
+<rect class="footfill" x="430" y="350" width="44" height="44"/>
+<rect class="footfill" x="430" y="394" width="44" height="44"/>
+<rect class="footfill" x="430" y="438" width="44" height="44"/>
+<rect class="footfill" x="430" y="482" width="44" height="44"/>
+<rect class="footfill" x="474" y="306" width="44" height="44"/>
+<rect class="footfill" x="474" y="350" width="44" height="44"/>
+<rect class="footfill" x="474" y="394" width="44" height="44"/>
+<rect class="footfill" x="474" y="438" width="44" height="44"/>
+<rect class="footfill" x="474" y="482" width="44" height="44"/>
+<rect class="footfill" x="518" y="306" width="44" height="44"/>
+<rect class="footfill" x="518" y="350" width="44" height="44"/>
+<rect class="footfill" x="518" y="394" width="44" height="44"/>
+<rect class="footfill" x="518" y="438" width="44" height="44"/>
+<rect class="footfill" x="518" y="482" width="44" height="44"/>
+<rect class="footfill" x="342" y="306" width="44" height="44"/>
+<rect class="footfill" x="342" y="350" width="44" height="44"/>
+<rect class="footfill" x="342" y="394" width="44" height="44"/>
+<rect class="footfill" x="342" y="438" width="44" height="44"/>
+<rect class="footfill" x="342" y="482" width="44" height="44"/>
+<rect class="footfill" x="386" y="306" width="44" height="44"/>
+<rect class="footfill" x="386" y="350" width="44" height="44"/>
+<rect class="footfill" x="386" y="394" width="44" height="44"/>
+<rect class="footfill" x="386" y="438" width="44" height="44"/>
+<rect class="footfill" x="386" y="482" width="44" height="44"/>
+<rect class="footfill" x="210" y="306" width="44" height="44"/>
+<rect class="footfill" x="210" y="350" width="44" height="44"/>
+<rect class="footfill" x="210" y="394" width="44" height="44"/>
+<rect class="footfill" x="210" y="438" width="44" height="44"/>
+<rect class="footfill" x="210" y="482" width="44" height="44"/>
+<rect class="footfill" x="254" y="306" width="44" height="44"/>
+<rect class="footfill" x="254" y="350" width="44" height="44"/>
+<rect class="footfill" x="254" y="394" width="44" height="44"/>
+<rect class="footfill" x="254" y="438" width="44" height="44"/>
+<rect class="footfill" x="254" y="482" width="44" height="44"/>
+<rect class="footfill" x="298" y="306" width="44" height="44"/>
+<rect class="footfill" x="298" y="350" width="44" height="44"/>
+<rect class="footfill" x="298" y="394" width="44" height="44"/>
+<rect class="footfill" x="298" y="438" width="44" height="44"/>
+<rect class="footfill" x="298" y="482" width="44" height="44"/>
+<rect class="footfill" x="342" y="526" width="44" height="44"/>
+<rect class="footfill" x="342" y="570" width="44" height="44"/>
+<rect class="footfill" x="342" y="614" width="44" height="44"/>
+<rect class="footfill" x="386" y="526" width="44" height="44"/>
+<rect class="footfill" x="386" y="570" width="44" height="44"/>
+<rect class="footfill" x="386" y="614" width="44" height="44"/>
+<rect class="footfill" x="210" y="526" width="44" height="44"/>
+<rect class="footfill" x="254" y="526" width="44" height="44"/>
+<rect class="footfill" x="298" y="526" width="44" height="44"/>
+<rect class="footfill" x="166" y="570" width="44" height="44"/>
+<rect class="footfill" x="166" y="614" width="44" height="44"/>
+<rect class="footfill" x="210" y="570" width="44" height="44"/>
+<rect class="footfill" x="210" y="614" width="44" height="44"/>
+<rect class="footfill" x="254" y="570" width="44" height="44"/>
+<rect class="footfill" x="254" y="614" width="44" height="44"/>
+<rect class="footfill" x="122" y="658" width="44" height="44"/>
+<rect class="footfill" x="166" y="658" width="44" height="44"/>
+<rect class="footfill" x="34" y="526" width="44" height="44"/>
+<rect class="footfill" x="34" y="570" width="44" height="44"/>
+<rect class="footfill" x="34" y="614" width="44" height="44"/>
+<rect class="footfill" x="78" y="526" width="44" height="44"/>
+<rect class="footfill" x="78" y="570" width="44" height="44"/>
+<rect class="footfill" x="78" y="614" width="44" height="44"/>
+<rect class="footfill" x="122" y="526" width="44" height="44"/>
+<rect class="footfill" x="122" y="570" width="44" height="44"/>
+<rect class="footfill" x="122" y="614" width="44" height="44"/>
+<rect class="footfill" x="166" y="526" width="44" height="44"/>
+<rect class="footfill" x="166" y="482" width="44" height="44"/>
+<rect class="footfill" x="78" y="438" width="44" height="44"/>
+<rect class="footfill" x="78" y="482" width="44" height="44"/>
+<rect class="footfill" x="78" y="394" width="44" height="44"/>
+<rect class="footfill" x="122" y="394" width="44" height="44"/>
+<rect class="footfill" x="166" y="394" width="44" height="44"/>
+<rect class="footfill" x="78" y="350" width="44" height="44"/>
+<rect class="footfill" x="122" y="306" width="44" height="44"/>
+<rect class="footfill" x="122" y="350" width="44" height="44"/>
+<rect class="footfill" x="166" y="306" width="44" height="44"/>
+<rect class="footfill" x="166" y="350" width="44" height="44"/>
+<rect class="footfill" x="78" y="262" width="44" height="44"/>
+<rect class="footfill" x="78" y="306" width="44" height="44"/>
+<line class="foot" x1="34" y1="86" x2="78" y2="86"/>
+<line class="foot" x1="34" y1="86" x2="34" y2="130"/>
+<line class="foot" x1="34" y1="130" x2="34" y2="174"/>
+<line class="foot" x1="34" y1="174" x2="34" y2="218"/>
+<line class="foot" x1="34" y1="262" x2="78" y2="262"/>
+<line class="foot" x1="34" y1="218" x2="34" y2="262"/>
+<line class="foot" x1="78" y1="86" x2="122" y2="86"/>
+<line class="foot" x1="122" y1="86" x2="166" y2="86"/>
+<line class="foot" x1="166" y1="86" x2="210" y2="86"/>
+<line class="foot" x1="210" y1="86" x2="210" y2="130"/>
+<line class="foot" x1="210" y1="130" x2="210" y2="174"/>
+<line class="foot" x1="210" y1="174" x2="254" y2="174"/>
+<line class="foot" x1="254" y1="174" x2="298" y2="174"/>
+<line class="foot" x1="298" y1="130" x2="342" y2="130"/>
+<line class="foot" x1="298" y1="130" x2="298" y2="174"/>
+<line class="foot" x1="342" y1="130" x2="386" y2="130"/>
+<line class="foot" x1="386" y1="130" x2="430" y2="130"/>
+<line class="foot" x1="430" y1="130" x2="474" y2="130"/>
+<line class="foot" x1="474" y1="130" x2="518" y2="130"/>
+<line class="foot" x1="474" y1="262" x2="518" y2="262"/>
+<line class="foot" x1="518" y1="130" x2="562" y2="130"/>
+<line class="foot" x1="518" y1="262" x2="562" y2="262"/>
+<line class="foot" x1="474" y1="262" x2="474" y2="306"/>
+<line class="foot" x1="562" y1="86" x2="606" y2="86"/>
+<line class="foot" x1="562" y1="86" x2="562" y2="130"/>
+<line class="foot" x1="606" y1="86" x2="650" y2="86"/>
+<line class="foot" x1="650" y1="86" x2="694" y2="86"/>
+<line class="foot" x1="694" y1="86" x2="738" y2="86"/>
+<line class="foot" x1="738" y1="86" x2="738" y2="130"/>
+<line class="foot" x1="694" y1="174" x2="738" y2="174"/>
+<line class="foot" x1="738" y1="130" x2="738" y2="174"/>
+<line class="foot" x1="694" y1="174" x2="694" y2="218"/>
+<line class="foot" x1="562" y1="262" x2="562" y2="306"/>
+<line class="foot" x1="694" y1="218" x2="694" y2="262"/>
+<line class="foot" x1="694" y1="262" x2="694" y2="306"/>
+<line class="foot" x1="694" y1="306" x2="694" y2="350"/>
+<line class="foot" x1="694" y1="350" x2="694" y2="394"/>
+<line class="foot" x1="694" y1="394" x2="694" y2="438"/>
+<line class="foot" x1="694" y1="438" x2="694" y2="482"/>
+<line class="foot" x1="694" y1="482" x2="694" y2="526"/>
+<line class="foot" x1="694" y1="526" x2="694" y2="570"/>
+<line class="foot" x1="694" y1="570" x2="694" y2="614"/>
+<line class="foot" x1="650" y1="658" x2="694" y2="658"/>
+<line class="foot" x1="694" y1="614" x2="738" y2="614"/>
+<line class="foot" x1="694" y1="658" x2="738" y2="658"/>
+<line class="foot" x1="738" y1="614" x2="738" y2="658"/>
+<line class="foot" x1="606" y1="702" x2="650" y2="702"/>
+<line class="foot" x1="650" y1="658" x2="650" y2="702"/>
+<line class="foot" x1="562" y1="702" x2="606" y2="702"/>
+<line class="foot" x1="562" y1="658" x2="562" y2="702"/>
+<line class="foot" x1="474" y1="570" x2="474" y2="614"/>
+<line class="foot" x1="474" y1="658" x2="518" y2="658"/>
+<line class="foot" x1="474" y1="614" x2="474" y2="658"/>
+<line class="foot" x1="518" y1="658" x2="562" y2="658"/>
+<line class="foot" x1="474" y1="526" x2="474" y2="570"/>
+<line class="foot" x1="430" y1="526" x2="474" y2="526"/>
+<line class="foot" x1="474" y1="306" x2="518" y2="306"/>
+<line class="foot" x1="518" y1="306" x2="562" y2="306"/>
+<line class="foot" x1="210" y1="438" x2="210" y2="482"/>
+<line class="foot" x1="342" y1="570" x2="342" y2="614"/>
+<line class="foot" x1="342" y1="658" x2="386" y2="658"/>
+<line class="foot" x1="342" y1="614" x2="342" y2="658"/>
+<line class="foot" x1="430" y1="526" x2="430" y2="570"/>
+<line class="foot" x1="430" y1="570" x2="430" y2="614"/>
+<line class="foot" x1="386" y1="658" x2="430" y2="658"/>
+<line class="foot" x1="430" y1="614" x2="430" y2="658"/>
+<line class="foot" x1="298" y1="570" x2="342" y2="570"/>
+<line class="foot" x1="210" y1="658" x2="254" y2="658"/>
+<line class="foot" x1="298" y1="570" x2="298" y2="614"/>
+<line class="foot" x1="254" y1="658" x2="298" y2="658"/>
+<line class="foot" x1="298" y1="614" x2="298" y2="658"/>
+<line class="foot" x1="122" y1="702" x2="166" y2="702"/>
+<line class="foot" x1="122" y1="658" x2="122" y2="702"/>
+<line class="foot" x1="166" y1="702" x2="210" y2="702"/>
+<line class="foot" x1="210" y1="658" x2="210" y2="702"/>
+<line class="foot" x1="34" y1="526" x2="78" y2="526"/>
+<line class="foot" x1="34" y1="526" x2="34" y2="570"/>
+<line class="foot" x1="34" y1="570" x2="34" y2="614"/>
+<line class="foot" x1="34" y1="658" x2="78" y2="658"/>
+<line class="foot" x1="34" y1="614" x2="34" y2="658"/>
+<line class="foot" x1="78" y1="658" x2="122" y2="658"/>
+<line class="foot" x1="122" y1="526" x2="166" y2="526"/>
+<line class="foot" x1="166" y1="482" x2="210" y2="482"/>
+<line class="foot" x1="166" y1="482" x2="166" y2="526"/>
+<line class="foot" x1="78" y1="438" x2="78" y2="482"/>
+<line class="foot" x1="122" y1="438" x2="122" y2="482"/>
+<line class="foot" x1="78" y1="482" x2="78" y2="526"/>
+<line class="foot" x1="122" y1="482" x2="122" y2="526"/>
+<line class="foot" x1="78" y1="394" x2="78" y2="438"/>
+<line class="foot" x1="122" y1="438" x2="166" y2="438"/>
+<line class="foot" x1="166" y1="438" x2="210" y2="438"/>
+<line class="foot" x1="78" y1="350" x2="78" y2="394"/>
+<line class="foot" x1="78" y1="262" x2="78" y2="306"/>
+<line class="foot" x1="78" y1="306" x2="78" y2="350"/>
+<rect class="room" fill="url(#steps)" x="650" y="526" width="44" height="44"/>
+<rect class="room" fill="url(#steps)" x="650" y="570" width="44" height="44"/>
+<rect class="room" fill="url(#steps)" x="34" y="570" width="44" height="44"/>
+<rect class="room" fill="url(#steps)" x="34" y="526" width="44" height="44"/>
+<rect class="room scores" x="34" y="130" width="132" height="44"/>
+<rect class="room scores" x="34" y="174" width="132" height="88"/>
+<rect class="room" x="78" y="526" width="44" height="88"/>
+<rect class="room" fill="url(#steps)" x="122" y="526" width="44" height="44"/>
+<rect class="room" fill="url(#steps)" x="166" y="526" width="44" height="44"/>
+<rect class="room scores" x="34" y="614" width="88" height="88"/>
+<rect class="room scores" x="122" y="570" width="88" height="132"/>
+<rect class="room scores" x="562" y="526" width="88" height="176"/>
+<rect class="room" x="650" y="614" width="88" height="88"/>
+<rect class="room" fill="url(#steps)" x="694" y="570" width="44" height="44"/>
+<rect class="room" fill="url(#steps)" x="694" y="526" width="44" height="44"/>
+<line class="gap" x1="661" y1="570" x2="683" y2="570"/>
+<line class="gap" x1="694" y1="581" x2="694" y2="603"/>
+<line class="gap" x1="45" y1="570" x2="67" y2="570"/>
+<line class="gap" x1="78" y1="537" x2="78" y2="559"/>
+<line class="gap" x1="89" y1="174" x2="111" y2="174"/>
+<line class="gap" x1="122" y1="537" x2="122" y2="559"/>
+<line class="gap" x1="89" y1="614" x2="111" y2="614"/>
+<line class="gap" x1="166" y1="537" x2="166" y2="559"/>
+<line class="gap" x1="650" y1="647" x2="650" y2="669"/>
+<line class="gap" x1="705" y1="570" x2="727" y2="570"/>
+<line class="gap" x1="122" y1="645" x2="122" y2="671"/>
+<line class="hid" x1="122" y1="648" x2="122" y2="668"/>
+<text class="rnum" x="653" y="536">77</text>
+<text class="up" x="672" y="551">S &#8593;</text>
+<text class="rnum" x="653" y="580">78</text>
+<text class="up" x="672" y="595">E &#8593;</text>
+<text class="rnum" x="37" y="580">90</text>
+<text class="up" x="56" y="595">N &#8593;</text>
+<text class="rnum" x="37" y="536">91</text>
+<text class="up" x="56" y="551">E &#8593;</text>
+<text class="rnum" x="37" y="140">99</text>
+<g transform="translate(100 152)">
+<text class="rname" x="0" y="-2.75">Birds' Nest</text>
+<text class="who" x="0" y="8.75">Eagle</text>
+</g>
+<text class="rnum" x="37" y="184">100</text>
+<g transform="translate(100 218)">
+<text class="rname" x="0" y="-2.75">Bell-Tower</text>
+<text class="item" x="0" y="8.75">Charm-Spell</text>
+</g>
+<text class="rnum" x="81" y="536">101</text>
+<g transform="translate(100 570) rotate(-90)">
+<text class="rname" x="0" y="3">Short Corridor</text>
+</g>
+<text class="rnum" x="125" y="536">102</text>
+<text class="up" x="144" y="551">E &#8593;</text>
+<text class="rnum" x="169" y="536">103</text>
+<text class="up" x="188" y="551">S &#8593;</text>
+<text class="rnum" x="37" y="624">104</text>
+<g transform="translate(78 658)">
+<text class="rname" x="0" y="3">Bedroom</text>
+</g>
+<text class="rnum" x="125" y="580">105</text>
+<g transform="translate(166 636)">
+<text class="rname" x="0" y="3">Bewitched Room</text>
+</g>
+<text class="rnum" x="565" y="536">108</text>
+<g transform="translate(606 614)">
+<text class="rname" x="0" y="3">Store-Room</text>
+</g>
+<text class="rnum" x="653" y="624">109</text>
+<g transform="translate(694 658)">
+<text class="rname" x="0" y="-2.75">Store-Room</text>
+<text class="item" x="0" y="8.75">Short Ladder</text>
+</g>
+<text class="rnum" x="697" y="580">110</text>
+<text class="up" x="716" y="595">N &#8593;</text>
+<text class="rnum" x="697" y="536">111</text>
+<text class="up" x="716" y="551">W &#8593;</text>
+<text class="keyh" x="764" y="92">Legend</text>
+<line class="gap" x1="764" y1="108" x2="786" y2="108"/><path class="door" d="M764 104 L764 112 M786 104 L786 112"/>
+<text class="key" x="796" y="111.5">open door</text>
+<line class="door" x1="764" y1="125" x2="786" y2="125"/>
+<text class="key" x="796" y="128.5">closed door</text>
+<rect class="shut" x="764" y="140.3" width="22" height="3.4"/>
+<text class="key" x="796" y="145.5">locked, nailed or bolted</text>
+<line class="hid" x1="764" y1="159" x2="786" y2="159"/>
+<text class="key" x="796" y="162.5">hidden door, or a hole</text>
+<line class="magic" x1="764" y1="176" x2="786" y2="176"/>
+<text class="key" x="796" y="179.5">magical passway</text>
+<path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
+<text class="key" x="796" y="196.5">one way, in this direction</text>
+<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<text class="key" x="796" y="213.5">staircase; letters give the way up</text>
+<rect x="764" y="220" width="22" height="14" class="room dark"/>
+<text class="key" x="796" y="230.5">dark: you need a light</text>
+<rect x="764" y="237" width="22" height="14" class="room scores"/>
+<text class="key" x="796" y="247.5">scores a point when visited</text>
+<text class="who" x="775" y="264" text-anchor="middle">name</text><text class="keydim" x="796" y="264">a character starts here</text>
+<text class="item" x="775" y="281" text-anchor="middle">name</text><text class="keydim" x="796" y="281">an object starts here</text>
+<text class="keyh" x="764" y="302">Beyond the castle</text>
+<text class="keydim" x="764" y="318">116 Open Air, through the broken window on</text>
+<text class="keydim" x="764" y="331">the west side of the Birds nest: a fall that</text>
+<text class="keydim" x="764" y="344">kills you.</text>
+<text class="keyh" x="764" y="367">Also in these rooms</text>
+<text class="key" x="764" y="383">108  Store-Room</text>
+<text class="keydim" x="774" y="396">Supply Of Red Fluid</text>
+<text class="keydim" x="774" y="409">Red Fluid (in Supply Of Red Fluid)</text>
+</svg>
