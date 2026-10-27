@@ -294,8 +294,47 @@ function svgFor(pg) {
     return s.join("\n");
 }
 
+const drawings = [];
 for (const pg of PAGES) {
     const out = path.join(OUT, pg.file + ".svg");
-    fs.writeFileSync(out, svgFor(pg));
+    const svg = svgFor(pg);
+    drawings.push(svg);
+    fs.writeFileSync(out, svg);
     console.log("wrote " + out + " (" + Math.round(fs.statSync(out).size / 1024) + " KB)");
 }
+
+// One page holding all five, which is what the maps/ URL serves. Printing it
+// gives a floor per sheet, landscape, with the shading intact.
+const page = [
+    '<!doctype html>',
+    '<meta charset="utf-8">',
+    '<title>Arendarvon Castle maps</title>',
+    '<meta name="viewport" content="width=device-width,initial-scale=1">',
+    '<style>',
+    ' :root{--paper:#F6F4EE;--ink:#1E242B;--dim:#76808A;--accent:#1F5C8B}',
+    ' @media (prefers-color-scheme:dark){:root{--paper:#141A20;--ink:#DEE4EA;--dim:#8B97A2;--accent:#7FB1DC}}',
+    ' body{margin:0;padding:24px 16px 48px;background:var(--paper);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,sans-serif}',
+    ' header{max-width:1112px;margin:0 auto 20px}',
+    ' h1{font-size:22px;margin:0 0 6px}',
+    ' p{margin:0;color:var(--dim);max-width:70ch}',
+    ' a{color:var(--accent)}',
+    ' svg{display:block;margin:0 auto 24px;max-width:100%;height:auto}',
+    ' @media print{',
+    '   @page{size:landscape;margin:8mm}',
+    '   :root{--paper:#fff}',
+    '   body{padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}',
+    '   header{display:none}',
+    '   svg{margin:0;width:100%;break-inside:avoid;page-break-inside:avoid;break-after:page;page-break-after:always}',
+    '   svg:last-of-type{break-after:auto;page-break-after:auto}',
+    ' }',
+    '</style>',
+    '<header>',
+    '<h1>The Secret of Arendarvon Castle &#8212; the castle, floor by floor</h1>',
+    '<p>Drawn from the game&#8217;s own data: every room at the size MEASURE reports, every door in the state it starts in,',
+    ' and every object and character where the game puts them at the start. Cellar first, then the four floors above.',
+    ' <a href="../">Play the game</a> &#183; <a href="https://github.com/dmcr45/arendarvon-castle">the repository</a></p>',
+    '</header>',
+].join("\n") + "\n" + drawings.join("\n") + "\n";
+const idx = path.join(OUT, "index.html");
+fs.writeFileSync(idx, page);
+console.log("wrote " + idx + " (" + Math.round(fs.statSync(idx).size / 1024) + " KB)");
