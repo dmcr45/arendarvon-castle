@@ -108,9 +108,11 @@ rights holders would prefer this changed or taken down, saying so is enough.
 
 ## Credits
 
-The game is by **Hal Renko & Sam Edwards** (a pen name of Kasper Boon) with
-**Arend Rensink**, whose name signs the listings, dated 7 July 1984. The castle,
-the writing, the puzzles and ALADIN itself are theirs.
+The game is by **Hal Renko & Sam Edwards** with **Arend Rensink**. The first two
+are pen names, used across a number of 1980s computer books: Hal Renko is Kasper
+Boon, Sam Edwards is Alex Pelsmaeker. Rensink's own name signs the program
+listings, dated 7 July 1984. The castle, the writing, the puzzles and ALADIN
+itself are theirs.
 
 The refactor, harness and documentation are mine — **Dennis McRitchie** —
 working with Claude (Anthropic): I set the goals, made the design decisions and
