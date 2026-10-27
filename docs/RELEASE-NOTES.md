@@ -1,4 +1,4 @@
-# v1.0.0 — The Secret of Arendarvon Castle, playable again
+# v1.0.1 — The Secret of Arendarvon Castle, playable again
 
 The 1985 BBC Micro adventure by Hal Renko & Sam Edwards with Arend Rensink
 (Addison-Wesley, ISBN 0-201-14080-4), disassembled from its original ALADIN
@@ -8,7 +8,7 @@ own — no BBC Micro, no emulator, no BASIC.
 ## Play it
 
 - **In your browser:** https://dmcr45.github.io/arendarvon-castle/
-- **Download:** `play-arendarvon-castle-1.0.0.zip` below (68 KB). Unzip and open
+- **Download:** `play-arendarvon-castle-1.0.1.zip` below (67 KB). Unzip and open
   `arendarvon.html`, or run `node arendarvon.js` for a terminal game.
 
 Commands are a verb and what it applies to: `TAKE TORCH`, `OPEN DOOR`,
@@ -52,6 +52,14 @@ each validated by writing the same fix into the original bytecode:
 
 The validation harness, independent listings of the bytecode and the 6502 virtual
 machine, the vocabulary, messages and world data, and a map of all five floors.
+
+## Changes since v1.0.0
+
+Documentation only; the game and the engine are unchanged. The publication
+year is corrected to 1985, the authors' pen names are attributed properly
+(Hal Renko is Kasper Boon, Sam Edwards is Alex Pelsmaeker), the README leads
+with the link to play online, and reference/world_data.txt is repaired — it
+had been truncated by a crash partway through.
 
 ## Credit and rights
 
