@@ -24,8 +24,8 @@ host re-implemented, and the two are checked after every command — every
 message, every random number, and all 1,672 bytes of saved state.
 
 - **238,680 commands across 1,080 games, with no differences.**
-- 1,470 of the 1,476 reachable bytecode instructions executed; the remaining six
-  follow a call that ends the game and cannot run.
+- 1,470 of the program's 1,476 instructions executed; the remaining six are dead
+  code, each following a call that ends the game and never returns.
 - A static audit confirms every non-GOTO instruction is accounted for in the
   source, and that every message printed is exactly the original's.
 

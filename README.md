@@ -61,8 +61,8 @@ state.
 - **238,680 commands across 1,080 games, no differences.** Random, state-aware
   and scripted play, save/load round trips, and 27,330 deliberate state
   mutations to reach rare situations.
-- **1,470 of the 1,476 reachable bytecode instructions executed.** The other six
-  follow a call that ends the game and cannot run.
+- **1,470 of the program's 1,476 instructions executed.** The other six are
+  dead code: each follows a call that ends the game and never returns.
 - A static audit confirms every non-GOTO instruction is accounted for in the
   source, and every message printed is exactly the original's.
 

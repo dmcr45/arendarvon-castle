@@ -102,8 +102,11 @@ because the engine deliberately accepts lower case.
     Result files: campaign_result.txt, campaign_ordinary_result.txt
 
 3.4 Coverage of the program (measured inside the 6502 emulator)
-    The original with the fixes has 1476 reachable instructions.
-    Instructions executed: 1470 of 1476. Not executed - they cannot run:
+    Disassembling the original with the fixes yields 1476 instructions: every
+    one the decoder arrives at by following the program's own branches and
+    jumps from its two entry points.
+    Instructions executed: 1470 of 1476. The other six are dead code - the
+    decoder walks into them, but nothing can reach them at run time:
         @06ef and @0e63 (after winning), @084f, @09b7 and @0e5a (after
         dying): each is a GOTO after a call that ends the game and never
         returns;
