@@ -51,11 +51,12 @@ if ((door.flags & HAS_LOCK) == 0) {                                  // @042c
 
 ## Is it faithful?
 
-It is checked against the original program rather than against anyone's reading
-of it. A 6502 emulator runs the real ALADIN machine code and bytecode from the
-disc, with the BBC BASIC host re-implemented; both are given the same commands
-and the same random numbers, and compared after every one — every message, every
-random number, and all 1,672 bytes of saved state.
+The JavaScript refactor is checked against the original program rather than
+against anyone's reading of it. A 6502 emulator runs the real ALADIN machine
+code and bytecode from the disc, with the BBC BASIC host re-implemented; both
+are given the same commands and the same random numbers, and compared after
+every one — every message, every random number, and all 1,672 bytes of saved
+state.
 
 - **238,680 commands across 1,080 games, no differences.** Random, state-aware
   and scripted play, save/load round trips, and 27,330 deliberate state
