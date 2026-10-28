@@ -1,0 +1,64 @@
+# GitHub keeps traffic figures for fourteen days only. This copies them into
+# traffic/*.csv once a week so the record survives, and commits only when a
+# new day has appeared. It covers github.com views and clones; the pages at
+# dmcr45.github.io are not included - GitHub does not count those.
+name: Archive traffic
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"        # Mondays, 06:17 UTC
+  workflow_dispatch:             # or run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch and merge
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN || github.token }}
+        run: |
+          mkdir -p traffic
+          merge() {                     # $1 csv, $2 header, $3 new rows on stdin
+            local file="traffic/$1" tmp
+            tmp=$(mktemp)
+            cat > "$tmp"
+            if [ -f "$file" ]; then
+              { tail -n +2 "$file"; cat "$tmp"; } | sort -u -t, -k1,1 > "$tmp.merged"
+            else
+              sort -u -t, -k1,1 "$tmp" > "$tmp.merged"
+            fi
+            { echo "$2"; cat "$tmp.merged"; } > "$file"
+            rm -f "$tmp" "$tmp.merged"
+          }
+
+          gh api repos/${{ github.repository }}/traffic/views \
+            --jq '.views[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
+            | merge views.csv "date,views,unique_visitors"
+
+          gh api repos/${{ github.repository }}/traffic/clones \
+            --jq '.clones[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
+            | merge clones.csv "date,clones,unique_cloners"
+
+          today=$(date -u +%Y-%m-%d)
+          gh api repos/${{ github.repository }}/traffic/popular/referrers \
+            --jq --arg d "$today" '.[] | "\($d),\(.referrer),\(.count),\(.uniques)"' \
+            | merge referrers.csv "date,referrer,views,unique_visitors" || true
+
+          gh release list --json tagName --jq '.[].tagName' | while read -r tag; do
+            gh release view "$tag" --json assets \
+              --jq --arg d "$today" --arg t "$tag" \
+              '.assets[] | "\($d),\($t),\(.name),\(.downloadCount)"'
+          done | merge downloads.csv "date,release,asset,downloads" || true
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add traffic
+          git diff --staged --quiet || git commit -m "Archive traffic figures"
+          git push
