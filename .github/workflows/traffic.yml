@@ -1,7 +1,16 @@
 # GitHub keeps traffic figures for fourteen days only. This copies them into
-# traffic/*.csv once a week so the record survives, and commits only when a
-# new day has appeared. It covers github.com views and clones; the pages at
+# traffic/*.csv once a week so the record survives, merging by date so nothing
+# is counted twice. It covers github.com views and clones; the pages at
 # dmcr45.github.io are not included - GitHub does not count those.
+#
+# The views, clones and referrers endpoints need a token with push access, and
+# the token Actions provides by default does not qualify. To collect them:
+#   1. Create a personal access token - classic with the "repo" scope, or
+#      fine-grained for this repository with Administration: read.
+#   2. Settings -> Secrets and variables -> Actions -> New repository secret,
+#      named TRAFFIC_TOKEN.
+# Until that exists each run ends with a warning and records only the release
+# download counts, which the default token can read.
 name: Archive traffic
 
 on:
@@ -21,44 +30,64 @@ jobs:
       - name: Fetch and merge
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN || github.token }}
+          HAVE_PAT: ${{ secrets.TRAFFIC_TOKEN != '' }}
+          REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
           mkdir -p traffic
-          merge() {                     # $1 csv, $2 header, $3 new rows on stdin
-            local file="traffic/$1" tmp
-            tmp=$(mktemp)
+
+          # Merge rows into a CSV, keyed on the first two fields.
+          merge() {
+            file="traffic/$1"; header="$2"; tmp=$(mktemp)
             cat > "$tmp"
-            if [ -f "$file" ]; then
-              { tail -n +2 "$file"; cat "$tmp"; } | sort -u -t, -k1,1 > "$tmp.merged"
-            else
-              sort -u -t, -k1,1 "$tmp" > "$tmp.merged"
-            fi
-            { echo "$2"; cat "$tmp.merged"; } > "$file"
-            rm -f "$tmp" "$tmp.merged"
+            if [ ! -s "$tmp" ]; then rm -f "$tmp"; return 0; fi
+            if [ -f "$file" ]; then tail -n +2 "$file" >> "$tmp"; fi
+            sort -u -t, -k1,2 "$tmp" > "$tmp.sorted"
+            { echo "$header"; cat "$tmp.sorted"; } > "$file"
+            rm -f "$tmp" "$tmp.sorted"
+            echo "  $file: $(( $(wc -l < "$file") - 1 )) rows"
           }
 
-          gh api repos/${{ github.repository }}/traffic/views \
-            --jq '.views[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
-            | merge views.csv "date,views,unique_visitors"
-
-          gh api repos/${{ github.repository }}/traffic/clones \
-            --jq '.clones[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
-            | merge clones.csv "date,clones,unique_cloners"
+          # A traffic endpoint. Once a token is supplied, a failure is fatal.
+          traffic() {
+            endpoint="$1"; shift
+            if out=$(gh api "repos/$REPO/$endpoint" "$@" 2>&1); then
+              printf '%s\n' "$out"
+              return 0
+            fi
+            if [ "$HAVE_PAT" = "true" ]; then
+              echo "::error::$endpoint failed: $out"
+              exit 1
+            fi
+            echo "::warning::$endpoint needs the TRAFFIC_TOKEN secret (see this file's header); skipping"
+            return 1
+          }
 
           today=$(date -u +%Y-%m-%d)
-          gh api repos/${{ github.repository }}/traffic/popular/referrers \
-            --jq --arg d "$today" '.[] | "\($d),\(.referrer),\(.count),\(.uniques)"' \
+
+          traffic traffic/views --jq '.views[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
+            | merge views.csv "date,views,unique_visitors" || true
+
+          traffic traffic/clones --jq '.clones[] | "\(.timestamp[0:10]),\(.count),\(.uniques)"' \
+            | merge clones.csv "date,clones,unique_cloners" || true
+
+          traffic traffic/popular/referrers --jq ".[] | \"$today,\(.referrer),\(.count),\(.uniques)\"" \
             | merge referrers.csv "date,referrer,views,unique_visitors" || true
 
-          gh release list --json tagName --jq '.[].tagName' | while read -r tag; do
-            gh release view "$tag" --json assets \
-              --jq --arg d "$today" --arg t "$tag" \
-              '.assets[] | "\($d),\($t),\(.name),\(.downloadCount)"'
-          done | merge downloads.csv "date,release,asset,downloads" || true
+          # Release downloads, which the default token can read.
+          for tag in $(gh release list --repo "$REPO" --json tagName --jq '.[].tagName'); do
+            gh release view "$tag" --repo "$REPO" --json assets \
+              --jq ".assets[] | \"$today,$tag,\(.name),\(.downloadCount)\""
+          done | merge downloads.csv "date,release,asset,downloads"
 
       - name: Commit if anything changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add traffic
-          git diff --staged --quiet || git commit -m "Archive traffic figures"
-          git push
+          if git diff --staged --quiet; then
+            echo "nothing new"
+          else
+            git commit -m "Archive traffic figures"
+            git push
+          fi
