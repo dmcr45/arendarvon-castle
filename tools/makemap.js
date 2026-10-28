@@ -334,11 +334,8 @@ const page = [
     ' and every object and character where the game puts them at the start. Cellar first, then the four floors above.',
     ' <a href="../">Play the game</a> &#183; <a href="https://github.com/dmcr45/arendarvon-castle">the repository</a></p>',
     '</header>',
-    "<!-- Visitor counting is off. To switch it on: sign up at https://www.goatcounter.com",
-    "     (free, no cookies, no personal data), then uncomment the line below and put",
-    "     your own site code in place of YOURCODE. Delete this block to leave it off.",
-    "<script data-goatcounter=\"https://YOURCODE.goatcounter.com/count\" async src=\"//gc.zgo.at/count.js\"></script>",
-    "-->",
+    '<!-- Visitor counting is on. -->',
+    '<script data-goatcounter="https://dmcr45.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>',
 ].join("\n") + "\n" + drawings.join("\n") + "\n";
 const idx = path.join(OUT, "index.html");
 fs.writeFileSync(idx, page);
