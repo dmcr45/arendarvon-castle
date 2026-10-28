@@ -45,7 +45,7 @@ jobs:
             sort -u -t, -k1,2 "$tmp" > "$tmp.sorted"
             { echo "$header"; cat "$tmp.sorted"; } > "$file"
             rm -f "$tmp" "$tmp.sorted"
-            echo "  $file: $(( $(wc -l < "$file") - 1 )) rows"
+            echo "  $file: $(( $(wc -l < "$file") - 1 )) rows" >&2
           }
 
           # A traffic endpoint. Once a token is supplied, a failure is fatal.
@@ -56,10 +56,10 @@ jobs:
               return 0
             fi
             if [ "$HAVE_PAT" = "true" ]; then
-              echo "::error::$endpoint failed: $out"
+              echo "::error::$endpoint failed: $out" >&2
               exit 1
             fi
-            echo "::warning::$endpoint needs the TRAFFIC_TOKEN secret (see this file's header); skipping"
+            echo "::warning::$endpoint needs the TRAFFIC_TOKEN secret (see this file's header); skipping" >&2
             return 1
           }
 
