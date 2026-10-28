@@ -1,1 +1,2 @@
 date,views,unique_visitors
+::warning::traffic/views needs the TRAFFIC_TOKEN secret (see this file's header); skipping

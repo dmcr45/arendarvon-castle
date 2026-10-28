@@ -1,1 +1,2 @@
 date,referrer,views,unique_visitors
+::warning::traffic/popular/referrers needs the TRAFFIC_TOKEN secret (see this file's header); skipping
