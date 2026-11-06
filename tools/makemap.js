@@ -12,13 +12,17 @@ const R = M.rooms, O = M.objects, C = M.characters, P = M.passages, pos = M.layo
 // which floor each page shows, and which staircase levels belong with it
 const PAGES = [
     { file: "cellar",  title: "Cellar",    main: [0],  stairs: [1, 2],         note: "height 0; its staircases climb to the 1st floor", footprint: true },
-    { file: "floor-1", title: "1st floor", main: [3],  stairs: [1, 2, 4, 5],   note: "height 3; staircases lead down to the cellar and up to the 2nd floor" },
-    { file: "floor-2", title: "2nd floor", main: [6],  stairs: [4, 5, 7, 8],   note: "height 6" },
+    { file: "floor-1", title: "1st floor", main: [3],  stairs: [1, 2, 4, 5],   note: "height 3; staircases lead down to the cellar and up to the 2nd floor", footprint: true },
+    { file: "floor-2", title: "2nd floor", main: [6],  stairs: [4, 5, 7, 8],   note: "height 6", footprint: true },
     { file: "floor-3", title: "3rd floor", main: [9],  stairs: [7, 8, 10, 11], note: "height 9; the Bell-tower and the Birds nest stand apart from the rest", footprint: true },
     { file: "floor-4", title: "4th floor", main: [12], stairs: [10, 11],       note: "height 12", footprint: true },
 ];
 const onPage = (r, pg) => (r.n === 99 || r.n === 100) ? pg.file === "floor-3"
     : pg.main.includes(r.level) || (/STAIRS/.test(r.flags) && pg.stairs.includes(r.level));
+
+// An outside room with space to draw it properly gets a box of its own rather
+// than a tick at the wall; the generic marker stands aside for it.
+const GHOSTS = { "floor-1": { from: 51, dir: "S", to: 117, caption: "117 &#8212; the way out" } };
 
 const U = 44;                      // pixels per MEASURE unit
 const PAD = 34;
@@ -155,6 +159,8 @@ function svgFor(pg) {
             const e = r.exits[d];
             const far = e && (e.room || (e.passage ? (P[e.passage].a === r.n ? P[e.passage].b : P[e.passage].a) : 0));
             if (!far || pos[far]) continue;
+            const gh = GHOSTS[pg.file];
+            if (gh && gh.from === r.n && gh.dir === d) continue;      // drawn in full below
             leadsOutside = true;
             const h = d === "N" || d === "S";
             const wall = { horizontal: h,
@@ -262,12 +268,13 @@ function svgFor(pg) {
     }
 
     // The two rooms outside the castle, which have no place on a floor plan.
-    if (pg.file === "floor-1" && pos[51]) {
-        const g = pos[51], bx = g.x + R[51].ew / 2, by = g.y + R[51].ns;
+    const ghost = GHOSTS[pg.file];
+    if (ghost && pos[ghost.from]) {
+        const g = pos[ghost.from], bx = g.x + R[ghost.from].ew / 2, by = g.y + R[ghost.from].ns;
         s.push(gap({ horizontal: true, x: bx, y: by }, 11));
         s.push('<rect class="room scores" x="' + X(bx - 0.5) + '" y="' + Y(by) + '" width="' + U + '" height="' + (U * 0.8) + '" stroke-dasharray="4 3"/>');
-        s.push('<text class="rname" x="' + X(bx) + '" y="' + (Y(by) + U * 0.34) + '" font-size="8.6px">Drawbridge</text>');
-        s.push('<text class="item" x="' + X(bx) + '" y="' + (Y(by) + U * 0.56) + '" font-size="7.6px">117 &#8212; the way out</text>');
+        s.push('<text class="rname" x="' + X(bx) + '" y="' + (Y(by) + U * 0.34) + '" font-size="8.6px">' + esc(title(R[ghost.to].name)) + '</text>');
+        s.push('<text class="item" x="' + X(bx) + '" y="' + (Y(by) + U * 0.56) + '" font-size="7.6px">' + ghost.caption + '</text>');
     }
 
     const kx = PAD + GW * U + 26;

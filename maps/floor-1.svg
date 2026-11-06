@@ -30,7 +30,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <defs><pattern id="steps" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--room)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--dim)" stroke-width="1.3"/></pattern></defs>
 <rect width="1112" height="736" fill="var(--paper)"/>
 <text class="h1" x="34" y="42">The Secret of Arendarvon Castle &#8212; 1st floor</text>
-<text class="sub" x="34" y="61">height 3; staircases lead down to the cellar and up to the 2nd floor. One square is one unit as MEASURE reports it; north is up. Everything shown is as the game starts.</text>
+<text class="sub" x="34" y="61">height 3; staircases lead down to the cellar and up to the 2nd floor. One square is one unit as MEASURE reports it; north is up. Everything shown is as the game starts. The grey shape behind is the outline of the whole castle.</text>
 <line class="grid" x1="34" y1="86" x2="34" y2="702"/>
 <line class="grid" x1="78" y1="86" x2="78" y2="702"/>
 <line class="grid" x1="122" y1="86" x2="122" y2="702"/>
@@ -63,6 +63,271 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="grid" x1="34" y1="614" x2="738" y2="614"/>
 <line class="grid" x1="34" y1="658" x2="738" y2="658"/>
 <line class="grid" x1="34" y1="702" x2="738" y2="702"/>
+<rect class="footfill" x="122" y="438" width="44" height="44"/>
+<rect class="footfill" x="122" y="482" width="44" height="44"/>
+<rect class="footfill" x="166" y="438" width="44" height="44"/>
+<rect class="footfill" x="166" y="482" width="44" height="44"/>
+<rect class="footfill" x="210" y="438" width="44" height="44"/>
+<rect class="footfill" x="210" y="482" width="44" height="44"/>
+<rect class="footfill" x="254" y="438" width="44" height="44"/>
+<rect class="footfill" x="254" y="482" width="44" height="44"/>
+<rect class="footfill" x="298" y="438" width="44" height="44"/>
+<rect class="footfill" x="298" y="482" width="44" height="44"/>
+<rect class="footfill" x="342" y="438" width="44" height="44"/>
+<rect class="footfill" x="342" y="482" width="44" height="44"/>
+<rect class="footfill" x="342" y="394" width="44" height="44"/>
+<rect class="footfill" x="386" y="438" width="44" height="44"/>
+<rect class="footfill" x="386" y="482" width="44" height="44"/>
+<rect class="footfill" x="386" y="526" width="44" height="44"/>
+<rect class="footfill" x="430" y="482" width="44" height="44"/>
+<rect class="footfill" x="430" y="526" width="44" height="44"/>
+<rect class="footfill" x="430" y="570" width="44" height="44"/>
+<rect class="footfill" x="430" y="614" width="44" height="44"/>
+<rect class="footfill" x="298" y="526" width="44" height="44"/>
+<rect class="footfill" x="298" y="570" width="44" height="44"/>
+<rect class="footfill" x="342" y="526" width="44" height="44"/>
+<rect class="footfill" x="342" y="570" width="44" height="44"/>
+<rect class="footfill" x="210" y="526" width="44" height="44"/>
+<rect class="footfill" x="210" y="570" width="44" height="44"/>
+<rect class="footfill" x="254" y="526" width="44" height="44"/>
+<rect class="footfill" x="254" y="570" width="44" height="44"/>
+<rect class="footfill" x="122" y="526" width="44" height="44"/>
+<rect class="footfill" x="122" y="570" width="44" height="44"/>
+<rect class="footfill" x="166" y="526" width="44" height="44"/>
+<rect class="footfill" x="166" y="570" width="44" height="44"/>
+<rect class="footfill" x="166" y="614" width="44" height="44"/>
+<rect class="footfill" x="166" y="658" width="44" height="44"/>
+<rect class="footfill" x="210" y="614" width="44" height="44"/>
+<rect class="footfill" x="210" y="658" width="44" height="44"/>
+<rect class="footfill" x="34" y="86" width="44" height="44"/>
+<rect class="footfill" x="34" y="130" width="44" height="44"/>
+<rect class="footfill" x="34" y="174" width="44" height="44"/>
+<rect class="footfill" x="34" y="218" width="44" height="44"/>
+<rect class="footfill" x="78" y="86" width="44" height="44"/>
+<rect class="footfill" x="78" y="130" width="44" height="44"/>
+<rect class="footfill" x="78" y="174" width="44" height="44"/>
+<rect class="footfill" x="78" y="218" width="44" height="44"/>
+<rect class="footfill" x="122" y="86" width="44" height="44"/>
+<rect class="footfill" x="122" y="130" width="44" height="44"/>
+<rect class="footfill" x="166" y="86" width="44" height="44"/>
+<rect class="footfill" x="166" y="130" width="44" height="44"/>
+<rect class="footfill" x="122" y="174" width="44" height="44"/>
+<rect class="footfill" x="166" y="174" width="44" height="44"/>
+<rect class="footfill" x="122" y="218" width="44" height="44"/>
+<rect class="footfill" x="122" y="262" width="44" height="44"/>
+<rect class="footfill" x="166" y="218" width="44" height="44"/>
+<rect class="footfill" x="166" y="262" width="44" height="44"/>
+<rect class="footfill" x="210" y="130" width="44" height="44"/>
+<rect class="footfill" x="254" y="130" width="44" height="44"/>
+<rect class="footfill" x="210" y="174" width="44" height="44"/>
+<rect class="footfill" x="254" y="174" width="44" height="44"/>
+<rect class="footfill" x="210" y="218" width="44" height="44"/>
+<rect class="footfill" x="210" y="262" width="44" height="44"/>
+<rect class="footfill" x="254" y="218" width="44" height="44"/>
+<rect class="footfill" x="254" y="262" width="44" height="44"/>
+<rect class="footfill" x="298" y="130" width="44" height="44"/>
+<rect class="footfill" x="298" y="174" width="44" height="44"/>
+<rect class="footfill" x="298" y="218" width="44" height="44"/>
+<rect class="footfill" x="298" y="262" width="44" height="44"/>
+<rect class="footfill" x="342" y="130" width="44" height="44"/>
+<rect class="footfill" x="342" y="174" width="44" height="44"/>
+<rect class="footfill" x="342" y="218" width="44" height="44"/>
+<rect class="footfill" x="342" y="262" width="44" height="44"/>
+<rect class="footfill" x="386" y="130" width="44" height="44"/>
+<rect class="footfill" x="386" y="174" width="44" height="44"/>
+<rect class="footfill" x="386" y="218" width="44" height="44"/>
+<rect class="footfill" x="386" y="262" width="44" height="44"/>
+<rect class="footfill" x="430" y="130" width="44" height="44"/>
+<rect class="footfill" x="430" y="174" width="44" height="44"/>
+<rect class="footfill" x="430" y="218" width="44" height="44"/>
+<rect class="footfill" x="474" y="130" width="44" height="44"/>
+<rect class="footfill" x="474" y="174" width="44" height="44"/>
+<rect class="footfill" x="474" y="218" width="44" height="44"/>
+<rect class="footfill" x="518" y="130" width="44" height="44"/>
+<rect class="footfill" x="518" y="174" width="44" height="44"/>
+<rect class="footfill" x="518" y="218" width="44" height="44"/>
+<rect class="footfill" x="430" y="262" width="44" height="44"/>
+<rect class="footfill" x="474" y="262" width="44" height="44"/>
+<rect class="footfill" x="518" y="262" width="44" height="44"/>
+<rect class="footfill" x="562" y="86" width="44" height="44"/>
+<rect class="footfill" x="562" y="130" width="44" height="44"/>
+<rect class="footfill" x="606" y="86" width="44" height="44"/>
+<rect class="footfill" x="606" y="130" width="44" height="44"/>
+<rect class="footfill" x="650" y="86" width="44" height="44"/>
+<rect class="footfill" x="650" y="130" width="44" height="44"/>
+<rect class="footfill" x="694" y="86" width="44" height="44"/>
+<rect class="footfill" x="694" y="130" width="44" height="44"/>
+<rect class="footfill" x="562" y="174" width="44" height="44"/>
+<rect class="footfill" x="606" y="174" width="44" height="44"/>
+<rect class="footfill" x="650" y="174" width="44" height="44"/>
+<rect class="footfill" x="694" y="174" width="44" height="44"/>
+<rect class="footfill" x="694" y="218" width="44" height="44"/>
+<rect class="footfill" x="562" y="218" width="44" height="44"/>
+<rect class="footfill" x="562" y="262" width="44" height="44"/>
+<rect class="footfill" x="562" y="306" width="44" height="44"/>
+<rect class="footfill" x="606" y="218" width="44" height="44"/>
+<rect class="footfill" x="606" y="262" width="44" height="44"/>
+<rect class="footfill" x="606" y="306" width="44" height="44"/>
+<rect class="footfill" x="650" y="218" width="44" height="44"/>
+<rect class="footfill" x="650" y="262" width="44" height="44"/>
+<rect class="footfill" x="650" y="306" width="44" height="44"/>
+<rect class="footfill" x="562" y="350" width="44" height="44"/>
+<rect class="footfill" x="562" y="394" width="44" height="44"/>
+<rect class="footfill" x="606" y="350" width="44" height="44"/>
+<rect class="footfill" x="606" y="394" width="44" height="44"/>
+<rect class="footfill" x="650" y="350" width="44" height="44"/>
+<rect class="footfill" x="650" y="394" width="44" height="44"/>
+<rect class="footfill" x="562" y="438" width="44" height="44"/>
+<rect class="footfill" x="562" y="482" width="44" height="44"/>
+<rect class="footfill" x="562" y="526" width="44" height="44"/>
+<rect class="footfill" x="606" y="438" width="44" height="44"/>
+<rect class="footfill" x="606" y="482" width="44" height="44"/>
+<rect class="footfill" x="650" y="438" width="44" height="44"/>
+<rect class="footfill" x="650" y="482" width="44" height="44"/>
+<rect class="footfill" x="606" y="526" width="44" height="44"/>
+<rect class="footfill" x="606" y="570" width="44" height="44"/>
+<rect class="footfill" x="606" y="614" width="44" height="44"/>
+<rect class="footfill" x="650" y="526" width="44" height="44"/>
+<rect class="footfill" x="650" y="570" width="44" height="44"/>
+<rect class="footfill" x="650" y="614" width="44" height="44"/>
+<rect class="footfill" x="694" y="526" width="44" height="44"/>
+<rect class="footfill" x="694" y="570" width="44" height="44"/>
+<rect class="footfill" x="694" y="614" width="44" height="44"/>
+<rect class="footfill" x="694" y="658" width="44" height="44"/>
+<rect class="footfill" x="650" y="658" width="44" height="44"/>
+<rect class="footfill" x="606" y="658" width="44" height="44"/>
+<rect class="footfill" x="562" y="658" width="44" height="44"/>
+<rect class="footfill" x="474" y="570" width="44" height="44"/>
+<rect class="footfill" x="474" y="614" width="44" height="44"/>
+<rect class="footfill" x="518" y="570" width="44" height="44"/>
+<rect class="footfill" x="518" y="614" width="44" height="44"/>
+<rect class="footfill" x="562" y="570" width="44" height="44"/>
+<rect class="footfill" x="562" y="614" width="44" height="44"/>
+<rect class="footfill" x="474" y="526" width="44" height="44"/>
+<rect class="footfill" x="518" y="526" width="44" height="44"/>
+<rect class="footfill" x="430" y="306" width="44" height="44"/>
+<rect class="footfill" x="430" y="350" width="44" height="44"/>
+<rect class="footfill" x="430" y="394" width="44" height="44"/>
+<rect class="footfill" x="430" y="438" width="44" height="44"/>
+<rect class="footfill" x="474" y="306" width="44" height="44"/>
+<rect class="footfill" x="474" y="350" width="44" height="44"/>
+<rect class="footfill" x="474" y="394" width="44" height="44"/>
+<rect class="footfill" x="474" y="438" width="44" height="44"/>
+<rect class="footfill" x="474" y="482" width="44" height="44"/>
+<rect class="footfill" x="518" y="306" width="44" height="44"/>
+<rect class="footfill" x="518" y="350" width="44" height="44"/>
+<rect class="footfill" x="518" y="394" width="44" height="44"/>
+<rect class="footfill" x="518" y="438" width="44" height="44"/>
+<rect class="footfill" x="518" y="482" width="44" height="44"/>
+<rect class="footfill" x="342" y="306" width="44" height="44"/>
+<rect class="footfill" x="342" y="350" width="44" height="44"/>
+<rect class="footfill" x="386" y="306" width="44" height="44"/>
+<rect class="footfill" x="386" y="350" width="44" height="44"/>
+<rect class="footfill" x="386" y="394" width="44" height="44"/>
+<rect class="footfill" x="210" y="306" width="44" height="44"/>
+<rect class="footfill" x="210" y="350" width="44" height="44"/>
+<rect class="footfill" x="210" y="394" width="44" height="44"/>
+<rect class="footfill" x="254" y="306" width="44" height="44"/>
+<rect class="footfill" x="254" y="350" width="44" height="44"/>
+<rect class="footfill" x="254" y="394" width="44" height="44"/>
+<rect class="footfill" x="298" y="306" width="44" height="44"/>
+<rect class="footfill" x="298" y="350" width="44" height="44"/>
+<rect class="footfill" x="298" y="394" width="44" height="44"/>
+<rect class="footfill" x="342" y="614" width="44" height="44"/>
+<rect class="footfill" x="386" y="570" width="44" height="44"/>
+<rect class="footfill" x="386" y="614" width="44" height="44"/>
+<rect class="footfill" x="254" y="614" width="44" height="44"/>
+<rect class="footfill" x="122" y="658" width="44" height="44"/>
+<rect class="footfill" x="78" y="658" width="44" height="44"/>
+<rect class="footfill" x="34" y="658" width="44" height="44"/>
+<rect class="footfill" x="34" y="526" width="44" height="44"/>
+<rect class="footfill" x="34" y="570" width="44" height="44"/>
+<rect class="footfill" x="34" y="614" width="44" height="44"/>
+<rect class="footfill" x="78" y="526" width="44" height="44"/>
+<rect class="footfill" x="78" y="570" width="44" height="44"/>
+<rect class="footfill" x="78" y="614" width="44" height="44"/>
+<rect class="footfill" x="122" y="614" width="44" height="44"/>
+<rect class="footfill" x="78" y="438" width="44" height="44"/>
+<rect class="footfill" x="78" y="482" width="44" height="44"/>
+<rect class="footfill" x="78" y="394" width="44" height="44"/>
+<rect class="footfill" x="122" y="394" width="44" height="44"/>
+<rect class="footfill" x="166" y="394" width="44" height="44"/>
+<rect class="footfill" x="78" y="350" width="44" height="44"/>
+<rect class="footfill" x="122" y="306" width="44" height="44"/>
+<rect class="footfill" x="122" y="350" width="44" height="44"/>
+<rect class="footfill" x="166" y="306" width="44" height="44"/>
+<rect class="footfill" x="166" y="350" width="44" height="44"/>
+<rect class="footfill" x="78" y="262" width="44" height="44"/>
+<rect class="footfill" x="78" y="306" width="44" height="44"/>
+<rect class="footfill" x="298" y="614" width="44" height="44"/>
+<line class="foot" x1="430" y1="658" x2="474" y2="658"/>
+<line class="foot" x1="166" y1="702" x2="210" y2="702"/>
+<line class="foot" x1="210" y1="702" x2="254" y2="702"/>
+<line class="foot" x1="254" y1="658" x2="254" y2="702"/>
+<line class="foot" x1="34" y1="86" x2="78" y2="86"/>
+<line class="foot" x1="34" y1="86" x2="34" y2="130"/>
+<line class="foot" x1="34" y1="130" x2="34" y2="174"/>
+<line class="foot" x1="34" y1="174" x2="34" y2="218"/>
+<line class="foot" x1="34" y1="262" x2="78" y2="262"/>
+<line class="foot" x1="34" y1="218" x2="34" y2="262"/>
+<line class="foot" x1="78" y1="86" x2="122" y2="86"/>
+<line class="foot" x1="122" y1="86" x2="166" y2="86"/>
+<line class="foot" x1="166" y1="86" x2="210" y2="86"/>
+<line class="foot" x1="210" y1="86" x2="210" y2="130"/>
+<line class="foot" x1="210" y1="130" x2="254" y2="130"/>
+<line class="foot" x1="254" y1="130" x2="298" y2="130"/>
+<line class="foot" x1="298" y1="130" x2="342" y2="130"/>
+<line class="foot" x1="342" y1="130" x2="386" y2="130"/>
+<line class="foot" x1="386" y1="130" x2="430" y2="130"/>
+<line class="foot" x1="430" y1="130" x2="474" y2="130"/>
+<line class="foot" x1="474" y1="130" x2="518" y2="130"/>
+<line class="foot" x1="518" y1="130" x2="562" y2="130"/>
+<line class="foot" x1="562" y1="86" x2="606" y2="86"/>
+<line class="foot" x1="562" y1="86" x2="562" y2="130"/>
+<line class="foot" x1="606" y1="86" x2="650" y2="86"/>
+<line class="foot" x1="650" y1="86" x2="694" y2="86"/>
+<line class="foot" x1="694" y1="86" x2="738" y2="86"/>
+<line class="foot" x1="738" y1="86" x2="738" y2="130"/>
+<line class="foot" x1="738" y1="130" x2="738" y2="174"/>
+<line class="foot" x1="738" y1="174" x2="738" y2="218"/>
+<line class="foot" x1="694" y1="262" x2="738" y2="262"/>
+<line class="foot" x1="738" y1="218" x2="738" y2="262"/>
+<line class="foot" x1="694" y1="262" x2="694" y2="306"/>
+<line class="foot" x1="694" y1="306" x2="694" y2="350"/>
+<line class="foot" x1="694" y1="350" x2="694" y2="394"/>
+<line class="foot" x1="694" y1="394" x2="694" y2="438"/>
+<line class="foot" x1="694" y1="438" x2="694" y2="482"/>
+<line class="foot" x1="694" y1="482" x2="694" y2="526"/>
+<line class="foot" x1="694" y1="526" x2="738" y2="526"/>
+<line class="foot" x1="738" y1="526" x2="738" y2="570"/>
+<line class="foot" x1="738" y1="570" x2="738" y2="614"/>
+<line class="foot" x1="738" y1="614" x2="738" y2="658"/>
+<line class="foot" x1="694" y1="702" x2="738" y2="702"/>
+<line class="foot" x1="738" y1="658" x2="738" y2="702"/>
+<line class="foot" x1="650" y1="702" x2="694" y2="702"/>
+<line class="foot" x1="606" y1="702" x2="650" y2="702"/>
+<line class="foot" x1="562" y1="702" x2="606" y2="702"/>
+<line class="foot" x1="562" y1="658" x2="562" y2="702"/>
+<line class="foot" x1="474" y1="658" x2="518" y2="658"/>
+<line class="foot" x1="518" y1="658" x2="562" y2="658"/>
+<line class="foot" x1="342" y1="658" x2="386" y2="658"/>
+<line class="foot" x1="386" y1="658" x2="430" y2="658"/>
+<line class="foot" x1="254" y1="658" x2="298" y2="658"/>
+<line class="foot" x1="122" y1="702" x2="166" y2="702"/>
+<line class="foot" x1="78" y1="702" x2="122" y2="702"/>
+<line class="foot" x1="34" y1="702" x2="78" y2="702"/>
+<line class="foot" x1="34" y1="658" x2="34" y2="702"/>
+<line class="foot" x1="34" y1="526" x2="78" y2="526"/>
+<line class="foot" x1="34" y1="526" x2="34" y2="570"/>
+<line class="foot" x1="34" y1="570" x2="34" y2="614"/>
+<line class="foot" x1="34" y1="614" x2="34" y2="658"/>
+<line class="foot" x1="78" y1="438" x2="78" y2="482"/>
+<line class="foot" x1="78" y1="482" x2="78" y2="526"/>
+<line class="foot" x1="78" y1="394" x2="78" y2="438"/>
+<line class="foot" x1="78" y1="350" x2="78" y2="394"/>
+<line class="foot" x1="78" y1="262" x2="78" y2="306"/>
+<line class="foot" x1="78" y1="306" x2="78" y2="350"/>
+<line class="foot" x1="298" y1="658" x2="342" y2="658"/>
 <rect class="room steps" x="122" y="438" width="44" height="44"/>
 <rect class="room steps" x="122" y="482" width="44" height="44"/>
 <rect class="room steps" x="430" y="570" width="44" height="44"/>
@@ -202,9 +467,6 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="hid" x1="166" y1="538" x2="166" y2="558"/>
 <line class="gap" x1="210" y1="403" x2="210" y2="429"/>
 <rect class="shut" x="208.3" y="406" width="3.4" height="20"/>
-<line class="gap" x1="373" y1="658" x2="399" y2="658"/>
-<path class="door" d="M376 654.5 L376 661.5 M396 654.5 L396 661.5"/>
-<line class="outmark" x1="386" y1="663" x2="386" y2="679"/>
 <text class="rnum" x="125" y="448">1</text>
 <text class="up" x="144" y="463">S &#8593;</text>
 <text class="rnum" x="125" y="492">2</text>
@@ -432,33 +694,32 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<line class="gap" x1="764" y1="210" x2="786" y2="210"/><path class="door" d="M764 206 L764 214 M786 206 L786 214"/><line class="outmark" x1="775" y1="212" x2="775" y2="222"/><text class="key" x="796" y="213.5">an opening that leads outside</text>
-<rect x="764" y="224" width="22" height="14" class="room steps"/>
-<text class="key" x="796" y="234.5">staircase; letters give the way up</text>
-<rect x="764" y="241" width="22" height="14" class="room dark"/>
-<text class="key" x="796" y="251.5">dark: you need a light</text>
-<rect x="764" y="258" width="22" height="14" class="room scores"/>
-<text class="key" x="796" y="268.5">scores a point when visited</text>
-<text class="who" x="775" y="285" text-anchor="middle">name</text><text class="keydim" x="796" y="285">a character starts here</text>
-<text class="item" x="775" y="302" text-anchor="middle">name</text><text class="keydim" x="796" y="302">an object starts here</text>
-<text class="keyh" x="764" y="323">Beyond the castle</text>
-<text class="keydim" x="764" y="339">117 Drawbridge, south of the Gateway: step</text>
-<text class="keydim" x="764" y="352">onto it and the game ends, with ten points</text>
-<text class="keydim" x="764" y="365">for getting out.</text>
-<text class="keyh" x="764" y="388">Also in these rooms</text>
-<text class="key" x="764" y="404">17  Soldiers' Room</text>
-<text class="keydim" x="774" y="417">Compass (in Heap Of Rubbish)</text>
-<text class="key" x="764" y="433">27  Exhibition-Room</text>
-<text class="keydim" x="774" y="446">Light-Spell (in Show-Case)</text>
-<text class="key" x="764" y="462">28  Corridor</text>
-<text class="keydim" x="774" y="475">Bunch Of Keys (carried by Custodian)</text>
-<text class="key" x="764" y="491">33  Entry-Hall</text>
-<text class="keydim" x="774" y="504">Wad Of Money (carried by Girl)</text>
-<text class="key" x="764" y="520">49  Courtyard</text>
-<text class="keydim" x="774" y="533">Series Of Rungs (in Well)</text>
-<text class="key" x="764" y="549">50  Courtyard</text>
-<text class="keydim" x="774" y="562">Heap Of Gunpowder (in Cannon)</text>
-<text class="keydim" x="774" y="575">Ball (in Stack Of Balls)</text>
-<text class="key" x="764" y="591">65  Soldiers' Room</text>
-<text class="keydim" x="774" y="604">Ring (in Heap Of Rubbish)</text>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
+<text class="key" x="796" y="213.5">staircase; letters give the way up</text>
+<rect x="764" y="220" width="22" height="14" class="room dark"/>
+<text class="key" x="796" y="230.5">dark: you need a light</text>
+<rect x="764" y="237" width="22" height="14" class="room scores"/>
+<text class="key" x="796" y="247.5">scores a point when visited</text>
+<text class="who" x="775" y="264" text-anchor="middle">name</text><text class="keydim" x="796" y="264">a character starts here</text>
+<text class="item" x="775" y="281" text-anchor="middle">name</text><text class="keydim" x="796" y="281">an object starts here</text>
+<text class="keyh" x="764" y="302">Beyond the castle</text>
+<text class="keydim" x="764" y="318">117 Drawbridge, south of the Gateway: step</text>
+<text class="keydim" x="764" y="331">onto it and the game ends, with ten points</text>
+<text class="keydim" x="764" y="344">for getting out.</text>
+<text class="keyh" x="764" y="367">Also in these rooms</text>
+<text class="key" x="764" y="383">17  Soldiers' Room</text>
+<text class="keydim" x="774" y="396">Compass (in Heap Of Rubbish)</text>
+<text class="key" x="764" y="412">27  Exhibition-Room</text>
+<text class="keydim" x="774" y="425">Light-Spell (in Show-Case)</text>
+<text class="key" x="764" y="441">28  Corridor</text>
+<text class="keydim" x="774" y="454">Bunch Of Keys (carried by Custodian)</text>
+<text class="key" x="764" y="470">33  Entry-Hall</text>
+<text class="keydim" x="774" y="483">Wad Of Money (carried by Girl)</text>
+<text class="key" x="764" y="499">49  Courtyard</text>
+<text class="keydim" x="774" y="512">Series Of Rungs (in Well)</text>
+<text class="key" x="764" y="528">50  Courtyard</text>
+<text class="keydim" x="774" y="541">Heap Of Gunpowder (in Cannon)</text>
+<text class="keydim" x="774" y="554">Ball (in Stack Of Balls)</text>
+<text class="key" x="764" y="570">65  Soldiers' Room</text>
+<text class="keydim" x="774" y="583">Ring (in Heap Of Rubbish)</text>
 </svg>
