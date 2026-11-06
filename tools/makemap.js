@@ -24,6 +24,11 @@ const onPage = (r, pg) => (r.n === 99 || r.n === 100) ? pg.file === "floor-3"
 // than a tick at the wall; the generic marker stands aside for it.
 const GHOSTS = { "floor-1": { from: 51, dir: "S", to: 117, caption: "117 &#8212; the way out" } };
 
+// Cellar-vault 13 reaches one square further south-east than anything above it.
+// Treated as an underground anomaly rather than part of the castle proper, so
+// the outline carries that square on the cellar plan only.
+const CELLAR_ONLY = ["4,13"];
+
 const U = 44;                      // pixels per MEASURE unit
 const PAD = 34;
 const COLW = 340;                  // width of the key column
@@ -86,6 +91,7 @@ function svgFor(pg) {
             const p = pos[r.n];
             for (let i = 0; i < r.ew; i++) for (let j = 0; j < r.ns; j++) cells.add((p.x + i) + "," + (p.y + j));
         }
+        if (pg.file !== "cellar") for (const c of CELLAR_ONLY) cells.delete(c);
         const edges = [];
         for (const key of cells) {
             const [x, y] = key.split(",").map(Number);
