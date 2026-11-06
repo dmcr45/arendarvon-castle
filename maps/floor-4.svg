@@ -15,6 +15,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .hid{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:2.6 2.6;fill:none}
 .magic{stroke:var(--magic);stroke-width:2.6;fill:none}
 .oneway{fill:var(--accent)}
+.outmark{stroke:var(--dim);stroke-width:1.3;stroke-dasharray:2.4 2.4}
 .rname{font-size:10px;font-weight:600;fill:var(--ink);text-anchor:middle}
 .rnum{font-family:"Cascadia Mono",Consolas,monospace;font-size:8px;fill:var(--dim)}
 .item{font-size:8.5px;fill:var(--accent2);text-anchor:middle}

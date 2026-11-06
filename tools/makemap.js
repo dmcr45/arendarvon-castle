@@ -50,6 +50,7 @@ function svgFor(pg) {
     s.push('.hid{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:2.6 2.6;fill:none}');
     s.push('.magic{stroke:var(--magic);stroke-width:2.6;fill:none}');
     s.push('.oneway{fill:var(--accent)}');
+    s.push('.outmark{stroke:var(--dim);stroke-width:1.3;stroke-dasharray:2.4 2.4}');
     s.push('.rname{font-size:10px;font-weight:600;fill:var(--ink);text-anchor:middle}');
     s.push('.rnum{font-family:"Cascadia Mono",Consolas,monospace;font-size:8px;fill:var(--dim)}');
     s.push('.item{font-size:8.5px;fill:var(--accent2);text-anchor:middle}');
@@ -98,6 +99,7 @@ function svgFor(pg) {
         }
     }
     const here = R.slice(1).filter((r) => pos[r.n] && onPage(r, pg));
+    let leadsOutside = false;
     const shown = (n) => here.some((r) => r.n === n);
     const isStair = (r) => /STAIRS/.test(r.flags);
 
@@ -143,6 +145,31 @@ function svgFor(pg) {
                    + ' M' + (cx + half) + ' ' + (cy - j) + ' L' + (cx + half) + ' ' + (cy + j) + '"/>'
                  : '<path class="door" d="M' + (cx - j) + ' ' + (cy - half) + ' L' + (cx + j) + ' ' + (cy - half)
                    + ' M' + (cx - j) + ' ' + (cy + half) + ' L' + (cx + j) + ' ' + (cy + half) + '"/>');
+    }
+
+    // Exits that leave the castle: the room on the far side is drawn on no plan,
+    // so the wall would otherwise read as solid. Open it and tick outwards.
+    for (const r of here) {
+        const p = pos[r.n];
+        for (const d of ["N", "E", "S", "W"]) {
+            const e = r.exits[d];
+            const far = e && (e.room || (e.passage ? (P[e.passage].a === r.n ? P[e.passage].b : P[e.passage].a) : 0));
+            if (!far || pos[far]) continue;
+            leadsOutside = true;
+            const h = d === "N" || d === "S";
+            const wall = { horizontal: h,
+                x: h ? p.x + r.ew / 2 : (d === "W" ? p.x : p.x + r.ew),
+                y: h ? (d === "N" ? p.y : p.y + r.ns) : p.y + r.ns / 2 };
+            const cx = X(wall.x), cy = Y(wall.y), half = 10, j = 3.5;
+            s.push(gap(wall, 13));
+            s.push(h ? '<path class="door" d="M' + (cx - half) + ' ' + (cy - j) + ' L' + (cx - half) + ' ' + (cy + j)
+                       + ' M' + (cx + half) + ' ' + (cy - j) + ' L' + (cx + half) + ' ' + (cy + j) + '"/>'
+                     : '<path class="door" d="M' + (cx - j) + ' ' + (cy - half) + ' L' + (cx + j) + ' ' + (cy - half)
+                       + ' M' + (cx - j) + ' ' + (cy + half) + ' L' + (cx + j) + ' ' + (cy + half) + '"/>');
+            const ox = d === "W" ? -1 : d === "E" ? 1 : 0, oy = d === "N" ? -1 : d === "S" ? 1 : 0;
+            s.push('<line class="outmark" x1="' + (cx + ox * 5) + '" y1="' + (cy + oy * 5)
+                + '" x2="' + (cx + ox * 21) + '" y2="' + (cy + oy * 21) + '"/>');
+        }
     }
 
     const keyRows = [];
@@ -256,6 +283,14 @@ function svgFor(pg) {
     sym('<line class="hid" x1="' + kx + '" y1="' + ky + '" x2="' + (kx + 22) + '" y2="' + ky + '"/>', "hidden door, or a hole");
     sym('<line class="magic" x1="' + kx + '" y1="' + ky + '" x2="' + (kx + 22) + '" y2="' + ky + '"/>', "magical passway");
     sym('<path class="oneway" d="M' + (kx + 22) + ' ' + ky + ' L' + (kx + 11) + ' ' + (ky - 5) + ' L' + (kx + 11) + ' ' + (ky + 5) + ' Z"/>', "one way, in this direction");
+    if (leadsOutside) {
+        s.push('<line class="gap" x1="' + kx + '" y1="' + ky + '" x2="' + (kx + 22) + '" y2="' + ky + '"/>'
+            + '<path class="door" d="M' + kx + ' ' + (ky - 4) + ' L' + kx + ' ' + (ky + 4)
+            + ' M' + (kx + 22) + ' ' + (ky - 4) + ' L' + (kx + 22) + ' ' + (ky + 4) + '"/>'
+            + '<line class="outmark" x1="' + (kx + 11) + '" y1="' + (ky + 2) + '" x2="' + (kx + 11) + '" y2="' + (ky + 12) + '"/>'
+            + '<text class="key" x="' + (kx + 32) + '" y="' + (ky + 3.5) + '">' + esc("an opening that leads outside") + '</text>');
+        ky += 21;
+    }
     sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room steps"/>', "staircase; letters give the way up");
     sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room dark"/>', "dark: you need a light");
     sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room scores"/>', "scores a point when visited");
