@@ -68,17 +68,17 @@ function svgFor(pg) {
     s.push('<text class="h1" x="' + PAD + '" y="' + (PAD + 8) + '">The Secret of Arendarvon Castle &#8212; ' + esc(pg.title) + '</text>');
     s.push('<text class="sub" x="' + PAD + '" y="' + (PAD + 27) + '">' + esc(pg.note)
         + '. One square is one unit as MEASURE reports it; north is up. Everything shown is as the game starts.'
-        + (pg.footprint ? ' The grey shape behind is the castle at ground level.' : '') + '</text>');
+        + (pg.footprint ? ' The grey shape behind is the outline of the whole castle.' : '') + '</text>');
 
     for (let i = 0; i <= GW; i++) s.push('<line class="grid" x1="' + X(i) + '" y1="' + Y(0) + '" x2="' + X(i) + '" y2="' + Y(GH) + '"/>');
     for (let j = 0; j <= GH; j++) s.push('<line class="grid" x1="' + X(0) + '" y1="' + Y(j) + '" x2="' + X(GW) + '" y2="' + Y(j) + '"/>');
 
-    // On the sparse floors, the castle's footprint at ground level is drawn faintly
-    // behind, so you can see where these rooms sit under or over the rest of it.
+    // On the sparse floors the castle's outline is drawn faintly behind - every room
+    // on every floor, so you can see where these few rooms sit within the whole.
     if (pg.footprint) {
         const cells = new Set();
         for (const r of R.slice(1)) {
-            if (r.level !== 3 || !pos[r.n]) continue;
+            if (!pos[r.n]) continue;
             const p = pos[r.n];
             for (let i = 0; i < r.ew; i++) for (let j = 0; j < r.ns; j++) cells.add((p.x + i) + "," + (p.y + j));
         }
