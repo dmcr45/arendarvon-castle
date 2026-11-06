@@ -43,7 +43,7 @@ function svgFor(pg) {
     s.push('.foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}');
     s.push('.footfill{fill:var(--dim);opacity:.09}');
     s.push('.room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}');
-    s.push('.dark{fill:var(--dark)}.scores{fill:var(--scores)}');
+    s.push('.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}');
     s.push('.gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}');
     s.push('.door{stroke:var(--ink);stroke-width:1.5;fill:none}');
     s.push('.shut{fill:var(--ink)}');
@@ -103,9 +103,8 @@ function svgFor(pg) {
 
     for (const r of here) {
         const p = pos[r.n];
-        const fill = isStair(r) ? ' fill="url(#steps)"' : '';
-        const cls = "room" + (isStair(r) ? "" : /DARK/.test(r.flags) ? " dark" : /SCORES/.test(r.flags) ? " scores" : "");
-        s.push('<rect class="' + cls + '"' + fill + ' x="' + X(p.x) + '" y="' + Y(p.y) + '" width="' + (r.ew * U) + '" height="' + (r.ns * U) + '"/>');
+        const cls = "room" + (isStair(r) ? " steps" : /DARK/.test(r.flags) ? " dark" : /SCORES/.test(r.flags) ? " scores" : "");
+        s.push('<rect class="' + cls + '" x="' + X(p.x) + '" y="' + Y(p.y) + '" width="' + (r.ew * U) + '" height="' + (r.ns * U) + '"/>');
     }
 
     const gap = (w, len) => w.horizontal
@@ -257,7 +256,7 @@ function svgFor(pg) {
     sym('<line class="hid" x1="' + kx + '" y1="' + ky + '" x2="' + (kx + 22) + '" y2="' + ky + '"/>', "hidden door, or a hole");
     sym('<line class="magic" x1="' + kx + '" y1="' + ky + '" x2="' + (kx + 22) + '" y2="' + ky + '"/>', "magical passway");
     sym('<path class="oneway" d="M' + (kx + 22) + ' ' + ky + ' L' + (kx + 11) + ' ' + (ky - 5) + ' L' + (kx + 11) + ' ' + (ky + 5) + ' Z"/>', "one way, in this direction");
-    sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>', "staircase; letters give the way up");
+    sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room steps"/>', "staircase; letters give the way up");
     sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room dark"/>', "dark: you need a light");
     sym('<rect x="' + kx + '" y="' + (ky - 7) + '" width="22" height="14" class="room scores"/>', "scores a point when visited");
     s.push('<text class="who" x="' + (kx + 11) + '" y="' + (ky + 3) + '" text-anchor="middle">name</text>'

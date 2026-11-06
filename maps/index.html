@@ -38,7 +38,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
 .footfill{fill:var(--dim);opacity:.09}
 .room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
-.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}
 .gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
 .door{stroke:var(--ink);stroke-width:1.5;fill:none}
 .shut{fill:var(--ink)}
@@ -362,15 +362,15 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="foot" x1="78" y1="350" x2="78" y2="394"/>
 <line class="foot" x1="78" y1="262" x2="78" y2="306"/>
 <line class="foot" x1="78" y1="306" x2="78" y2="350"/>
-<rect class="room" fill="url(#steps)" x="122" y="438" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="122" y="482" width="44" height="44"/>
+<rect class="room steps" x="122" y="438" width="44" height="44"/>
+<rect class="room steps" x="122" y="482" width="44" height="44"/>
 <rect class="room dark" x="166" y="438" width="88" height="88"/>
 <rect class="room" x="254" y="438" width="132" height="88"/>
 <rect class="room scores" x="342" y="394" width="44" height="44"/>
 <rect class="room dark" x="386" y="438" width="44" height="44"/>
 <rect class="room dark" x="386" y="482" width="88" height="88"/>
-<rect class="room" fill="url(#steps)" x="430" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="614" width="44" height="44"/>
+<rect class="room steps" x="430" y="570" width="44" height="44"/>
+<rect class="room steps" x="430" y="614" width="44" height="44"/>
 <rect class="room dark" x="298" y="526" width="88" height="88"/>
 <rect class="room dark" x="210" y="526" width="88" height="88"/>
 <rect class="room dark" x="122" y="526" width="88" height="88"/>
@@ -453,7 +453,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
 <text class="key" x="796" y="213.5">staircase; letters give the way up</text>
 <rect x="764" y="220" width="22" height="14" class="room dark"/>
 <text class="key" x="796" y="230.5">dark: you need a light</text>
@@ -479,7 +479,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
 .footfill{fill:var(--dim);opacity:.09}
 .room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
-.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}
 .gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
 .door{stroke:var(--ink);stroke-width:1.5;fill:none}
 .shut{fill:var(--ink)}
@@ -533,44 +533,44 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="grid" x1="34" y1="614" x2="738" y2="614"/>
 <line class="grid" x1="34" y1="658" x2="738" y2="658"/>
 <line class="grid" x1="34" y1="702" x2="738" y2="702"/>
-<rect class="room" fill="url(#steps)" x="122" y="438" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="122" y="482" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="614" width="44" height="44"/>
+<rect class="room steps" x="122" y="438" width="44" height="44"/>
+<rect class="room steps" x="122" y="482" width="44" height="44"/>
+<rect class="room steps" x="430" y="570" width="44" height="44"/>
+<rect class="room steps" x="430" y="614" width="44" height="44"/>
 <rect class="room" x="34" y="86" width="88" height="176"/>
 <rect class="room scores" x="122" y="86" width="88" height="88"/>
 <rect class="room" x="122" y="174" width="88" height="44"/>
 <rect class="room dark" x="122" y="218" width="88" height="88"/>
-<rect class="room" fill="url(#steps)" x="210" y="130" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="254" y="130" width="44" height="44"/>
+<rect class="room steps" x="210" y="130" width="44" height="44"/>
+<rect class="room steps" x="254" y="130" width="44" height="44"/>
 <rect class="room" x="210" y="174" width="88" height="44"/>
 <rect class="room scores" x="210" y="218" width="88" height="88"/>
 <rect class="room scores" x="298" y="130" width="132" height="176"/>
 <rect class="room scores" x="430" y="130" width="132" height="132"/>
 <rect class="room" x="430" y="262" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="474" y="262" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="518" y="262" width="44" height="44"/>
+<rect class="room steps" x="474" y="262" width="44" height="44"/>
+<rect class="room steps" x="518" y="262" width="44" height="44"/>
 <rect class="room scores" x="562" y="86" width="176" height="88"/>
 <rect class="room" x="562" y="174" width="132" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="174" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="218" width="44" height="44"/>
+<rect class="room steps" x="694" y="174" width="44" height="44"/>
+<rect class="room steps" x="694" y="218" width="44" height="44"/>
 <rect class="room scores" x="562" y="218" width="88" height="132"/>
 <rect class="room" x="650" y="218" width="44" height="132"/>
 <rect class="room scores" x="562" y="350" width="132" height="88"/>
 <rect class="room" x="562" y="438" width="44" height="132"/>
 <rect class="room" x="606" y="438" width="88" height="88"/>
 <rect class="room dark" x="606" y="526" width="88" height="132"/>
-<rect class="room" fill="url(#steps)" x="694" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="570" width="44" height="44"/>
+<rect class="room steps" x="694" y="526" width="44" height="44"/>
+<rect class="room steps" x="694" y="570" width="44" height="44"/>
 <rect class="room scores" x="694" y="614" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="650" y="658" width="44" height="44"/>
+<rect class="room steps" x="694" y="658" width="44" height="44"/>
+<rect class="room steps" x="650" y="658" width="44" height="44"/>
 <rect class="room dark" x="606" y="658" width="44" height="44"/>
 <rect class="room dark" x="562" y="658" width="44" height="44"/>
 <rect class="room scores" x="474" y="570" width="132" height="88"/>
 <rect class="room" x="474" y="526" width="88" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="570" width="44" height="44"/>
+<rect class="room steps" x="430" y="526" width="44" height="44"/>
+<rect class="room steps" x="430" y="570" width="44" height="44"/>
 <rect class="room scores" x="430" y="306" width="132" height="220"/>
 <rect class="room scores" x="342" y="306" width="88" height="220"/>
 <rect class="room scores" x="210" y="306" width="132" height="220"/>
@@ -578,13 +578,13 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <rect class="room dark" x="210" y="526" width="132" height="44"/>
 <rect class="room scores" x="166" y="570" width="132" height="88"/>
 <rect class="room scores" x="122" y="658" width="88" height="44"/>
-<rect class="room" fill="url(#steps)" x="78" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="658" width="44" height="44"/>
+<rect class="room steps" x="78" y="658" width="44" height="44"/>
+<rect class="room steps" x="34" y="658" width="44" height="44"/>
 <rect class="room scores" x="34" y="526" width="132" height="132"/>
 <rect class="room dark" x="166" y="526" width="44" height="44"/>
 <rect class="room dark" x="166" y="482" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="166" y="438" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="122" y="438" width="44" height="44"/>
+<rect class="room steps" x="166" y="438" width="44" height="44"/>
+<rect class="room steps" x="122" y="438" width="44" height="44"/>
 <rect class="room" x="78" y="438" width="44" height="88"/>
 <rect class="room" x="78" y="394" width="132" height="44"/>
 <rect class="room" x="78" y="350" width="44" height="44"/>
@@ -899,7 +899,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
 <text class="key" x="796" y="213.5">staircase; letters give the way up</text>
 <rect x="764" y="220" width="22" height="14" class="room dark"/>
 <text class="key" x="796" y="230.5">dark: you need a light</text>
@@ -938,7 +938,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
 .footfill{fill:var(--dim);opacity:.09}
 .room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
-.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}
 .gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
 .door{stroke:var(--ink);stroke-width:1.5;fill:none}
 .shut{fill:var(--ink)}
@@ -992,22 +992,22 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="grid" x1="34" y1="614" x2="738" y2="614"/>
 <line class="grid" x1="34" y1="658" x2="738" y2="658"/>
 <line class="grid" x1="34" y1="702" x2="738" y2="702"/>
-<rect class="room" fill="url(#steps)" x="210" y="130" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="254" y="130" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="474" y="262" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="518" y="262" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="174" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="218" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="650" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="430" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="78" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="658" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="166" y="438" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="122" y="438" width="44" height="44"/>
+<rect class="room steps" x="210" y="130" width="44" height="44"/>
+<rect class="room steps" x="254" y="130" width="44" height="44"/>
+<rect class="room steps" x="474" y="262" width="44" height="44"/>
+<rect class="room steps" x="518" y="262" width="44" height="44"/>
+<rect class="room steps" x="694" y="174" width="44" height="44"/>
+<rect class="room steps" x="694" y="218" width="44" height="44"/>
+<rect class="room steps" x="694" y="526" width="44" height="44"/>
+<rect class="room steps" x="694" y="570" width="44" height="44"/>
+<rect class="room steps" x="694" y="658" width="44" height="44"/>
+<rect class="room steps" x="650" y="658" width="44" height="44"/>
+<rect class="room steps" x="430" y="526" width="44" height="44"/>
+<rect class="room steps" x="430" y="570" width="44" height="44"/>
+<rect class="room steps" x="78" y="658" width="44" height="44"/>
+<rect class="room steps" x="34" y="658" width="44" height="44"/>
+<rect class="room steps" x="166" y="438" width="44" height="44"/>
+<rect class="room steps" x="122" y="438" width="44" height="44"/>
 <rect class="room scores" x="34" y="86" width="176" height="176"/>
 <rect class="room" x="210" y="174" width="88" height="44"/>
 <rect class="room scores" x="210" y="218" width="88" height="88"/>
@@ -1018,8 +1018,8 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <rect class="room" x="562" y="174" width="132" height="88"/>
 <rect class="room" x="562" y="262" width="132" height="132"/>
 <rect class="room" x="562" y="394" width="132" height="132"/>
-<rect class="room" fill="url(#steps)" x="650" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="650" y="570" width="44" height="44"/>
+<rect class="room steps" x="650" y="526" width="44" height="44"/>
+<rect class="room steps" x="650" y="570" width="44" height="44"/>
 <rect class="room" x="650" y="614" width="88" height="44"/>
 <rect class="room" x="562" y="526" width="88" height="176"/>
 <rect class="room scores" x="474" y="526" width="88" height="88"/>
@@ -1031,8 +1031,8 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <rect class="room scores" x="122" y="614" width="88" height="88"/>
 <rect class="room" x="78" y="614" width="44" height="44"/>
 <rect class="room" x="34" y="614" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="526" width="44" height="44"/>
+<rect class="room steps" x="34" y="570" width="44" height="44"/>
+<rect class="room steps" x="34" y="526" width="44" height="44"/>
 <rect class="room" x="78" y="526" width="44" height="88"/>
 <rect class="room" x="122" y="570" width="88" height="44"/>
 <rect class="room scores" x="122" y="482" width="88" height="88"/>
@@ -1271,7 +1271,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
 <text class="key" x="796" y="213.5">staircase; letters give the way up</text>
 <rect x="764" y="220" width="22" height="14" class="room dark"/>
 <text class="key" x="796" y="230.5">dark: you need a light</text>
@@ -1296,7 +1296,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
 .footfill{fill:var(--dim);opacity:.09}
 .room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
-.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}
 .gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
 .door{stroke:var(--ink);stroke-width:1.5;fill:none}
 .shut{fill:var(--ink)}
@@ -1620,21 +1620,21 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="foot" x1="78" y1="350" x2="78" y2="394"/>
 <line class="foot" x1="78" y1="262" x2="78" y2="306"/>
 <line class="foot" x1="78" y1="306" x2="78" y2="350"/>
-<rect class="room" fill="url(#steps)" x="650" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="650" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="34" y="526" width="44" height="44"/>
+<rect class="room steps" x="650" y="526" width="44" height="44"/>
+<rect class="room steps" x="650" y="570" width="44" height="44"/>
+<rect class="room steps" x="34" y="570" width="44" height="44"/>
+<rect class="room steps" x="34" y="526" width="44" height="44"/>
 <rect class="room scores" x="34" y="130" width="132" height="44"/>
 <rect class="room scores" x="34" y="174" width="132" height="88"/>
 <rect class="room" x="78" y="526" width="44" height="88"/>
-<rect class="room" fill="url(#steps)" x="122" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="166" y="526" width="44" height="44"/>
+<rect class="room steps" x="122" y="526" width="44" height="44"/>
+<rect class="room steps" x="166" y="526" width="44" height="44"/>
 <rect class="room scores" x="34" y="614" width="88" height="88"/>
 <rect class="room scores" x="122" y="570" width="88" height="132"/>
 <rect class="room scores" x="562" y="526" width="88" height="176"/>
 <rect class="room" x="650" y="614" width="88" height="88"/>
-<rect class="room" fill="url(#steps)" x="694" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="526" width="44" height="44"/>
+<rect class="room steps" x="694" y="570" width="44" height="44"/>
+<rect class="room steps" x="694" y="526" width="44" height="44"/>
 <line class="gap" x1="661" y1="570" x2="683" y2="570"/>
 <line class="gap" x1="694" y1="581" x2="694" y2="603"/>
 <line class="gap" x1="45" y1="570" x2="67" y2="570"/>
@@ -1707,7 +1707,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
 <text class="key" x="796" y="213.5">staircase; letters give the way up</text>
 <rect x="764" y="220" width="22" height="14" class="room dark"/>
 <text class="key" x="796" y="230.5">dark: you need a light</text>
@@ -1734,7 +1734,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 .foot{stroke:var(--dim);stroke-width:1.1;opacity:.5}
 .footfill{fill:var(--dim);opacity:.09}
 .room{fill:var(--room);stroke:var(--ink);stroke-width:1.6}
-.dark{fill:var(--dark)}.scores{fill:var(--scores)}
+.dark{fill:var(--dark)}.scores{fill:var(--scores)}.steps{fill:url(#steps)}
 .gap{stroke:var(--paper);stroke-width:4.6;stroke-linecap:butt}
 .door{stroke:var(--ink);stroke-width:1.5;fill:none}
 .shut{fill:var(--ink)}
@@ -2058,12 +2058,12 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <line class="foot" x1="78" y1="350" x2="78" y2="394"/>
 <line class="foot" x1="78" y1="262" x2="78" y2="306"/>
 <line class="foot" x1="78" y1="306" x2="78" y2="350"/>
-<rect class="room" fill="url(#steps)" x="122" y="526" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="166" y="526" width="44" height="44"/>
+<rect class="room steps" x="122" y="526" width="44" height="44"/>
+<rect class="room steps" x="166" y="526" width="44" height="44"/>
 <rect class="room dark" x="78" y="526" width="44" height="44"/>
 <rect class="room scores" x="78" y="570" width="88" height="88"/>
-<rect class="room" fill="url(#steps)" x="694" y="570" width="44" height="44"/>
-<rect class="room" fill="url(#steps)" x="694" y="526" width="44" height="44"/>
+<rect class="room steps" x="694" y="570" width="44" height="44"/>
+<rect class="room steps" x="694" y="526" width="44" height="44"/>
 <rect class="room scores" x="562" y="526" width="132" height="132"/>
 <rect class="room" x="694" y="614" width="44" height="88"/>
 <rect class="room scores" x="166" y="570" width="44" height="88"/>
@@ -2134,7 +2134,7 @@ text{font-family:"Segoe UI",system-ui,sans-serif}
 <text class="key" x="796" y="179.5">magical passway</text>
 <path class="oneway" d="M786 193 L775 188 L775 198 Z"/>
 <text class="key" x="796" y="196.5">one way, in this direction</text>
-<rect x="764" y="203" width="22" height="14" fill="url(#steps)" stroke="var(--ink)" stroke-width="1.3"/>
+<rect x="764" y="203" width="22" height="14" class="room steps"/>
 <text class="key" x="796" y="213.5">staircase; letters give the way up</text>
 <rect x="764" y="220" width="22" height="14" class="room dark"/>
 <text class="key" x="796" y="230.5">dark: you need a light</text>
